@@ -233,6 +233,10 @@ void LevelCreatorPage::DrawSelection()
 {
     int temp = MouseTool::GetIndexPositionMouse();
 
+    if (temp == -1)
+        CursorManager::instance->SetNormalCursor();
+    else
+        CursorManager::instance->SetHandCursor();
     if (temp != selectedIndexs[0])
     {
         cout << "Index : " << temp << endl;
@@ -309,7 +313,7 @@ void LevelCreatorPage::AddEntity()
         if (selectedIndexs[i] == -1)
             return;
 
-        map[i] = selectedMapEntity ? MapEntity::Wall : MapEntity::DBlock;
+        map[selectedIndexs[i]] = selectedMapEntity ? MapEntity::Wall : MapEntity::DBlock;
     }
 }
 
@@ -323,7 +327,7 @@ void LevelCreatorPage::RemoveEntity()
         if (selectedIndexs[i] == -1)
             return;
 
-        map[i] = MapEntity::None;
+        map[selectedIndexs[i]] = MapEntity::None;
     }
 }
 

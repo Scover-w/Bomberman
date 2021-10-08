@@ -3,6 +3,7 @@
 #include "MouseTool.h"
 #include "MapEditor.h"
 #include "MapDrawer.h"
+#include "CursorManager.h"
 
 class LevelCreatorPage
 {

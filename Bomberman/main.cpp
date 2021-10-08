@@ -8,6 +8,7 @@
 #include "Settings.h"
 #include "CustomMath.h"
 #include "MapDrawer.h"
+#include "CursorManager.h"
 
 int main()
 {
@@ -24,6 +25,8 @@ int main()
     GamePage gamePage;
     LevelCreatorPage levelCreatorPage;
     EndPage endPage;
+
+    CursorManager cursorManager;
 
     Timer timer;
 
