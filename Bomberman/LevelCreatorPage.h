@@ -4,27 +4,21 @@
 #include "MapEditor.h"
 #include "MapDrawer.h"
 #include "CursorManager.h"
+#include "UILevelCreatorPage.h"
 
 class LevelCreatorPage
 {
-	Texture selectionT;
-	Sprite selectionS;
-
-	Texture unselectionT;
-	Sprite unselectionS;
+	IMageUI selectionImg;
+	IMageUI unSelectionImg;
+	IMageUI groundImg;
+	IMageUI wallImg;
+	IMageUI mapEntitiesImg[2];
 
 	Vector2i tempVector;
 
 	MapEntity map[169]{ MapEntity::None };
 
-	Texture groundT;
-	Sprite groundS;
-
-	Texture wallT;
-	Sprite wallS;
-
-	Texture mapEntitiesT[2];
-	Sprite mapEntitiesS[2];
+	
 
 	bool isEditing;
 
@@ -38,6 +32,8 @@ class LevelCreatorPage
 	Color transparent;
 	Color midtransparent;
 
+	UILevelCreatorPage ui;
+
 	int unPlacableIndex[12] = { 0, 1, 13, 11, 12, 25, 143, 156, 157, 155, 166, 167 };
 
 public:
@@ -48,6 +44,8 @@ public:
 	void SwitchEditing();
 	bool CanEdit();
 	void Update();
+
+	void ManageEvent();
 
 	void MousePressed(Event&);
 

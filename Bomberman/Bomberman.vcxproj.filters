@@ -25,6 +25,12 @@
     <Filter Include="Fichiers d%27en-tête\Tools">
       <UniqueIdentifier>{3532f796-b942-465b-8cad-e04c8f7c5be8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Page\UI">
+      <UniqueIdentifier>{a9c5eb5a-d63b-4742-bc2d-88a8533e9c88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Page\UI">
+      <UniqueIdentifier>{512899c2-b6b3-4ba9-b44c-4d185c3b672f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -79,6 +85,12 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="CursorManager.cpp">
+      <Filter>Fichiers sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="UILevelCreatorPage.cpp">
+      <Filter>Fichiers sources\Page\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="IMageUI.cpp">
       <Filter>Fichiers sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
@@ -144,6 +156,12 @@
       <Filter>Fichiers d%27en-tête\Tools</Filter>
     </ClInclude>
     <ClInclude Include="CursorManager.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="UILevelCreatorPage.h">
+      <Filter>Fichiers d%27en-tête\Page\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMageUI.h">
       <Filter>Fichiers d%27en-tête\Tools</Filter>
     </ClInclude>
   </ItemGroup>

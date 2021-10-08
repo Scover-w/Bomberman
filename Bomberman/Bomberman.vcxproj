@@ -148,6 +148,7 @@
     <ClCompile Include="EndPage.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="GamePage.cpp" />
+    <ClCompile Include="IMageUI.cpp" />
     <ClCompile Include="InstructionPage.cpp" />
     <ClCompile Include="LevelCreatorPage.cpp" />
     <ClCompile Include="main.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="StartPage.cpp" />
     <ClCompile Include="StaticWindow.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="UILevelCreatorPage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CursorManager.h" />
@@ -169,6 +171,7 @@
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="GamePage.h" />
     <ClInclude Include="headersProject.h" />
+    <ClInclude Include="IMageUI.h" />
     <ClInclude Include="InstructionPage.h" />
     <ClInclude Include="LevelCreatorPage.h" />
     <ClInclude Include="MapDrawer.h" />
@@ -184,6 +187,7 @@
     <ClInclude Include="StartPage.h" />
     <ClInclude Include="StaticWindow.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UILevelCreatorPage.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Bomberman.rc" />

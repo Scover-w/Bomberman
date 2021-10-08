@@ -3,55 +3,31 @@
 
 LevelCreatorPage::LevelCreatorPage()
 {
-    if (selectionT.loadFromFile("Images/Editor/selection.png"))
-    {
-        selectionS.setTexture(selectionT);
-        selectionT.setSmooth(true);
-
-        selectionS.setOrigin(80, 0);
-    }
-
-    if (unselectionT.loadFromFile("Images/Editor/unSelection.png"))
-    {
-        unselectionS.setTexture(unselectionT);
-        unselectionT.setSmooth(true);
-
-        unselectionS.setOrigin(80, 0);
-    }
-
-    if (groundT.loadFromFile("Images/Grounds/autumn.png"))
-    {
-        groundS.setTexture(groundT);
-        groundT.setSmooth(true);
-        groundS.setOrigin(80, 0);
-    }
-
-    if (wallT.loadFromFile("Images/Walls/BlackBrick.png"))
-    {
-        wallS.setTexture(wallT);
-        wallT.setSmooth(true);
-        wallS.setOrigin(80, 37);
-    }
-
     opaque = sf::Color(255, 255, 255, 255);
     midtransparent = sf::Color(255, 255, 255, 185);
     transparent = sf::Color(255, 255, 255, 50);
 
-    if (mapEntitiesT[0].loadFromFile("Images/Walls/BrickAlt1.png"))
-    {
-        mapEntitiesS[0].setTexture(mapEntitiesT[0]);
-        mapEntitiesT[0].setSmooth(true);
-        mapEntitiesS[0].setOrigin(80, 37);
-    }
-    if (mapEntitiesT[1].loadFromFile("Images/Destructible/RedRuby.png"))
-    {
-        mapEntitiesS[1].setTexture(mapEntitiesT[1]);
-        mapEntitiesT[1].setSmooth(true);
-        mapEntitiesS[1].setOrigin(80, 37);
-    }
+    selectionImg.SetTexture("Images/Editor/selection.png");
+    selectionImg.SetOrigin(80, 0);
 
-    mapEntitiesS[0].setColor(transparent);
-    mapEntitiesS[1].setColor(transparent);
+    unSelectionImg.SetTexture("Images/Editor/unSelection.png");
+    unSelectionImg.SetOrigin(80, 0);
+
+    groundImg.SetTexture("Images/Grounds/autumn.png");
+    groundImg.SetOrigin(80, 0);
+
+    wallImg.SetTexture("Images/Walls/BlackBrick.png");
+    wallImg.SetOrigin(80, 37);
+
+    mapEntitiesImg[0].SetTexture("Images/Walls/BrickAlt1.png");
+    mapEntitiesImg[0].SetOrigin(80, 37);
+
+    mapEntitiesImg[1].SetTexture("Images/Destructible/RedRuby.png");
+    mapEntitiesImg[1].SetOrigin(80, 37);
+
+    mapEntitiesImg[0].SetColor(transparent);
+    mapEntitiesImg[1].SetColor(transparent);
+
 
     Vector2i tempVector(0, 0);
     isEditing = false;
@@ -72,7 +48,6 @@ LevelCreatorPage::LevelCreatorPage()
     selectedMapId = 1;
 
     MapDrawer::instance->SetMap(map);
-
 }
 
 LevelCreatorPage::~LevelCreatorPage()
@@ -90,8 +65,8 @@ void LevelCreatorPage::DrawBackEnv(bool isFirstPart)
         
         for (int i = 0; i < 7; i++)
         {
-            wallS.setPosition(CustomMath::PositionToIsoCoordF(indexs[i]));
-            StaticWindow::window->draw(wallS);
+            wallImg.SetPosition(CustomMath::PositionToIsoCoordF(indexs[i]));
+            wallImg.Draw();
         }
 
         // Right side
@@ -102,8 +77,8 @@ void LevelCreatorPage::DrawBackEnv(bool isFirstPart)
                 if ((i - j ) % 13 == 0 || j < 5)
                     continue;
                 Vector2f vector = CustomMath::EnvCartesianToIsometric(CustomMath::PositionToCartCoordF(i - j));
-                wallS.setPosition(vector);
-                StaticWindow::window->draw(wallS);
+                wallImg.SetPosition(vector);
+                wallImg.Draw();
             }   
         }
 
@@ -113,8 +88,8 @@ void LevelCreatorPage::DrawBackEnv(bool isFirstPart)
             for (int j = 0; j < 13; j++)
             {
                 Vector2f vector = CustomMath::EnvCartesianToIsometric(CustomMath::PositionToCartCoordF(-(i + j)));
-                wallS.setPosition(vector);
-                StaticWindow::window->draw(wallS);
+                wallImg.SetPosition(vector);
+                wallImg.Draw();
             }
         } 
        
@@ -129,8 +104,8 @@ void LevelCreatorPage::DrawBackEnv(bool isFirstPart)
             for (int j = 13; j < 21; j++)
             {
                 Vector2f vector = CustomMath::EnvPositionToIsoCoordF(i* 21 + j);
-                wallS.setPosition(vector);
-                StaticWindow::window->draw(wallS);
+                wallImg.SetPosition(vector);
+                wallImg.Draw();
             }
         }
         
@@ -140,8 +115,8 @@ void LevelCreatorPage::DrawBackEnv(bool isFirstPart)
             for (int j = 0; j < 20; j++)
             {
                 Vector2f vector = CustomMath::EnvPositionToIsoCoordF(i + j);
-                wallS.setPosition(vector);
-                StaticWindow::window->draw(wallS);
+                wallImg.SetPosition(vector);
+                wallImg.Draw();
             }
         }
     }
@@ -153,8 +128,8 @@ void LevelCreatorPage::SwitchEditing()
 {
     isEditing = !isEditing;
 
-    mapEntitiesS[0].setColor(isEditing ? midtransparent : transparent);
-    mapEntitiesS[1].setColor(isEditing ? midtransparent : transparent);
+    mapEntitiesImg[0].SetColor(isEditing ? midtransparent : transparent);
+    mapEntitiesImg[1].SetColor(isEditing ? midtransparent : transparent);
 }
 
 bool LevelCreatorPage::CanEdit()
@@ -168,8 +143,8 @@ void LevelCreatorPage::Update()
 
     for (int i = 0; i < 169; i++)
     {
-        groundS.setPosition(CustomMath::PositionToIsoCoordF(i));
-        StaticWindow::window->draw(groundS);
+        groundImg.SetPosition(CustomMath::PositionToIsoCoordF(i));
+        groundImg.Draw();
     }
 
 
@@ -179,12 +154,19 @@ void LevelCreatorPage::Update()
 
     DrawBackEnv(false);
 
+    ManageEvent();
+
+    ui.Draw();
+}
+
+void LevelCreatorPage::ManageEvent()
+{
     Event event;
     while (StaticWindow::window->pollEvent(event))
     {
         if (event.type == Event::KeyPressed && event.key.code == Keyboard::M)
             SwitchEditing();
-        else if(event.type ==  Event::MouseButtonPressed)
+        else if (event.type == Event::MouseButtonPressed)
             MousePressed(event);
         else if (event.type == sf::Event::MouseWheelMoved)
         {
@@ -195,7 +177,6 @@ void LevelCreatorPage::Update()
             StaticWindow::window->close();
     }
 }
-
 
 void LevelCreatorPage::MousePressed(Event& e)
 {
@@ -257,13 +238,13 @@ void LevelCreatorPage::DrawSelection()
         Vector2f positionSelection = CustomMath::PositionToIsoCoordF(selectedIndexs[i]);
         if (selectedMapEntity)
         {
-            mapEntitiesS[0].setPosition(positionSelection);
-            StaticWindow::window->draw(mapEntitiesS[0]);
+            mapEntitiesImg[0].SetPosition(positionSelection);
+            mapEntitiesImg[0].Draw();
         }
         else
         {
-            mapEntitiesS[1].setPosition(positionSelection);
-            StaticWindow::window->draw(mapEntitiesS[1]);
+            mapEntitiesImg[1].SetPosition(positionSelection);
+            mapEntitiesImg[1].Draw();
         }
     }
 }

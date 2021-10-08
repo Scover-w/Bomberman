@@ -9,5 +9,6 @@
 #include "DataManager.h"
 #include "CustomMath.h"
 #include "Settings.h"
+#include "IMageUI.h"
 using namespace std;
 using namespace sf;
