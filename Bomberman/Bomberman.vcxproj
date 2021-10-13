@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="CursorManager.cpp" />
     <ClCompile Include="CustomMath.cpp" />
     <ClCompile Include="EndPage.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="MouseTool.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SelectedFont.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="StartPage.cpp" />
     <ClCompile Include="StaticWindow.cpp" />
@@ -165,6 +167,7 @@
     <ClCompile Include="UILevelCreatorPage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="CursorManager.h" />
     <ClInclude Include="CustomMath.h" />
     <ClInclude Include="EndPage.h" />
@@ -183,6 +186,7 @@
     <ClInclude Include="Page.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SelectedFont.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="StartPage.h" />
     <ClInclude Include="StaticWindow.h" />

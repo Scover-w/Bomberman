@@ -3,8 +3,13 @@
 
 class MouseTool
 {
+	static MouseTool* instance;
+	Vector2f globalPosition;
 public:
-	static Vector2f GetIsoPositionMouse();
+	MouseTool();
+	~MouseTool();
+
+	static Vector2f GetGlobalPosition();
 	static Vector2f GetCartPositionMouse();
 	static int GetIndexPositionMouse();
 };

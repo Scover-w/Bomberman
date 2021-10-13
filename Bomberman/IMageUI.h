@@ -1,15 +1,17 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "StaticWindow.h"
+#include "CursorManager.h"
 using namespace sf;
 using namespace std;
-#include "StaticWindow.h"
 
 class IMageUI
 {
-private:
+protected:
 	Sprite sprite;
 	Texture texture;
+
 public:
 	IMageUI();
 	~IMageUI();
@@ -23,5 +25,6 @@ public:
 	void SetScale(Vector2f);
 	void SetRotation(float);
 	void SetColor(Color&);
+	void SetTextureRect(IntRect&);
 };
 

@@ -4,11 +4,7 @@
 
 Player::Player()
 {
-    if (texture.loadFromFile("Images/Player/SpriteSheetPlayer.png"))
-    {
-        sprite.setTexture(texture);
-        texture.setSmooth(true);
-    }
+    image.SetTexture("Images/Player/SpriteSheetPlayer.png");
 
     maskSprite.height = 171;
     maskSprite.width = 156;
@@ -19,77 +15,27 @@ Player::~Player()
 
 }
 
-void Player::KeyManager(Event& e)
-{
-    if (e.type == e.KeyPressed)
-    {
-        switch (e.key.code)
-        {
-            case Keyboard::Left:
-                keys[0] = true;
-                break;
-
-            case Keyboard::Right:
-                keys[1] = true;
-                break;
-
-            case Keyboard::Up:
-                keys[2] = true;
-                break;
-
-            case Keyboard::Down:
-                keys[3] = true;
-                break;
-
-            case Keyboard::D:
-                KillPlayer();
-                break;
-        }
-    }
-    else if (e.type == e.KeyReleased)
-    {
-        switch (e.key.code)
-        {
-            case Keyboard::Left:
-                keys[0] = false;
-                break;
-
-            case Keyboard::Right:
-                keys[1] = false;
-                break;
-
-            case Keyboard::Up:
-                keys[2] = false;
-                break;
-
-            case Keyboard::Down:
-                keys[3] = false;
-                break;
-        }
-    }
-}
-
 void Player::SetDirectionAnimationVector2i()
 {
     if (direction.x < -0.0001f) // Right
     {
-        directionAnimationV2i.x = 0;
-        directionAnimationV2i.y = 1;
+        directionAnimationV2i.x = 1;
+        directionAnimationV2i.y = 0;
     }
     else if (direction.x > 0.0001f) // Left
     {
-        directionAnimationV2i.x = 1;
-        directionAnimationV2i.y = 0;
+        directionAnimationV2i.x = 0;
+        directionAnimationV2i.y = 1;
     }
     else if (direction.y > 0.0001f) // Up
     {
-        directionAnimationV2i.x = 0;
-        directionAnimationV2i.y = 0;
+        directionAnimationV2i.x = 1;
+        directionAnimationV2i.y = 1;
     }
     else if (direction.y < -0.0001f) // Down
     {
-        directionAnimationV2i.x = 1;
-        directionAnimationV2i.y = 1;
+        directionAnimationV2i.x = 0;
+        directionAnimationV2i.y = 0;
     }
     else
     {
@@ -113,7 +59,8 @@ int Player::GetStateAnimation()
 {
     DeltaAnimation();
     
-    if (!keys[0] && !keys[1] && !keys[2] && !keys[3])
+    if (!Keyboard::isKeyPressed(Keyboard::Left) && !Keyboard::isKeyPressed(Keyboard::Right) 
+        && !Keyboard::isKeyPressed(Keyboard::Up) && !Keyboard::isKeyPressed(Keyboard::Down))
     {
         return 0;
     }
@@ -155,12 +102,12 @@ void Player::GetDirection()
     direction.x = 0.0f;
     direction.y = 0.0f;
 
-    if (keys[0] ^ keys[1])
-        direction.x = keys[0] ? 1.0f : -1.0f;
+    if (Keyboard::isKeyPressed(Keyboard::Left) ^ Keyboard::isKeyPressed(Keyboard::Right))
+        direction.x = Keyboard::isKeyPressed(Keyboard::Right) ? 1.0f : -1.0f;
     else
     {
-        if (keys[2] ^ keys[3])
-            direction.y = keys[2] ? 1.0f : -1.0f;
+        if (Keyboard::isKeyPressed(Keyboard::Up) ^ Keyboard::isKeyPressed(Keyboard::Down))
+            direction.y = Keyboard::isKeyPressed(Keyboard::Down) ? 1.0f : -1.0f;
     }
     
 
@@ -183,7 +130,7 @@ void Player::Move()
         return;
 
     position += direction;
-    sprite.setPosition(CustomMath::CartesianToIsometric(position));
+    image.SetPosition(CustomMath::CartesianToIsometric(position));
 }
 
 void Player::Draw()
@@ -195,17 +142,17 @@ void Player::Draw()
         maskSprite.top = 324 * directionAnimationV2i.y + directionAnimationV2i.x * 171; // (171 * 2 = 324)
 
         maskSprite.left = 156 * stateAnim;
-        sprite.setTextureRect(maskSprite);
+        image.SetTextureRect(maskSprite);
     }
     else
     {
         int stateAnim = GetStateAnimationDeath();
         maskSprite.top = 684 + directionAnimationV2i.y * directionAnimationV2i.x * 171; // (171 * 4 = 684)
         maskSprite.left = 156 * stateAnim;
-        sprite.setTextureRect(maskSprite);
+        image.SetTextureRect(maskSprite);
     }
 
-    sprite.setOrigin(73,108);
+    image.SetOrigin(73,108);
     
-    StaticWindow::window->draw(sprite);
+    image.Draw();
 }

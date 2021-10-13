@@ -10,5 +10,6 @@
 #include "CustomMath.h"
 #include "Settings.h"
 #include "IMageUI.h"
+#include "SelectedFont.h"
 using namespace std;
 using namespace sf;

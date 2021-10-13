@@ -1,34 +1,10 @@
 #include "LevelCreatorPage.h"
-
+#include "UILevelCreatorPage.h"
 
 LevelCreatorPage::LevelCreatorPage()
 {
-    opaque = sf::Color(255, 255, 255, 255);
-    midtransparent = sf::Color(255, 255, 255, 185);
-    transparent = sf::Color(255, 255, 255, 50);
-
-    selectionImg.SetTexture("Images/Editor/selection.png");
-    selectionImg.SetOrigin(80, 0);
-
-    unSelectionImg.SetTexture("Images/Editor/unSelection.png");
-    unSelectionImg.SetOrigin(80, 0);
-
-    groundImg.SetTexture("Images/Grounds/autumn.png");
-    groundImg.SetOrigin(80, 0);
-
-    wallImg.SetTexture("Images/Walls/BlackBrick.png");
-    wallImg.SetOrigin(80, 37);
-
-    mapEntitiesImg[0].SetTexture("Images/Walls/BrickAlt1.png");
-    mapEntitiesImg[0].SetOrigin(80, 37);
-
-    mapEntitiesImg[1].SetTexture("Images/Destructible/RedRuby.png");
-    mapEntitiesImg[1].SetOrigin(80, 37);
-
-    mapEntitiesImg[0].SetColor(transparent);
-    mapEntitiesImg[1].SetColor(transparent);
-
-
+    LoadTextures();
+ 
     Vector2i tempVector(0, 0);
     isEditing = false;
 
@@ -46,13 +22,43 @@ LevelCreatorPage::LevelCreatorPage()
         MapEditor::WriteMap(1, map);
     }
     selectedMapId = 1;
+    maxMapId = MapEditor::GetMaxId();
 
     MapDrawer::instance->SetMap(map);
+
+    UILevelCreatorPage* tempUI = new UILevelCreatorPage(this);
+    ui = tempUI;
+
+    ui->SetMaxMapId(maxMapId);
+    ui->SetActualMapId(1);
 }
 
 LevelCreatorPage::~LevelCreatorPage()
 {
+    free(ui);
+}
 
+void LevelCreatorPage::LoadTextures()
+{
+    opaque = sf::Color(255, 255, 255, 255);
+    midtransparent = sf::Color(255, 255, 255, 185);
+    transparent = sf::Color(255, 255, 255, 50);
+
+    selectionImg.SetTexture("Images/Editor/selection.png");
+    selectionImg.SetOrigin(80, 0);
+
+    unSelectionImg.SetTexture("Images/Editor/unSelection.png");
+    unSelectionImg.SetOrigin(80, 0);
+
+    groundImg.SetTexture("Images/Grounds/autumn.png");
+    groundImg.SetOrigin(80, 0);
+
+    wallImg.SetTexture("Images/Walls/BlackBrick.png");
+    wallImg.SetOrigin(80, 37);
+
+    brickWall.SetTexture("Images/Walls/BrickAlt1.png");
+    brickWall.SetOrigin(80, 37);
+    brickWall.SetColor(transparent);
 }
 
 void LevelCreatorPage::DrawBackEnv(bool isFirstPart)
@@ -123,13 +129,11 @@ void LevelCreatorPage::DrawBackEnv(bool isFirstPart)
     
 }
 
-
 void LevelCreatorPage::SwitchEditing()
 {
     isEditing = !isEditing;
 
-    mapEntitiesImg[0].SetColor(isEditing ? midtransparent : transparent);
-    mapEntitiesImg[1].SetColor(isEditing ? midtransparent : transparent);
+    brickWall.SetColor(isEditing ? midtransparent : transparent);
 }
 
 bool LevelCreatorPage::CanEdit()
@@ -139,6 +143,7 @@ bool LevelCreatorPage::CanEdit()
 
 void LevelCreatorPage::Update()
 {
+    ui->Update();
     DrawBackEnv(true);
 
     for (int i = 0; i < 169; i++)
@@ -156,7 +161,7 @@ void LevelCreatorPage::Update()
 
     ManageEvent();
 
-    ui.Draw();
+    ui->Draw();
 }
 
 void LevelCreatorPage::ManageEvent()
@@ -168,11 +173,6 @@ void LevelCreatorPage::ManageEvent()
             SwitchEditing();
         else if (event.type == Event::MouseButtonPressed)
             MousePressed(event);
-        else if (event.type == sf::Event::MouseWheelMoved)
-        {
-            selectedMapEntity += event.mouseWheel.delta;
-            selectedMapEntity = selectedMapEntity % 2;
-        }
         else if (event.type == Event::Closed)
             StaticWindow::window->close();
     }
@@ -214,13 +214,9 @@ void LevelCreatorPage::DrawSelection()
 {
     int temp = MouseTool::GetIndexPositionMouse();
 
-    if (temp == -1)
-        CursorManager::instance->SetNormalCursor();
-    else
-        CursorManager::instance->SetHandCursor();
     if (temp != selectedIndexs[0])
     {
-        cout << "Index : " << temp << endl;
+        //cout << "Index : " << temp << endl;
         for (int i = 0; i < 4; i++)
         {
             selectedIndexs[i] = -1;
@@ -236,16 +232,8 @@ void LevelCreatorPage::DrawSelection()
             break;
 
         Vector2f positionSelection = CustomMath::PositionToIsoCoordF(selectedIndexs[i]);
-        if (selectedMapEntity)
-        {
-            mapEntitiesImg[0].SetPosition(positionSelection);
-            mapEntitiesImg[0].Draw();
-        }
-        else
-        {
-            mapEntitiesImg[1].SetPosition(positionSelection);
-            mapEntitiesImg[1].Draw();
-        }
+        brickWall.SetPosition(positionSelection);
+        brickWall.Draw();
     }
 }
 
@@ -294,7 +282,7 @@ void LevelCreatorPage::AddEntity()
         if (selectedIndexs[i] == -1)
             return;
 
-        map[selectedIndexs[i]] = selectedMapEntity ? MapEntity::Wall : MapEntity::DBlock;
+        map[selectedIndexs[i]] = MapEntity::Wall;
     }
 }
 
@@ -325,4 +313,60 @@ bool LevelCreatorPage::IsPlacable()
                 return false;
         }
     }
+}
+
+
+void LevelCreatorPage::UISaveClick()
+{
+    MapEditor::WriteMap(selectedMapId, map);
+
+    SwitchEditing();
+    ui->SetNormalMode();
+}
+
+void LevelCreatorPage::UINextLevelClick()
+{
+    selectedMapId++;
+    if (selectedMapId > maxMapId)
+        selectedMapId = maxMapId;
+
+    MapEditor::LoadMap(selectedMapId, map);
+    ui->SetActualMapId(selectedMapId);
+}
+
+void LevelCreatorPage::UIPreviousLevelClick()
+{
+    selectedMapId--;
+    if (selectedMapId < 1)
+        selectedMapId = 1;
+
+    MapEditor::LoadMap(selectedMapId, map);
+    ui->SetActualMapId(selectedMapId);
+
+}
+
+void LevelCreatorPage::UISwitchModeClick()
+{
+    SwitchEditing();
+}
+
+void LevelCreatorPage::UIBackMenu()
+{
+    Page page = Page::Menu;
+    DataManager::dataManager->SetCurrentPage(page);
+}
+
+void LevelCreatorPage::UICreateLevel()
+{
+    for (int i = 0; i < 169; i++)
+    {
+        map[i] = MapEntity::None;
+    }
+
+    maxMapId++;
+    selectedMapId = maxMapId;
+    ui->SetMaxMapId(maxMapId);
+    ui->SetActualMapId(maxMapId);
+    SwitchEditing();
+    ui->SetEditionMode();
 }

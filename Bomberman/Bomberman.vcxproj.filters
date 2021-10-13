@@ -93,6 +93,12 @@
     <ClCompile Include="IMageUI.cpp">
       <Filter>Fichiers sources\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Fichiers sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectedFont.cpp">
+      <Filter>Fichiers sources\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataManager.h">
@@ -162,6 +168,12 @@
       <Filter>Fichiers d%27en-tête\Page\UI</Filter>
     </ClInclude>
     <ClInclude Include="IMageUI.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectedFont.h">
       <Filter>Fichiers d%27en-tête\Tools</Filter>
     </ClInclude>
   </ItemGroup>

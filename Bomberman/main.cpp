@@ -17,7 +17,10 @@ int main()
     StaticWindow staticWindow;
     staticWindow.window = &window;
 
+    SelectedFont selectedFont;
     MapDrawer mapDrawer;
+
+    MouseTool mouseTool;
 
     StartPage startPage;
     MenuPage menuPage;
@@ -33,7 +36,6 @@ int main()
     Page currentPage = Page::Start;
     DataManager dataManager;
 
-
     dataManager.SetCurrentPage(currentPage);
 
     sf::View view(sf::FloatRect(0, 0, Settings::WIDTH_SCREEN, Settings::HEIGHT_SCREEN));
@@ -46,6 +48,7 @@ int main()
         window.clear(sf::Color::Black);
 
         timer.SetDeltaTime();
+
         switch (dataManager.GetCurrentPage())
         {
             case Page::Start:
@@ -77,7 +80,9 @@ int main()
  
 /* 
 TO DO :
-- view zoom, get mapPixelToCoords()
+- save maps and 
+- UI click button
+- heritage UIMage
 - bombe
 - collision
 - gestion jeu : 1, 2,3 etc

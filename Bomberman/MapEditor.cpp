@@ -48,3 +48,14 @@ bool MapEditor::DoesMapExist(int mapId)
 	cout << "Map " << mapId << " doesn't exist." << endl;
 	return false;
 }
+
+int MapEditor::GetMaxId()
+{
+	int i = 2;
+
+	while (DoesMapExist(i))
+	{
+		i++;
+	}
+	return i - 1;
+}

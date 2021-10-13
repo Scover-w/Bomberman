@@ -1,16 +1,30 @@
 #include "MouseTool.h"
 
-Vector2f MouseTool::GetIsoPositionMouse()
+MouseTool* MouseTool::instance;
+
+MouseTool::MouseTool()
+{
+	instance = this;
+}
+
+MouseTool::~MouseTool()
+{
+
+}
+
+Vector2f MouseTool::GetGlobalPosition()
 {
 	Vector2i relativePosition = Mouse::getPosition(*StaticWindow::window);
 	Vector2f globalPosition = StaticWindow::window->mapPixelToCoords(relativePosition);
+	MouseTool::instance->globalPosition = globalPosition;
+
 	return globalPosition;
 }
 
 
 Vector2f MouseTool::GetCartPositionMouse()
 {
-	return CustomMath::IsometricToCartesian(GetIsoPositionMouse());
+	return CustomMath::IsometricToCartesian(GetGlobalPosition());
 }
 
 int MouseTool::GetIndexPositionMouse()

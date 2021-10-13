@@ -4,12 +4,7 @@
 
 StartPage::StartPage()
 {
-    if (!font.loadFromFile("Font/Chakra_Petch/ChakraPetch-Regular.ttf")) // Quicksand/Quicksand-VariableFont_wght.ttf
-    {
-        // error...
-    }
-
-    storyText.setFont(font);
+    storyText.setFont(SelectedFont::instance->GetFont());
     positionText.x = Settings::WIDTH_SCREEN / 2.0f - 370.0f;
     positionText.y = Settings::HEIGHT_SCREEN;
     storyText.setPosition(positionText);

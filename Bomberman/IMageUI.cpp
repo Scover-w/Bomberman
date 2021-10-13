@@ -56,3 +56,8 @@ void IMageUI::SetColor(Color& color)
 {
 	sprite.setColor(color);
 }
+
+void IMageUI::SetTextureRect(IntRect& rect)
+{
+	sprite.setTextureRect(rect);
+}

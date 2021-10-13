@@ -4,7 +4,8 @@
 #include "MapEditor.h"
 #include "MapDrawer.h"
 #include "CursorManager.h"
-#include "UILevelCreatorPage.h"
+
+class UILevelCreatorPage;
 
 class LevelCreatorPage
 {
@@ -12,38 +13,31 @@ class LevelCreatorPage
 	IMageUI unSelectionImg;
 	IMageUI groundImg;
 	IMageUI wallImg;
-	IMageUI mapEntitiesImg[2];
+	IMageUI brickWall;
 
 	Vector2i tempVector;
 
 	MapEntity map[169]{ MapEntity::None };
 
-	
-
 	bool isEditing;
 
 	int selectedMapId;
-
+	int maxMapId;
 	int selectedIndexs[4];
-
-	int selectedMapEntity = 1;
 
 	Color opaque;
 	Color transparent;
 	Color midtransparent;
 
-	UILevelCreatorPage ui;
+	UILevelCreatorPage* ui;
 
 	int unPlacableIndex[12] = { 0, 1, 13, 11, 12, 25, 143, 156, 157, 155, 166, 167 };
-
-public:
-	LevelCreatorPage();
-	~LevelCreatorPage();
+	
+	void LoadTextures();
 
 	void DrawBackEnv(bool);
 	void SwitchEditing();
 	bool CanEdit();
-	void Update();
 
 	void ManageEvent();
 
@@ -62,5 +56,18 @@ public:
 	void RemoveEntity();
 
 	bool IsPlacable();
+
+public:
+	LevelCreatorPage();
+	~LevelCreatorPage();
+
+	void Update();
+
+	void UISaveClick();
+	void UINextLevelClick();
+	void UIPreviousLevelClick();
+	void UISwitchModeClick();
+	void UIBackMenu();
+	void UICreateLevel();
 };
 
