@@ -24,7 +24,7 @@ LevelCreatorPage::LevelCreatorPage()
     selectedMapId = 1;
     maxMapId = MapEditor::GetMaxId();
 
-    MapDrawer::instance->SetMap(map);
+    MapDrawer::instance->SetMap(map, true);
 
     UILevelCreatorPage* tempUI = new UILevelCreatorPage(this);
     ui = tempUI;
@@ -61,73 +61,7 @@ void LevelCreatorPage::LoadTextures()
     brickWall.SetColor(transparent);
 }
 
-void LevelCreatorPage::DrawBackEnv(bool isFirstPart)
-{
-    if (isFirstPart)
-    {
-        // Mirror up
-        int indexs[] = { -39, -26, -14, -13, -3, -2, -1};
-        int step = -1;
-        
-        for (int i = 0; i < 7; i++)
-        {
-            wallImg.SetPosition(CustomMath::PositionToIsoCoordF(indexs[i]));
-            wallImg.Draw();
-        }
 
-        // Right side
-        for (int i = 12; i < 169; i += 13)
-        {
-            for (int j = 0; j < 13; j++)
-            {
-                if ((i - j ) % 13 == 0 || j < 5)
-                    continue;
-                Vector2f vector = CustomMath::EnvCartesianToIsometric(CustomMath::PositionToCartCoordF(i - j));
-                wallImg.SetPosition(vector);
-                wallImg.Draw();
-            }   
-        }
-
-        // Left side
-        for (int i = 91; i > 0; i -= 13)
-        {
-            for (int j = 0; j < 13; j++)
-            {
-                Vector2f vector = CustomMath::EnvCartesianToIsometric(CustomMath::PositionToCartCoordF(-(i + j)));
-                wallImg.SetPosition(vector);
-                wallImg.Draw();
-            }
-        } 
-       
-        
-    }
-    else
-    {
-
-        // Right side
-        for (int i = 0; i < 14; i++)
-        {
-            for (int j = 13; j < 21; j++)
-            {
-                Vector2f vector = CustomMath::EnvPositionToIsoCoordF(i* 21 + j);
-                wallImg.SetPosition(vector);
-                wallImg.Draw();
-            }
-        }
-        
-        // Left side
-        for (int i = 273; i < 441; i += 21) // 20 * 13= 260 , 20*7 + 260=400
-        {
-            for (int j = 0; j < 20; j++)
-            {
-                Vector2f vector = CustomMath::EnvPositionToIsoCoordF(i + j);
-                wallImg.SetPosition(vector);
-                wallImg.Draw();
-            }
-        }
-    }
-    
-}
 
 void LevelCreatorPage::SwitchEditing()
 {
@@ -141,23 +75,21 @@ bool LevelCreatorPage::CanEdit()
     return isEditing;
 }
 
+void LevelCreatorPage::LoadPage()
+{
+    DataManager::instance->NoFirstLoad();
+}
+
 void LevelCreatorPage::Update()
 {
     ui->Update();
-    DrawBackEnv(true);
-
-    for (int i = 0; i < 169; i++)
-    {
-        groundImg.SetPosition(CustomMath::PositionToIsoCoordF(i));
-        groundImg.Draw();
-    }
-
+    MapDrawer::instance->DrawEnv(true);
 
     MapDrawer::instance->Draw();
 
     DrawSelection();
 
-    DrawBackEnv(false);
+    MapDrawer::instance->DrawEnv(false);
 
     ManageEvent();
 
@@ -353,7 +285,7 @@ void LevelCreatorPage::UISwitchModeClick()
 void LevelCreatorPage::UIBackMenu()
 {
     Page page = Page::Menu;
-    DataManager::dataManager->SetCurrentPage(page);
+    DataManager::instance->SetCurrentPage(page);
 }
 
 void LevelCreatorPage::UICreateLevel()

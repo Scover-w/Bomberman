@@ -1,13 +1,21 @@
 #include "GamePage.h"
+#include "UIGamePage.h"
 
 GamePage::GamePage()
 {
-	player;
+	//player;
+    UIGamePage* temp = new UIGamePage(this);
+    ui = temp;
 }
 
 GamePage::~GamePage()
 {
+    free(ui);
+}
 
+void GamePage::LoadPage()
+{
+    DataManager::instance->NoFirstLoad();
 }
 
 void GamePage::Update()
@@ -19,8 +27,7 @@ void GamePage::Update()
             StaticWindow::window->close();
     }
 
-    player.GetDirection();
-    player.Move();
+    //player.GetDirection();
+    //player.Move();
     player.Draw();
-	
 }

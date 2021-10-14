@@ -29,10 +29,10 @@ private:
 	Text levelText;	
 
 public:
-	void SetEditionMode();
-	void SetNormalMode();
 	UILevelCreatorPage(LevelCreatorPage*);
 	~UILevelCreatorPage();
+	void SetEditionMode();
+	void SetNormalMode();
 	void SetMaxMapId(int);
 	void SetActualMapId(int);
 	void Update();

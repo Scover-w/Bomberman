@@ -12,6 +12,7 @@ public:
 	MenuPage();
 	~MenuPage();
 
+	void LoadPage();
 	void Update();
 };
 

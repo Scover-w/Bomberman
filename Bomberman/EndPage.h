@@ -8,6 +8,7 @@ public:
 	EndPage();
 	~EndPage();
 
+	void LoadPage();
 	void Update();
 };
 

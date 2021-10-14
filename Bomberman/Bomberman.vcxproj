@@ -164,7 +164,9 @@
     <ClCompile Include="StartPage.cpp" />
     <ClCompile Include="StaticWindow.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="UIGamePage.cpp" />
     <ClCompile Include="UILevelCreatorPage.cpp" />
+    <ClCompile Include="UIStartPage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
@@ -191,7 +193,9 @@
     <ClInclude Include="StartPage.h" />
     <ClInclude Include="StaticWindow.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UIGamePage.h" />
     <ClInclude Include="UILevelCreatorPage.h" />
+    <ClInclude Include="UIStartPage.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Bomberman.rc" />

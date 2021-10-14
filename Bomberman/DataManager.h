@@ -4,12 +4,14 @@ class DataManager
 {
 private:
 	Page currentPage;
-
+	bool isFirstLoad;
 public:
 	DataManager();
 	~DataManager();
-	static DataManager* dataManager;
+	static DataManager* instance;
 	void SetCurrentPage(Page);
 	int GetCurrentPage();
+	bool IsFirstLoad();
+	void NoFirstLoad();
 };
 

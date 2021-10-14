@@ -1,17 +1,9 @@
 #include "StartPage.h"
 #include "Settings.h"
-
+#include "UIStartPage.h"
 
 StartPage::StartPage()
 {
-    storyText.setFont(SelectedFont::instance->GetFont());
-    positionText.x = Settings::WIDTH_SCREEN / 2.0f - 370.0f;
-    positionText.y = Settings::HEIGHT_SCREEN;
-    storyText.setPosition(positionText);
-    storyText.setString(history);
-    storyText.setCharacterSize(18);
-    storyText.setFillColor(sf::Color::White);
-
     if (sf::Shader::isAvailable())
     {
         shaderT.create(Settings::MULTIPLIED_WIDTH_SCREEN, Settings::MULTIPLIED_HEIGHT_SCREEN);
@@ -27,54 +19,51 @@ StartPage::StartPage()
             shader.setUniform("resolution", sf::Vector2f(Settings::WIDTH_SCREEN, Settings::HEIGHT_SCREEN));
         }
     }
+
+    UIStartPage* tempUI = new UIStartPage(this);
+    ui = tempUI;
 }
 
 StartPage::~StartPage()
 {
+    free(ui);
+}
 
+void StartPage::LoadPage()
+{
+    DataManager::instance->NoFirstLoad();
 }
 
 void StartPage::Update()
 {
     Event event;
 
-    timeSpent += Timer::instance->GetDeltaTime();
-
-    if (timeSpent >= 65.0f)
-    {
-        Page page = Page::Menu;
-        DataManager::dataManager->SetCurrentPage(page);
-    }
-
     while (StaticWindow::window->pollEvent(event))
     {
-        if (event.type == event.KeyPressed)
+        if (event.type == event.KeyPressed || event.type == event.MouseButtonPressed)
         {
+            CursorManager::instance->SetNormalCursor();
             Page page = Page::Menu;
-            DataManager::dataManager->SetCurrentPage(page);
+            DataManager::instance->SetCurrentPage(page);
         }
         else if (event.type == Event::Closed)
             StaticWindow::window->close();
     }
 
-    DrawText();
-}
+    animation += Timer::instance->GetDeltaTime();
 
+    if (animation >= 65.0f)
+    {
+        Page page = Page::Menu;
+        DataManager::instance->SetCurrentPage(page);
+    }
 
-void StartPage::DrawText()
-{
-    shader.setUniform("time", clk.getElapsedTime().asSeconds());
-    positionText.y -= 20.0f * Timer::instance->GetDeltaTime();
-    storyText.setPosition(positionText);
-
+    shader.setUniform("time", animation);
 
     if (sf::Shader::isAvailable())
     {
         StaticWindow::window->draw(shaderS, &shader);
     }
 
-    StaticWindow::window->draw(storyText);
-
-    
-    
+    ui->Update(shader);
 }

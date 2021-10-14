@@ -99,6 +99,12 @@
     <ClCompile Include="SelectedFont.cpp">
       <Filter>Fichiers sources\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="UIStartPage.cpp">
+      <Filter>Fichiers sources\Page\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIGamePage.cpp">
+      <Filter>Fichiers sources\Page\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataManager.h">
@@ -175,6 +181,12 @@
     </ClInclude>
     <ClInclude Include="SelectedFont.h">
       <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="UIStartPage.h">
+      <Filter>Fichiers d%27en-tête\Page\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIGamePage.h">
+      <Filter>Fichiers d%27en-tête\Page\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

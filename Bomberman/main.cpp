@@ -51,23 +51,35 @@ int main()
 
         switch (dataManager.GetCurrentPage())
         {
-            case Page::Start:
-                startPage.Update();
+            case Page::Game:
+                if (DataManager::instance->IsFirstLoad())
+                    gamePage.LoadPage();
+                gamePage.Update();
                 break;
             case Page::Menu:
+                if (DataManager::instance->IsFirstLoad())
+                    menuPage.LoadPage();
                 menuPage.Update();
                 break;
             case Page::Instructions:
+                if (DataManager::instance->IsFirstLoad())
+                    instructionPage.LoadPage();
                 instructionPage.Update();
                 break;
-            case Page::Game:
-                gamePage.Update();
+            case Page::LevelCreator:
+                if (DataManager::instance->IsFirstLoad())
+                    levelCreatorPage.LoadPage();
+                levelCreatorPage.Update();
+                break;
+            case Page::Start:
+                if (DataManager::instance->IsFirstLoad())
+                    startPage.LoadPage();
+                startPage.Update();
                 break;
             case Page::End:
+                if (DataManager::instance->IsFirstLoad())
+                    endPage.LoadPage();
                 endPage.Update();
-                break;
-            case Page::LevelCreator:
-                levelCreatorPage.Update();
                 break;
         }
 

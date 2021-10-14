@@ -23,6 +23,7 @@ void Button::ResetState()
 	isReleased = true;
 	isEnable = true;
 	lastClick = true;
+	isActive = true;
 }
 
 bool Button::DoesClick(Vector2f mousePosition)
@@ -85,6 +86,7 @@ void Button::Disable()
 {
 	isEnable = false;
 	sprite.setColor(invisible);
+
 }
 
 void Button::SetActive(bool state)

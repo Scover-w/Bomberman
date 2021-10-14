@@ -15,7 +15,7 @@ private:
 	IntRect maskSprite;
 	Vector2i directionAnimationV2i;
 
-	bool isAlive;
+	bool isAlive = true;
 
 	void DeltaAnimation();
 	void SetDirectionAnimationVector2i();

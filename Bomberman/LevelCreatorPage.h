@@ -35,7 +35,6 @@ class LevelCreatorPage
 	
 	void LoadTextures();
 
-	void DrawBackEnv(bool);
 	void SwitchEditing();
 	bool CanEdit();
 
@@ -61,6 +60,7 @@ public:
 	LevelCreatorPage();
 	~LevelCreatorPage();
 
+	void LoadPage();
 	void Update();
 
 	void UISaveClick();

@@ -24,6 +24,11 @@ MenuPage::~MenuPage()
 
 }
 
+void MenuPage::LoadPage()
+{
+    DataManager::instance->NoFirstLoad();
+}
+
 void MenuPage::Update()
 {
     Event event;
@@ -32,12 +37,12 @@ void MenuPage::Update()
         if (event.type == event.KeyPressed && event.key.code == Keyboard::Space)
         {
             Page page = Page::Game;
-            DataManager::dataManager->SetCurrentPage(page);
+            DataManager::instance->SetCurrentPage(page);
         }
         else if (event.type == event.KeyPressed && event.key.code == Keyboard::C)
         {
             Page page = Page::LevelCreator;
-            DataManager::dataManager->SetCurrentPage(page);
+            DataManager::instance->SetCurrentPage(page);
         }
         else if (event.type == Event::Closed)
             StaticWindow::window->close();

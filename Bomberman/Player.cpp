@@ -8,6 +8,9 @@ Player::Player()
 
     maskSprite.height = 171;
     maskSprite.width = 156;
+
+    position.x = 0.0f;
+    position.y = 0.0f;
 }
 
 Player::~Player()
@@ -119,7 +122,7 @@ void Player::KillPlayer()
     isAlive = false;
 }
 
-bool Player ::isDead()
+bool Player::isDead()
 {
     return (!isAlive && animation > 2.0f);
 }

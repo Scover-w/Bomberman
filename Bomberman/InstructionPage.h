@@ -8,6 +8,7 @@ public:
 	InstructionPage();
 	~InstructionPage();
 
+	void LoadPage();
 	void Update();
 };
 
