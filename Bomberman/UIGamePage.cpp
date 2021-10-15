@@ -10,3 +10,14 @@ UIGamePage::~UIGamePage()
 {
 
 }
+
+void UIGamePage::Update()
+{
+
+
+}
+
+void UIGamePage::Draw()
+{
+
+}

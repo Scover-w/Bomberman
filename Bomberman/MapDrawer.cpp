@@ -44,8 +44,6 @@ MapDrawer::MapDrawer()
         grounds[i].SetTexture("Images/Grounds/" + nameGround[i] + ".png");
         grounds[i].SetOrigin(80, 0);
     }
-
-    srand(time(NULL));
 }
 
 MapDrawer::~MapDrawer()
@@ -65,22 +63,26 @@ void MapDrawer::SetMap(MapEntity(&map2)[169], bool isEditor)
     }
     else
     {
-        selectedWall = rand() % 3;
-        selectedDestructable = rand() % 13;
-        selectedGround = rand() % 15;
+        selectedWall = CustomRandom::GetRandom(0, 4);
+        selectedDestructable = CustomRandom::GetRandom(0, 14);
+        selectedGround = CustomRandom::GetRandom(0, 16);
     }
 }
 
+void MapDrawer::SetPlayer(Player* play)
+{
+    player = play;
+}
 
 void MapDrawer::DrawEnv(bool isFirstPart)
 {
     if (isFirstPart)
     {
         // Mirror up
-        int indexs[] = { -39, -26, -14, -13, -3, -2, -1 };
+        int indexs[] = { -27 , -15, -14};
         int step = -1;
 
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 3; i++)
         {
             wallEnvImg.SetPosition(CustomMath::PositionToIsoCoordF(indexs[i]));
             wallEnvImg.Draw();
@@ -91,7 +93,7 @@ void MapDrawer::DrawEnv(bool isFirstPart)
         {
             for (int j = 0; j < 13; j++)
             {
-                if ((i - j) % 13 == 0 || j < 5)
+                if ((i - j) % 13 == 0 /* || j < 5 */ )
                     continue;
                 Vector2f vector = CustomMath::EnvCartesianToIsometric(CustomMath::PositionToCartCoordF(i - j));
                 wallEnvImg.SetPosition(vector);
@@ -100,7 +102,7 @@ void MapDrawer::DrawEnv(bool isFirstPart)
         }
 
         // Left side
-        for (int i = 91; i > 0; i -= 13)
+        for (int i = 104; i > 0; i -= 13)
         {
             for (int j = 0; j < 13; j++)
             {
@@ -142,41 +144,53 @@ void MapDrawer::DrawEnv(bool isFirstPart)
 
 void MapDrawer::Draw()
 {
-	Vector2f positionSelection;
+
+    Vector2f positionSelection;
+    for (int i = 0; i < 169; i++)
+    {
+        if (*(map + i) == MapEntity::None)
+        {
+            positionSelection = CustomMath::PositionToIsoCoordF(i);
+            grounds[selectedGround].SetPosition(positionSelection);
+            grounds[selectedGround].Draw();
+        }
+    }
+
 	for (int i = 0; i < 169; i++)
 	{
-		switch (*(map + i))
-		{
-			case MapEntity::None:
+        switch (*(map + i))
+        {
+            /*case MapEntity::None:
                 positionSelection = CustomMath::PositionToIsoCoordF(i);
                 grounds[selectedGround].SetPosition(positionSelection);
                 grounds[selectedGround].Draw();
-				break;
+                break;*/
 
-			case MapEntity::Wall:
-				positionSelection = CustomMath::PositionToIsoCoordF(i);
+            case MapEntity::Wall:
+                positionSelection = CustomMath::PositionToIsoCoordF(i);
                 walls[selectedWall].SetPosition(positionSelection);
                 walls[selectedWall].Draw();
-				break;
+                break;
 
-			case MapEntity::DBlock:
-				positionSelection = CustomMath::PositionToIsoCoordF(i);
+            case MapEntity::DBlock:
+                positionSelection = CustomMath::PositionToIsoCoordF(i);
                 destructables[selectedDestructable].SetPosition(positionSelection);
                 destructables[selectedDestructable].Draw();
-				break;
+                break;
 
-			case MapEntity::Bomb:
+            case MapEntity::Bomb:
 
-				break;
+                break;
 
-			case MapEntity::Item:
+            case MapEntity::Item:
 
-				break;
-		}
+                break;
+        }
 
-		if (i % 13 == 0 && i != 0)
-		{
-			// CHeck if need to draw player
-		}
+        if (player->GetPositionIndex() == i)
+        {
+            cout << player->GetPositionIndex() << endl;
+            player->Draw();
+        }
 	}
 }

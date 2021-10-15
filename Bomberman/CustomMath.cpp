@@ -13,9 +13,10 @@ Vector2i CustomMath::PositionToCoord(int i)
 	return coord;
 }
 
-int CustomMath::CoordToPosition(Vector2i)
+int CustomMath::CartCoordFToPosition(Vector2f coord)
 {
-	return 0;
+	cout << "Cart to in : " << coord.x << ", " << coord.y << endl;
+	return ((int)((int)coord.y / Settings::CARTESIAN_ATOMIC_HEIGHT)) * 13 + ((int)((int)coord.x / Settings::CARTESIAN_ATOMIC_HEIGHT));
 }
 
 Vector2f CustomMath::PositionToCartCoordF(int i)
@@ -45,7 +46,8 @@ Vector2f CustomMath::CartesianToIsometric(Vector2f cart)
 	isoV.y = cart.x * sin(rotation) + cart.y * cos(rotation);
 	
 	isoV.y /= 2.0f;
-	isoV.x += Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::NB_WIDTH_MAP / 2.0f * sqrt(2)) - Settings::TRANSLATION_MAP;
+	isoV.y += Settings::Y_TRANSLATION_MAP;
+	isoV.x += Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::NB_WIDTH_MAP / 2.0f * sqrt(2)) - Settings::X_TRANSLATION_MAP;
 
 	return isoV;
 }
@@ -53,7 +55,8 @@ Vector2f CustomMath::CartesianToIsometric(Vector2f cart)
 Vector2f CustomMath::IsometricToCartesian(Vector2f iso)
 {
 	iso.y *= 2.0f;
-	iso.x -= Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::NB_WIDTH_MAP / 2.0f * sqrt(2)) - Settings::TRANSLATION_MAP;
+	iso.y -= Settings::Y_TRANSLATION_MAP;
+	iso.x -= Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::NB_WIDTH_MAP / 2.0f * sqrt(2)) - Settings::X_TRANSLATION_MAP;
 	Vector2f cartV;
 	cartV.x = iso.x * cos(-rotation) - iso.y * sin(-rotation);
 	cartV.y = iso.y * cos(rotation) - iso.x * sin(rotation);
@@ -70,7 +73,8 @@ Vector2f CustomMath::EnvCartesianToIsometric(Vector2f cart)
 	isoV.y = cart.x * sin(-rotation) + cart.y * cos(-rotation);
 
 	isoV.y /= 2.0f;
-	isoV.x += Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::NB_WIDTH_MAP  / 2.0f * sqrt(2)) - Settings::TRANSLATION_MAP;
+	isoV.y += Settings::Y_TRANSLATION_MAP;
+	isoV.x += Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::NB_WIDTH_MAP  / 2.0f * sqrt(2)) - Settings::X_TRANSLATION_MAP;
 
 	return isoV;
 }
@@ -78,7 +82,8 @@ Vector2f CustomMath::EnvCartesianToIsometric(Vector2f cart)
 Vector2f CustomMath::EnvIsometricToCartesian(Vector2f iso)
 {
 	iso.y *= 2.0f;
-	iso.x -= Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::NB_WIDTH_MAP  / 2.0f * sqrt(2)) - Settings::TRANSLATION_MAP;
+	iso.y -= Settings::Y_TRANSLATION_MAP;
+	iso.x -= Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::NB_WIDTH_MAP  / 2.0f * sqrt(2)) - Settings::X_TRANSLATION_MAP;
 	Vector2f cartV;
 	cartV.x = iso.x * cos(rotation) - iso.y * sin(rotation);
 	cartV.y = iso.y * cos(-rotation) - iso.x * sin(-rotation);

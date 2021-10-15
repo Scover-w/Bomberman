@@ -2,6 +2,8 @@
 #include <corecrt_math_defines.h>
 #include <SFML/Graphics.hpp>
 #include "Settings.h"
+#include <iostream>
+using namespace std;
 using namespace sf;
 
 class CustomMath
@@ -9,7 +11,7 @@ class CustomMath
 	static const float rotation;
 public:
 	static Vector2i PositionToCoord(int);
-	static int CoordToPosition(sf::Vector2i);
+	static int CartCoordFToPosition(Vector2f);
 
 	static Vector2f PositionToCartCoordF(int);
 	static Vector2f PositionToIsoCoordF(int);

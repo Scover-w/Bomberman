@@ -7,5 +7,9 @@ private:
 public:
 	UIGamePage(GamePage*);
 	~UIGamePage();
+
+	void Update();
+	void Draw();
+
 };
 

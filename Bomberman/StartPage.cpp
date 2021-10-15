@@ -46,7 +46,7 @@ void StartPage::Update()
             Page page = Page::Menu;
             DataManager::instance->SetCurrentPage(page);
         }
-        else if (event.type == Event::Closed)
+        else if (event.type == Event::Closed || (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
             StaticWindow::window->close();
     }
 

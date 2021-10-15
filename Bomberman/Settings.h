@@ -21,7 +21,8 @@ public:
 
 	static const float CARTESIAN_ATOMIC_HEIGHT;
 
-	static const float TRANSLATION_MAP;
+	static const float X_TRANSLATION_MAP;
+	static const float Y_TRANSLATION_MAP;
 
 	// 80, 39
 };

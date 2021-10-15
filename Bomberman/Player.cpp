@@ -2,15 +2,15 @@
 #include "CustomMath.h"
 
 
+sf::Vector2i Player::upRightCorner(10, -10);
+sf::Vector2i Player::downLeftCorner(-10, 10);
+
 Player::Player()
 {
     image.SetTexture("Images/Player/SpriteSheetPlayer.png");
-
+    image.SetOrigin(77, 128);
     maskSprite.height = 171;
     maskSprite.width = 156;
-
-    position.x = 0.0f;
-    position.y = 0.0f;
 }
 
 Player::~Player()
@@ -54,8 +54,8 @@ void Player::DeltaAnimation()
     if (!isAlive)
         return;
 
-    if (animation > 1.0f)
-        animation -= 1.0f;
+    if (animation > 0.8f)
+        animation -= .8f;
 }
 
 int Player::GetStateAnimation()
@@ -68,22 +68,55 @@ int Player::GetStateAnimation()
         return 0;
     }
 
-    if (animation < 0.125f)
+    if (animation < 0.1f)
         return 0;
-    else if (animation < 0.25f)
+    else if (animation < 0.2f)
         return 1;
-    else if (animation < 0.375f)
+    else if (animation < 0.3f)
         return 2;
-    else if (animation < 0.5f)
+    else if (animation < 0.4f)
         return 3;
-    else if (animation < 0.625f)
+    else if (animation < 0.5f)
         return 4;
-    else if (animation < 0.750f)
+    else if (animation < 0.6f)
         return 5;
-    else if (animation < 0.875f)
+    else if (animation < 0.7f)
         return 6;
-    else if (animation < 1.0f)
+    else if (animation < 0.8f)
         return 7;
+}
+
+int Player::GetDeltaXPlayer(int i)
+{
+    if (i % 2)
+        return upRightCorner.x;
+    else
+        return downLeftCorner.x;
+}
+
+int Player::GetDeltaYPlayer(int i)
+{
+    if (i % 2)
+        return upRightCorner.y;
+    else
+        return downLeftCorner.y;
+}
+
+void Player::GetFuturPosPlayer(Vector2f pos)
+{
+    int k = 0;
+    for (int i = 0; i < 2; i++)
+    {
+        for (int j = 0; j < 2; j++)
+        {
+            sf::Vector2i posInt;
+            posInt.x = (pos.x + GetDeltaXPlayer(i)) / Settings::CARTESIAN_ATOMIC_HEIGHT;
+            posInt.y = (pos.y + GetDeltaYPlayer(j)) / Settings::CARTESIAN_ATOMIC_HEIGHT;
+
+            futurPosPlayerId[k] = posInt.y * 13 + posInt.x;
+            k++;
+        }
+    }
 }
 
 int Player::GetStateAnimationDeath()
@@ -100,6 +133,23 @@ int Player::GetStateAnimationDeath()
         return 3;
 }
 
+
+void Player::SetMap(MapEntity* mp)
+{
+    map = mp;
+}
+
+int Player::GetPositionIndex()
+{
+    return positionIndex;
+}
+
+void Player::ResetPosition()
+{
+    Vector2f temp(Settings::CARTESIAN_ATOMIC_HEIGHT / 2, Settings::CARTESIAN_ATOMIC_HEIGHT / 2);
+    cartPosition = temp;
+}
+
 void Player::GetDirection()
 {
     direction.x = 0.0f;
@@ -114,7 +164,10 @@ void Player::GetDirection()
     }
     
 
-    direction *= speed * Timer::instance->GetDeltaTime();}
+
+    direction.x = direction.x * (speed * Timer::instance->GetDeltaTime());
+    direction.y = direction.y * (speed * Timer::instance->GetDeltaTime());
+}
 
 void Player::KillPlayer()
 {
@@ -132,8 +185,38 @@ void Player::Move()
     if (!isAlive)
         return;
 
-    position += direction;
-    image.SetPosition(CustomMath::CartesianToIsometric(position));
+
+    Vector2f futurePosition(cartPosition.x + direction.x, cartPosition.y + direction.y);
+
+    GetFuturPosPlayer(futurePosition);
+
+    cout << "PositionIndex : " << positionIndex << endl;
+
+    bool isWall = false;
+
+    if (futurePosition.x > 1469 || futurePosition.x < 0 || futurePosition.y > 1469 || futurePosition.y < 0)
+        isWall = true;
+
+   
+    for (int j = 0; j < 4; j++)
+    {
+        cout << futurPosPlayerId[j] << endl;
+        if (map[futurPosPlayerId[j]] == MapEntity::Wall)
+            isWall = true;
+    }
+    cout << "---------------------" << endl;
+
+    if (!isWall)
+    {
+        cartPosition.x += direction.x;
+        cartPosition.y += direction.y;
+    }
+
+
+
+    positionIndex = CustomMath::CartCoordFToPosition(cartPosition);
+
+    image.SetPosition(CustomMath::CartesianToIsometric(cartPosition));
 }
 
 void Player::Draw()
@@ -155,7 +238,7 @@ void Player::Draw()
         image.SetTextureRect(maskSprite);
     }
 
-    image.SetOrigin(73,108);
+    //image.SetOrigin(77,128);
     
     image.Draw();
 }

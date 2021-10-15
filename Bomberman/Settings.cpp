@@ -17,4 +17,5 @@ const int Settings::WIDTH_MAP = ATOMIC_WIDTH_MAP * NB_WIDTH_MAP;
 
 const float Settings::CARTESIAN_ATOMIC_HEIGHT = 113.0f;
 
-const float Settings::TRANSLATION_MAP = 79.0f;
+const float Settings::X_TRANSLATION_MAP = 79.0f;
+const float Settings::Y_TRANSLATION_MAP = 57.0f;

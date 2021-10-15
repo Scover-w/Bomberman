@@ -11,5 +11,6 @@
 #include "Settings.h"
 #include "IMageUI.h"
 #include "SelectedFont.h"
+#include "CustomRandom.h"
 using namespace std;
 using namespace sf;

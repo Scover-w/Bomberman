@@ -4,9 +4,6 @@
 LevelCreatorPage::LevelCreatorPage()
 {
     LoadTextures();
- 
-    Vector2i tempVector(0, 0);
-    isEditing = false;
 
     if (MapEditor::DoesMapExist(1))
     {
@@ -21,16 +18,10 @@ LevelCreatorPage::LevelCreatorPage()
 
         MapEditor::WriteMap(1, map);
     }
-    selectedMapId = 1;
-    maxMapId = MapEditor::GetMaxId();
-
-    MapDrawer::instance->SetMap(map, true);
+   
 
     UILevelCreatorPage* tempUI = new UILevelCreatorPage(this);
     ui = tempUI;
-
-    ui->SetMaxMapId(maxMapId);
-    ui->SetActualMapId(1);
 }
 
 LevelCreatorPage::~LevelCreatorPage()
@@ -78,6 +69,14 @@ bool LevelCreatorPage::CanEdit()
 void LevelCreatorPage::LoadPage()
 {
     DataManager::instance->NoFirstLoad();
+
+    isEditing = false;
+    selectedMapId = 1;
+    maxMapId = MapEditor::GetMaxId();
+    MapDrawer::instance->SetMap(map, true);
+    ui->SetMaxMapId(maxMapId);
+    ui->SetActualMapId(1);
+    ui->SetNormalMode();
 }
 
 void LevelCreatorPage::Update()
@@ -105,7 +104,7 @@ void LevelCreatorPage::ManageEvent()
             SwitchEditing();
         else if (event.type == Event::MouseButtonPressed)
             MousePressed(event);
-        else if (event.type == Event::Closed)
+        else if (event.type == Event::Closed || (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
             StaticWindow::window->close();
     }
 }

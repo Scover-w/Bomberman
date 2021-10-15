@@ -59,3 +59,12 @@ int MapEditor::GetMaxId()
 	}
 	return i - 1;
 }
+
+void MapEditor::LoadRandomMap(MapEntity(&map2)[169])
+{
+	int maxId = GetMaxId();
+
+	int randomMapId = CustomRandom::GetRandom(1, maxId);
+
+	LoadMap(randomMapId, map2);
+}

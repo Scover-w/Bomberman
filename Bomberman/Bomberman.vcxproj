@@ -146,6 +146,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CursorManager.cpp" />
     <ClCompile Include="CustomMath.cpp" />
+    <ClCompile Include="CustomRandom.cpp" />
     <ClCompile Include="EndPage.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="GamePage.cpp" />
@@ -157,7 +158,6 @@
     <ClCompile Include="MapEditor.cpp" />
     <ClCompile Include="MenuPage.cpp" />
     <ClCompile Include="MouseTool.cpp" />
-    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SelectedFont.cpp" />
     <ClCompile Include="Settings.cpp" />
@@ -172,6 +172,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="CursorManager.h" />
     <ClInclude Include="CustomMath.h" />
+    <ClInclude Include="CustomRandom.h" />
     <ClInclude Include="EndPage.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="GamePage.h" />
@@ -184,7 +185,6 @@
     <ClInclude Include="MapEntity.h" />
     <ClInclude Include="MenuPage.h" />
     <ClInclude Include="MouseTool.h" />
-    <ClInclude Include="Object.h" />
     <ClInclude Include="Page.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />

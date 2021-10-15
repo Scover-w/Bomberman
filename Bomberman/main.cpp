@@ -12,16 +12,16 @@
 
 int main()
 {
-    RenderWindow window(sf::VideoMode(Settings::WIDTH_SCREEN, Settings::HEIGHT_SCREEN), "Bomberman"); // 50px per images
+    RenderWindow window(sf::VideoMode(Settings::WIDTH_SCREEN, Settings::HEIGHT_SCREEN), "Bomberman"/*, sf::Style::Fullscreen*/); // 50px per images
 
     StaticWindow staticWindow;
     staticWindow.window = &window;
 
+    CustomRandom cRandom;
     SelectedFont selectedFont;
     MapDrawer mapDrawer;
 
     MouseTool mouseTool;
-
     StartPage startPage;
     MenuPage menuPage;
     InstructionPage instructionPage;

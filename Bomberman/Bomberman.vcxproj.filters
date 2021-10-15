@@ -42,9 +42,6 @@
     <ClCompile Include="StartPage.cpp">
       <Filter>Fichiers sources\Page</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="CustomMath.cpp">
       <Filter>Fichiers sources\Tools</Filter>
     </ClCompile>
@@ -105,6 +102,9 @@
     <ClCompile Include="UIGamePage.cpp">
       <Filter>Fichiers sources\Page\UI</Filter>
     </ClCompile>
+    <ClCompile Include="CustomRandom.cpp">
+      <Filter>Fichiers sources\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataManager.h">
@@ -115,9 +115,6 @@
     </ClInclude>
     <ClInclude Include="StartPage.h">
       <Filter>Fichiers d%27en-tête\Page</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="CustomMath.h">
       <Filter>Fichiers d%27en-tête\Tools</Filter>
@@ -187,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="UIGamePage.h">
       <Filter>Fichiers d%27en-tête\Page\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomRandom.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,6 @@
 #pragma once
 #include "headersProject.h"
-#include <stdlib.h> 
-#include <time.h>   
+#include "Player.h"
 
 class MapDrawer
 {
@@ -16,12 +15,15 @@ private:
 	int selectedDestructable;
 	int selectedGround;
 
+	Player* player;
+
 	MapEntity* map;
 public:
 	static MapDrawer* instance;
 	MapDrawer();
 	~MapDrawer();
 	void SetMap(MapEntity(&map2)[169], bool isEditor);
+	void SetPlayer(Player*);
 	void DrawEnv(bool);
 	void Draw();
 };
