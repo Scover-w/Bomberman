@@ -45,13 +45,30 @@ MapDrawer::MapDrawer()
         grounds[i].SetOrigin(80, 0);
     }
 
-    bombImg.SetTexture("Images/Bomb/Bomb.png");
-    bombImg.SetOrigin(86, 120);
+    bombImg.SetTexture("Images/Collectables/Bomb.png");
+    bombImg.SetOrigin(120, 68);
+
     explosionImg.SetTexture("Images/Bomb/Explosion.png");
     explosionImg.SetOrigin(125, 150);
     explosionImg.SetScale(0.5f, 0.5f);
     explosionMaskSprite.height = 250;
     explosionMaskSprite.width = 250;
+
+    heartImg.SetTexture("Images/Collectables/heart.png");
+    heartImg.SetOrigin(123, 30);
+    heartImg.SetScale(0.15f, 0.15f);
+
+    speedImg.SetTexture("Images/Collectables/LightSpeed.png");
+    speedImg.SetOrigin(316, 70);
+    speedImg.SetScale(0.05f, 0.05f);
+
+    bombImg2.SetTexture("Images/Collectables/Bomb.png");
+    bombImg2.SetOrigin(120, 63);
+    bombImg2.SetScale(0.15f, 0.15f);
+
+    powerImg.SetTexture("Images/Collectables/Boom.png");
+    powerImg.SetOrigin(60, 0);
+    powerImg.SetScale(0.20f, 0.20f);
 }
 
 MapDrawer::~MapDrawer()
@@ -59,11 +76,12 @@ MapDrawer::~MapDrawer()
 
 }
 
-void MapDrawer::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169])
+void MapDrawer::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169], float(&mapC)[169])
 {
 	map = map2;
     mapExplosion = mapE;
     mapBomb = mapB;
+    mapCollectable = mapC;
     selectedWall = CustomRandom::GetRandom(0, 4);
     selectedDestructable = CustomRandom::GetRandom(0, 14);
     selectedGround = CustomRandom::GetRandom(0, 16);
@@ -171,6 +189,7 @@ void MapDrawer::Draw()
 	{
         positionSelection = CustomMath::PositionToIsoCoordF(i);
 
+ 
         switch (*(map + i))
         {
 
@@ -183,14 +202,6 @@ void MapDrawer::Draw()
                 destructables[selectedDestructable].SetPosition(positionSelection);
                 destructables[selectedDestructable].Draw();
                 break;
-
-            case MapEntity::BombT:
-
-                break;
-
-            case MapEntity::Item:
-
-                break;
         }
 
         if (player->GetPositionIndex() == i)
@@ -200,16 +211,40 @@ void MapDrawer::Draw()
 
         if (*(mapBomb + i) >= 0.0f)
         {
-            Vector2f translated(positionSelection.x, positionSelection.y + (sin(*(mapBomb + i)) + 1) * -5.0f);
-            bombImg.SetPosition(translated);
-            bombImg.SetScale(.5f + sin(*(mapBomb + i) * 2.0f) * 0.01f, .5f + + sin(*(mapBomb + i) * 2.0f) * 0.01f);
+            bombImg.SetPosition(positionSelection.x, positionSelection.y + (sin(*(mapBomb + i)) + 1) * -5.0f);
+            bombImg.SetScale(.3f + sin(*(mapBomb + i) * 2.0f) * 0.01f, .3f + sin(*(mapBomb + i) * 2.0f) * 0.01f);
             bombImg.Draw();
+        }
+
+        
+
+        if (*(mapCollectable + i) >= 0.0f)
+        {
+            switch (*(map + i))
+            {
+                case MapEntity::LifeIt:
+                    heartImg.SetPosition(positionSelection.x, positionSelection.y + (sin(*(mapCollectable + i)) + 1) * -5.0f);
+                    heartImg.Draw();
+                    break;
+                case MapEntity::BombIt:
+                    bombImg2.SetPosition(positionSelection.x, positionSelection.y + (sin(*(mapCollectable + i)) + 1) * -5.0f);
+                    bombImg2.Draw();
+                    break;
+                case MapEntity::SpeedIt:
+                    speedImg.SetPosition(positionSelection.x, positionSelection.y + (sin(*(mapCollectable + i)) + 1) * -5.0f);
+                    speedImg.Draw();
+                    break;
+                default: // PowerIt
+                    powerImg.SetPosition(positionSelection.x, positionSelection.y + (sin(*(mapCollectable + i)) + 1) * -5.0f);
+                    powerImg.Draw();
+                    break;
+            }
         }
 
         if (*(mapExplosion + i) >= 0.0f)
         {
             int state = *(mapExplosion + i) / 0.04166666666667f;
-            explosionMaskSprite.top = 250 * ((int)(state / 4)); 
+            explosionMaskSprite.top = 250 * ((int)(state / 4));
             explosionMaskSprite.left = 250 * (state % 4);
             explosionImg.SetTextureRect(explosionMaskSprite);
             explosionImg.SetPosition(positionSelection);

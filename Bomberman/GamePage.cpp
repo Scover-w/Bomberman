@@ -3,7 +3,7 @@
 
 GamePage::GamePage()
 {
-    player.SetMap(map);
+    player.SetMap(map, mapCollectable);
     UIGamePage* temp = new UIGamePage(this);
     ui = temp;
     hasWin = false;
@@ -12,6 +12,7 @@ GamePage::GamePage()
     {
         mapExplosion[i] = -1.0f;
         mapBomb[i] = -1.0f;
+        mapCollectable[i] = -1.0f;
     }
 }
 
@@ -24,7 +25,8 @@ void GamePage::LoadPage()
 {
     DataManager::instance->NoFirstLoad();
     MapEditor::LoadRandomMap(map);
-    MapDrawer::instance->SetMaps(map, mapExplosion, mapBomb);
+    MapDrawer::instance->SetMaps(map, mapExplosion, mapBomb, mapCollectable);
+    explosionCalcul.SetMaps(map, mapExplosion, mapCollectable);
     player.Reset();
     MapDrawer::instance->SetPlayer(&player);
 }
@@ -61,8 +63,11 @@ void GamePage::Update()
         
     }
 
-    UpdateBombs();
-    UpdateExplosions();
+    float deltaT = Timer::instance->GetDeltaTime();
+
+    UpdateBombs(deltaT);
+    UpdateExplosions(deltaT);
+    UpdateCollectables(deltaT);
     player.Update();
 
 
@@ -74,10 +79,9 @@ void GamePage::Update()
 
 }
 
-void GamePage::UpdateBombs()
+void GamePage::UpdateBombs(float deltaTime)
 {
     float value;
-    float deltaTime = Timer::instance->GetDeltaTime();
     for (int i = 0; i < 169; i++)
     {
         value = mapBomb[i];
@@ -92,7 +96,8 @@ void GamePage::UpdateBombs()
             value = -1.0f;
             int positionBombId = positionBombs.front();
             positionBombs.pop();
-            ExplosionData tempExplositionE = explosionCalcul.GetData(map, mapExplosion, positionBombId, player.GetRange());
+            // Range right player
+            ExplosionData tempExplositionE = explosionCalcul.GetData(positionBombId, player.GetRange());
             player.CheckDamageBomb(tempExplositionE);
 
             int frontValue = bombPlayerId.front();
@@ -106,10 +111,9 @@ void GamePage::UpdateBombs()
     }
 }
 
-void GamePage::UpdateExplosions()
+void GamePage::UpdateExplosions(float deltaTime)
 {
     float value;
-    float deltaTime = Timer::instance->GetDeltaTime();
     for (int i = 0; i < 169; i++)
     {
         value = mapExplosion[i];
@@ -123,5 +127,21 @@ void GamePage::UpdateExplosions()
             value = -1.0f;
 
         mapExplosion[i] = value;
+    }
+}
+
+void GamePage::UpdateCollectables(float deltaTime)
+{
+    float value;
+    for (int i = 0; i < 169; i++)
+    {
+        value = mapCollectable[i];
+
+        if (value < 0.0f)
+            continue;
+
+        value += deltaTime;
+
+        mapCollectable[i] = value;
     }
 }

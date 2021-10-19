@@ -16,6 +16,11 @@ private:
 	IMageUI explosionImg;
 	IntRect explosionMaskSprite;
 
+	IMageUI heartImg;
+	IMageUI speedImg;
+	IMageUI bombImg2;
+	IMageUI powerImg;
+
 	int selectedWall;
 	int selectedDestructable;
 	int selectedGround;
@@ -25,12 +30,13 @@ private:
 	MapEntity* map;
 	float* mapExplosion;
 	float* mapBomb;
+	float* mapCollectable;
 
 public:
 	static MapDrawer* instance;
 	MapDrawer();
 	~MapDrawer();
-	void SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169]);
+	void SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169], float(&mapC)[169]);
 	void SetMap(MapEntity(&map2)[169]);
 	void SetPlayer(Player*);
 	void DrawEnv(bool);

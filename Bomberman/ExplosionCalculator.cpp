@@ -12,13 +12,16 @@ ExplosionCalculator::~ExplosionCalculator()
 
 }
 
-ExplosionData ExplosionCalculator::GetData(MapEntity(&map2)[169], float(&mapE)[169], int positionId, int range)
+void ExplosionCalculator::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapC)[169])
 {
-
-	Vector2i pos(positionId % Settings::NB_HEIGHT_MAP, positionId / Settings::NB_HEIGHT_MAP);
-
 	map = map2;
 	mapExplosion = mapE;
+	mapCollectable = mapC;
+}
+
+ExplosionData ExplosionCalculator::GetData(int positionId, int range)
+{
+	Vector2i pos(positionId % Settings::NB_HEIGHT_MAP, positionId / Settings::NB_HEIGHT_MAP);
 
 	ExplosionData entity;
 
@@ -47,7 +50,7 @@ int ExplosionCalculator::AskYUp(Vector2i position, int delta)
 
 	if (*(map + ((position.y - 1) * Settings::NB_HEIGHT_MAP + position.x)) == MapEntity::DBlock)
 	{
-		*(map + ((position.y - 1) * Settings::NB_HEIGHT_MAP + position.x)) = MapEntity::None;
+		PutCollectable(position.x, position.y - 1);
 		return delta - 1;
 	}
 
@@ -73,7 +76,7 @@ int ExplosionCalculator::AskYDown(Vector2i position, int delta)
 
 	if (*(map + ((position.y + 1) * Settings::NB_HEIGHT_MAP + position.x)) == MapEntity::DBlock)
 	{
-		*(map + ((position.y + 1) * Settings::NB_HEIGHT_MAP + position.x)) = MapEntity::None;
+		PutCollectable(position.x, position.y + 1);
 		return delta - 1;
 	}
 	delta--;
@@ -99,7 +102,7 @@ int ExplosionCalculator::AskXLeft(Vector2i position, int delta)
 
 	if (*(map + (position.y * Settings::NB_HEIGHT_MAP + (position.x - 1))) == MapEntity::DBlock)
 	{
-		*(map + (position.y * Settings::NB_HEIGHT_MAP + (position.x - 1))) = MapEntity::None;
+		PutCollectable(position.x - 1, position.y);
 		return delta - 1;
 	}
 	delta--;
@@ -124,7 +127,7 @@ int ExplosionCalculator::AskXRight(Vector2i position, int delta)
 
 	if (*(map + (position.y * Settings::NB_HEIGHT_MAP + (position.x + 1))) == MapEntity::DBlock)
 	{
-		*(map + (position.y * Settings::NB_HEIGHT_MAP + (position.x + 1))) = MapEntity::None;
+		PutCollectable(position.x + 1, position.y);
 		return delta - 1;
 	}
 
@@ -134,4 +137,33 @@ int ExplosionCalculator::AskXRight(Vector2i position, int delta)
 
 	position.x++;
 	return AskXRight(position, delta);
+}
+
+void ExplosionCalculator::PutCollectable(int x, int y)
+{
+	int i = (y * Settings::NB_HEIGHT_MAP + x);
+
+	if (CustomRandom::GetRandom(0, 2))
+	{
+		*(map + i) = MapEntity::None;
+		return;
+	}
+
+	switch (CustomRandom::GetRandom(0, 4))
+	{
+		case 0:
+			*(map + i) = MapEntity::LifeIt;
+			break;
+		case 1:
+			*(map + i) = MapEntity::BombIt;
+			break;
+		case 2:
+			*(map + i) = MapEntity::SpeedIt;
+			break;
+		default:
+			*(map + i) = MapEntity::PowerIt;
+			break;
+	}
+
+	*(mapCollectable + i) = 0.0f;
 }

@@ -141,9 +141,10 @@ int Player::GetStateAnimationDeath()
         return 3;
 }
 
-void Player::SetMap(MapEntity* mp)
+void Player::SetMap(MapEntity* mp, float* mapC)
 {
     map = mp;
+    mapCollectable = mapC;
 }
 
 int Player::GetPositionIndex()
@@ -243,7 +244,7 @@ void Player::Move()
    
     for (int j = 0; j < 4; j++)
     {
-        if (map[futurPosPlayerId[j]] == MapEntity::Wall)
+        if (map[futurPosPlayerId[j]] == MapEntity::Wall || map[futurPosPlayerId[j]] == MapEntity::DBlock)
             isWall = true;
     }
 
@@ -253,9 +254,8 @@ void Player::Move()
         cartPosition.y += direction.y;
     }
 
-
-
     positionIndex = CustomMath::CartCoordFToPosition(cartPosition);
+    CheckCollectable();
 
     image.SetPosition(CustomMath::CartesianToIsometric(cartPosition));
 }
@@ -271,6 +271,37 @@ void Player::ManageInvicibility()
             isInvicible = false;
             image.SetColor(normal);
         }
+    }
+}
+
+void Player::CheckCollectable()
+{
+    MapEntity mE = *(map + positionIndex);
+    bool isIn = false;
+    switch (mE)
+    {
+        case LifeIt:
+            AddLife();
+            isIn = true;
+            break;
+        case BombIt:
+            AddBomb();
+            isIn = true;
+            break;
+        case SpeedIt:
+            AddSpeed();
+            isIn = true;
+            break;
+        case PowerIt:
+            AddRange();
+            isIn = true;
+            break;
+    }
+
+    if (isIn)
+    {
+        *(map + positionIndex) = MapEntity::None;
+        *(mapCollectable + positionIndex) = -1.0f;
     }
 }
 

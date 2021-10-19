@@ -30,6 +30,7 @@ private:
 
 
 	MapEntity* map;
+	float* mapCollectable;
 
 	int lives = 1;
 	int range = 1;
@@ -50,13 +51,15 @@ private:
 	void GetDirection();
 	void Move();
 
+	void CheckCollectable();
+
 public:
 	Player();
 	~Player();
 
 	void Reset();
 
-	void SetMap(MapEntity*);
+	void SetMap(MapEntity*, float*);
 	int GetPositionIndex();
 	int GetRange();
 	int GetId();
