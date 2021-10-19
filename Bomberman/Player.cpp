@@ -141,7 +141,7 @@ int Player::GetStateAnimationDeath()
         return 3;
 }
 
-void Player::SetMap(MapEntity* mp, float* mapC)
+void Player::SetMaps(MapEntity* mp, float* mapC)
 {
     map = mp;
     mapCollectable = mapC;
@@ -341,7 +341,7 @@ bool Player::AskRemoveBomb()
 
 void Player::Reset()
 {
-    lives = 2;
+    lives = 1;
     range = 1;
     bombs = 1;
     speed = 120.0f;

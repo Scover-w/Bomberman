@@ -41,18 +41,26 @@ int ExplosionCalculator::AskYUp(Vector2i position, int delta)
 	if (position.y - 1 < 0)
 		return delta;
 
-	if ( *(map + ((position.y - 1) * Settings::NB_HEIGHT_MAP + position.x)) == MapEntity::Wall)
+	MapEntity entity = *(map + ((position.y - 1) * Settings::NB_HEIGHT_MAP + position.x));
+
+	if (entity == MapEntity::Wall)
 	{
 		return delta;
 	}
 
 	*(mapExplosion + ((position.y - 1) * Settings::NB_HEIGHT_MAP + position.x)) = 0.0f;
 
-	if (*(map + ((position.y - 1) * Settings::NB_HEIGHT_MAP + position.x)) == MapEntity::DBlock)
+	if (entity == MapEntity::DBlock)
 	{
 		PutCollectable(position.x, position.y - 1);
 		return delta - 1;
 	}
+
+	if (entity > 3)
+	{
+		RemoveCollectable(position.x, position.y - 1);
+	}
+
 
 	delta--;
 	if (delta == 0)
@@ -67,18 +75,26 @@ int ExplosionCalculator::AskYDown(Vector2i position, int delta)
 	if (position.y + 1 > 12)
 		return delta;
 
-	if (*(map + ((position.y + 1) * Settings::NB_HEIGHT_MAP + position.x)) == MapEntity::Wall)
+	MapEntity entity = *(map + ((position.y + 1) * Settings::NB_HEIGHT_MAP + position.x));
+
+	if (entity == MapEntity::Wall)
 	{
 		return delta;
 	}
 
 	*(mapExplosion + ((position.y + 1) * Settings::NB_HEIGHT_MAP + position.x)) = 0.0f;
 
-	if (*(map + ((position.y + 1) * Settings::NB_HEIGHT_MAP + position.x)) == MapEntity::DBlock)
+	if (entity == MapEntity::DBlock)
 	{
 		PutCollectable(position.x, position.y + 1);
 		return delta - 1;
 	}
+
+	if (entity > 3)
+	{
+		RemoveCollectable(position.x, position.y + 1);
+	}
+
 	delta--;
 	if (delta == 0)
 		return 0;
@@ -92,7 +108,9 @@ int ExplosionCalculator::AskXLeft(Vector2i position, int delta)
 	if (position.x - 1 < 0)
 		return delta;
 
-	if (*(map + (position.y * Settings::NB_HEIGHT_MAP + (position.x - 1))) == MapEntity::Wall)
+	MapEntity entity = *(map + (position.y * Settings::NB_HEIGHT_MAP + (position.x - 1)));
+
+	if (entity == MapEntity::Wall)
 	{
 		return delta;
 	}
@@ -100,11 +118,17 @@ int ExplosionCalculator::AskXLeft(Vector2i position, int delta)
 	
 	*(mapExplosion + (position.y * Settings::NB_HEIGHT_MAP + (position.x - 1))) = 0.0f;
 
-	if (*(map + (position.y * Settings::NB_HEIGHT_MAP + (position.x - 1))) == MapEntity::DBlock)
+	if (entity == MapEntity::DBlock)
 	{
 		PutCollectable(position.x - 1, position.y);
 		return delta - 1;
 	}
+
+	if (entity > 3)
+	{
+		RemoveCollectable(position.x - 1, position.y);
+	}
+
 	delta--;
 	if (delta == 0)
 		return 0;
@@ -118,17 +142,24 @@ int ExplosionCalculator::AskXRight(Vector2i position, int delta)
 	if (position.x + 1 > 12)
 		return delta;
 
-	if (*(map + (position.y * Settings::NB_HEIGHT_MAP + (position.x + 1))) == MapEntity::Wall)
+	MapEntity entity = *(map + (position.y * Settings::NB_HEIGHT_MAP + (position.x + 1)));
+
+	if (entity == MapEntity::Wall)
 	{
 		return delta;
 	}
 
 	*(mapExplosion + (position.y * Settings::NB_HEIGHT_MAP + (position.x + 1))) = 0.0f;
 
-	if (*(map + (position.y * Settings::NB_HEIGHT_MAP + (position.x + 1))) == MapEntity::DBlock)
+	if (entity == MapEntity::DBlock)
 	{
 		PutCollectable(position.x + 1, position.y);
 		return delta - 1;
+	}
+
+	if (entity > 3)
+	{
+		RemoveCollectable(position.x + 1, position.y);
 	}
 
 	delta--;
@@ -166,4 +197,11 @@ void ExplosionCalculator::PutCollectable(int x, int y)
 	}
 
 	*(mapCollectable + i) = 0.0f;
+}
+
+void ExplosionCalculator::RemoveCollectable(int x, int y)
+{
+	int i = (y * Settings::NB_HEIGHT_MAP + x);
+	*(map + i) = MapEntity::None;
+	*(mapCollectable + i) = -1.0f;
 }

@@ -23,5 +23,6 @@ public:
 	int AskXRight(Vector2i, int);
 
 	void PutCollectable(int, int);
+	void RemoveCollectable(int, int);
 };
 

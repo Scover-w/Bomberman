@@ -3,7 +3,7 @@
 
 GamePage::GamePage()
 {
-    player.SetMap(map, mapCollectable);
+    player.SetMaps(map, mapCollectable);
     UIGamePage* temp = new UIGamePage(this);
     ui = temp;
     hasWin = false;

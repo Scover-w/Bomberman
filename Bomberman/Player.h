@@ -59,7 +59,7 @@ public:
 
 	void Reset();
 
-	void SetMap(MapEntity*, float*);
+	void SetMaps(MapEntity*, float*);
 	int GetPositionIndex();
 	int GetRange();
 	int GetId();
