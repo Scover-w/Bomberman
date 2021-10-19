@@ -26,5 +26,7 @@ public:
 	void SetRotation(float);
 	void SetColor(Color&);
 	void SetTextureRect(IntRect&);
+
+	Vector2f GetPosition();
 };
 

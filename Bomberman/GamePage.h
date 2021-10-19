@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "MapEditor.h"
 #include "MapDrawer.h"
+#include "ExplosionCalculator.h"
+
 
 class UIGamePage;
 
@@ -13,12 +15,23 @@ private:
 
 	UIGamePage* ui;
 
+	ExplosionCalculator eCalcul;
+
 	MapEntity map[169];
+	float mapExplosion[169];
+	float mapBomb[169];
+
+	queue<int> positionBombs;
+	queue<int> bombPlayerId;
 
 	bool inGame = false;
 	bool hasWin;
 
-	bool CheckPlayerCanMove();
+	bool beforeSpace = false;
+	bool currentSpace = false;
+
+	void UpdateBombs();
+	void UpdateExplosions();
 
 public: 
 	GamePage();

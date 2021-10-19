@@ -34,7 +34,7 @@ void MenuPage::Update()
     Event event;
     while (StaticWindow::window->pollEvent(event))
     {
-        if (event.type == event.KeyPressed && event.key.code == Keyboard::Space)
+        if (event.type == event.KeyPressed && event.key.code == Keyboard::Enter)
         {
             Page page = Page::Game;
             DataManager::instance->SetCurrentPage(page);

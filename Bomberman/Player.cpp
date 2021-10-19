@@ -2,8 +2,13 @@
 #include "CustomMath.h"
 
 
-sf::Vector2i Player::upRightCorner(10, -10);
-sf::Vector2i Player::downLeftCorner(-10, 10);
+Vector2i Player::upRightCorner(10, -10);
+Vector2i Player::downLeftCorner(-10, 10);
+
+Color Player::invicible(255, 255, 255, 150);
+Color Player::normal(255, 255, 255, 255);
+
+int Player::nbPlayer = 0;
 
 Player::Player()
 {
@@ -11,6 +16,9 @@ Player::Player()
     image.SetOrigin(77, 128);
     maskSprite.height = 171;
     maskSprite.width = 156;
+
+    id = nbPlayer;
+    nbPlayer++;
 }
 
 Player::~Player()
@@ -51,7 +59,7 @@ void Player::DeltaAnimation()
 {
     animation += Timer::instance->GetDeltaTime();
 
-    if (!isAlive)
+    if (isDead())
         return;
 
     if (animation > 0.8f)
@@ -133,7 +141,6 @@ int Player::GetStateAnimationDeath()
         return 3;
 }
 
-
 void Player::SetMap(MapEntity* mp)
 {
     map = mp;
@@ -142,12 +149,6 @@ void Player::SetMap(MapEntity* mp)
 int Player::GetPositionIndex()
 {
     return positionIndex;
-}
-
-void Player::ResetPosition()
-{
-    Vector2f temp(Settings::CARTESIAN_ATOMIC_HEIGHT / 2, Settings::CARTESIAN_ATOMIC_HEIGHT / 2);
-    cartPosition = temp;
 }
 
 void Player::GetDirection()
@@ -163,26 +164,69 @@ void Player::GetDirection()
             direction.y = Keyboard::isKeyPressed(Keyboard::Down) ? 1.0f : -1.0f;
     }
     
-
-
     direction.x = direction.x * (speed * Timer::instance->GetDeltaTime());
     direction.y = direction.y * (speed * Timer::instance->GetDeltaTime());
 }
 
-void Player::KillPlayer()
-{
-    animation = 0.0f;
-    isAlive = false;
-}
 
 bool Player::isDead()
 {
-    return (!isAlive && animation > 2.0f);
+    return lives <= 0;
+}
+
+void Player::TakeDamage()
+{
+    if (isInvicible)
+        return;
+
+    lives--;
+
+    if (!isDead())
+    {
+        isInvicible = true;
+        invincibilityTime = 0.0f;
+        image.SetColor(invicible);
+    }
+}
+
+void Player::CheckDamageBomb(const ExplosionData& eData)
+{
+    Vector2f positionf = image.GetPosition();
+    positionf = CustomMath::IsometricToCartesian(positionf);
+    Vector2i position(positionf.x / Settings::CARTESIAN_ATOMIC_HEIGHT, positionf.y / Settings::CARTESIAN_ATOMIC_HEIGHT);
+
+    if (position.y == eData.centerId.y)
+    {
+        if (position.x >= eData.centerId.x && position.x <= eData.centerId.x + eData.xRight)
+        {
+            TakeDamage();
+            return;
+        }
+        if (position.x <= eData.centerId.x && position.x >= eData.centerId.x - eData.xLeft)
+        {
+            TakeDamage();
+            return;
+        }
+    }
+
+    if (position.x == eData.centerId.x)
+    {
+        if (position.y >= eData.centerId.y && position.y <= eData.centerId.y + eData.yDown)
+        {
+            TakeDamage();
+            return;
+        }
+        if (position.y <= eData.centerId.y && position.y >= eData.centerId.y - eData.yUp)
+        {
+            TakeDamage();
+            return;
+        }
+    }
 }
 
 void Player::Move()
 {
-    if (!isAlive)
+    if (isDead())
         return;
 
 
@@ -190,7 +234,6 @@ void Player::Move()
 
     GetFuturPosPlayer(futurePosition);
 
-    cout << "PositionIndex : " << positionIndex << endl;
 
     bool isWall = false;
 
@@ -200,11 +243,9 @@ void Player::Move()
    
     for (int j = 0; j < 4; j++)
     {
-        cout << futurPosPlayerId[j] << endl;
         if (map[futurPosPlayerId[j]] == MapEntity::Wall)
             isWall = true;
     }
-    cout << "---------------------" << endl;
 
     if (!isWall)
     {
@@ -219,9 +260,82 @@ void Player::Move()
     image.SetPosition(CustomMath::CartesianToIsometric(cartPosition));
 }
 
+void Player::ManageInvicibility()
+{
+    if (isInvicible)
+    {
+        invincibilityTime += Timer::instance->GetDeltaTime();
+
+        if (invincibilityTime >= 3.0f)
+        {
+            isInvicible = false;
+            image.SetColor(normal);
+        }
+    }
+}
+
+int Player::GetId()
+{
+    return id;
+}
+
+void Player::AddSpeed()
+{
+    speed += 20.0f;
+}
+
+void Player::AddBomb()
+{
+    bombs++;
+}
+
+void Player::AddRange()
+{
+    range++;
+}
+
+void Player::AddLife()
+{
+    lives++;
+}
+
+bool Player::AskRemoveBomb()
+{
+    if (bombs == 0)
+        return false;
+    
+    bombs--;
+    return true;
+}
+
+void Player::Reset()
+{
+    lives = 2;
+    range = 1;
+    bombs = 1;
+    speed = 120.0f;
+    animation = 0.0f;
+    isInvicible = false;
+
+    Vector2f temp(Settings::CARTESIAN_ATOMIC_HEIGHT / 2, Settings::CARTESIAN_ATOMIC_HEIGHT / 2);
+    cartPosition = temp;
+}
+
+int Player::GetRange()
+{
+    return range;
+}
+
+void Player::Update()
+{
+    ManageInvicibility();
+    GetDirection();
+    Move();
+}
+
 void Player::Draw()
 {
-    if (isAlive)
+    if (!isDead())
     {
         int stateAnim = GetStateAnimation();
         SetDirectionAnimationVector2i();
@@ -238,7 +352,5 @@ void Player::Draw()
         image.SetTextureRect(maskSprite);
     }
 
-    //image.SetOrigin(77,128);
-    
     image.Draw();
 }

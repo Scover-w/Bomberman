@@ -149,6 +149,7 @@
     <ClCompile Include="CustomRandom.cpp" />
     <ClCompile Include="EndPage.cpp" />
     <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="ExplosionCalculator.cpp" />
     <ClCompile Include="GamePage.cpp" />
     <ClCompile Include="IMageUI.cpp" />
     <ClCompile Include="InstructionPage.cpp" />
@@ -175,6 +176,8 @@
     <ClInclude Include="CustomRandom.h" />
     <ClInclude Include="EndPage.h" />
     <ClInclude Include="DataManager.h" />
+    <ClInclude Include="ExplosionCalculator.h" />
+    <ClInclude Include="ExplosionData.h" />
     <ClInclude Include="GamePage.h" />
     <ClInclude Include="headersProject.h" />
     <ClInclude Include="IMageUI.h" />

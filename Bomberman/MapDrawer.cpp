@@ -44,6 +44,14 @@ MapDrawer::MapDrawer()
         grounds[i].SetTexture("Images/Grounds/" + nameGround[i] + ".png");
         grounds[i].SetOrigin(80, 0);
     }
+
+    bombImg.SetTexture("Images/Bomb/Bomb.png");
+    bombImg.SetOrigin(86, 120);
+    explosionImg.SetTexture("Images/Bomb/Explosion.png");
+    explosionImg.SetOrigin(125, 150);
+    explosionImg.SetScale(0.5f, 0.5f);
+    explosionMaskSprite.height = 250;
+    explosionMaskSprite.width = 250;
 }
 
 MapDrawer::~MapDrawer()
@@ -51,22 +59,22 @@ MapDrawer::~MapDrawer()
 
 }
 
-void MapDrawer::SetMap(MapEntity(&map2)[169], bool isEditor)
+void MapDrawer::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169])
 {
 	map = map2;
+    mapExplosion = mapE;
+    mapBomb = mapB;
+    selectedWall = CustomRandom::GetRandom(0, 4);
+    selectedDestructable = CustomRandom::GetRandom(0, 14);
+    selectedGround = CustomRandom::GetRandom(0, 16);
+}
 
-    if (isEditor)
-    {
-        selectedWall = 0;
-        selectedDestructable = 0;
-        selectedGround = 0;
-    }
-    else
-    {
-        selectedWall = CustomRandom::GetRandom(0, 4);
-        selectedDestructable = CustomRandom::GetRandom(0, 14);
-        selectedGround = CustomRandom::GetRandom(0, 16);
-    }
+void MapDrawer::SetMap(MapEntity(&map2)[169])
+{
+    map = map2;
+    selectedWall = 0;
+    selectedDestructable = 0;
+    selectedGround = 0;
 }
 
 void MapDrawer::SetPlayer(Player* play)
@@ -146,9 +154,11 @@ void MapDrawer::Draw()
 {
 
     Vector2f positionSelection;
+
     for (int i = 0; i < 169; i++)
     {
-        if (*(map + i) == MapEntity::None)
+        int entity = *(map + i);
+        if (!(entity == MapEntity::Wall || entity == MapEntity::DBlock))
         {
             positionSelection = CustomMath::PositionToIsoCoordF(i);
             grounds[selectedGround].SetPosition(positionSelection);
@@ -156,29 +166,25 @@ void MapDrawer::Draw()
         }
     }
 
+
 	for (int i = 0; i < 169; i++)
 	{
+        positionSelection = CustomMath::PositionToIsoCoordF(i);
+
         switch (*(map + i))
         {
-            /*case MapEntity::None:
-                positionSelection = CustomMath::PositionToIsoCoordF(i);
-                grounds[selectedGround].SetPosition(positionSelection);
-                grounds[selectedGround].Draw();
-                break;*/
 
             case MapEntity::Wall:
-                positionSelection = CustomMath::PositionToIsoCoordF(i);
                 walls[selectedWall].SetPosition(positionSelection);
                 walls[selectedWall].Draw();
                 break;
 
             case MapEntity::DBlock:
-                positionSelection = CustomMath::PositionToIsoCoordF(i);
                 destructables[selectedDestructable].SetPosition(positionSelection);
                 destructables[selectedDestructable].Draw();
                 break;
 
-            case MapEntity::Bomb:
+            case MapEntity::BombT:
 
                 break;
 
@@ -189,8 +195,25 @@ void MapDrawer::Draw()
 
         if (player->GetPositionIndex() == i)
         {
-            cout << player->GetPositionIndex() << endl;
             player->Draw();
+        }
+
+        if (*(mapBomb + i) >= 0.0f)
+        {
+            Vector2f translated(positionSelection.x, positionSelection.y + (sin(*(mapBomb + i)) + 1) * -5.0f);
+            bombImg.SetPosition(translated);
+            bombImg.SetScale(.5f + sin(*(mapBomb + i) * 2.0f) * 0.01f, .5f + + sin(*(mapBomb + i) * 2.0f) * 0.01f);
+            bombImg.Draw();
+        }
+
+        if (*(mapExplosion + i) >= 0.0f)
+        {
+            int state = *(mapExplosion + i) / 0.083333333333f;
+            explosionMaskSprite.top = 250 * ((int)(state / 4)); 
+            explosionMaskSprite.left = 250 * (state % 4);
+            explosionImg.SetTextureRect(explosionMaskSprite);
+            explosionImg.SetPosition(positionSelection);
+            explosionImg.Draw();
         }
 	}
 }

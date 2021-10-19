@@ -15,7 +15,6 @@ Vector2i CustomMath::PositionToCoord(int i)
 
 int CustomMath::CartCoordFToPosition(Vector2f coord)
 {
-	cout << "Cart to in : " << coord.x << ", " << coord.y << endl;
 	return ((int)((int)coord.y / Settings::CARTESIAN_ATOMIC_HEIGHT)) * 13 + ((int)((int)coord.x / Settings::CARTESIAN_ATOMIC_HEIGHT));
 }
 

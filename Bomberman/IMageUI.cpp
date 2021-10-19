@@ -61,3 +61,8 @@ void IMageUI::SetTextureRect(IntRect& rect)
 {
 	sprite.setTextureRect(rect);
 }
+
+Vector2f IMageUI::GetPosition()
+{
+	return sprite.getPosition();
+}

@@ -73,7 +73,7 @@ void LevelCreatorPage::LoadPage()
     isEditing = false;
     selectedMapId = 1;
     maxMapId = MapEditor::GetMaxId();
-    MapDrawer::instance->SetMap(map, true);
+    MapDrawer::instance->SetMap(map);
     ui->SetMaxMapId(maxMapId);
     ui->SetActualMapId(1);
     ui->SetNormalMode();
@@ -147,7 +147,6 @@ void LevelCreatorPage::DrawSelection()
 
     if (temp != selectedIndexs[0])
     {
-        //cout << "Index : " << temp << endl;
         for (int i = 0; i < 4; i++)
         {
             selectedIndexs[i] = -1;

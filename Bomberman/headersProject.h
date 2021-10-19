@@ -12,5 +12,7 @@
 #include "IMageUI.h"
 #include "SelectedFont.h"
 #include "CustomRandom.h"
+#include "ExplosionData.h"
+#include <queue>
 using namespace std;
 using namespace sf;

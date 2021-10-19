@@ -31,6 +31,12 @@
     <Filter Include="Fichiers d%27en-tête\Page\UI">
       <UniqueIdentifier>{512899c2-b6b3-4ba9-b44c-4d185c3b672f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Objects">
+      <UniqueIdentifier>{356357e6-d29d-4bc0-818e-27ad7b8a5e4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Objects">
+      <UniqueIdentifier>{40dbdedb-a7ae-42a5-b00a-5ddc0bf66a1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -103,6 +109,9 @@
       <Filter>Fichiers sources\Page\UI</Filter>
     </ClCompile>
     <ClCompile Include="CustomRandom.cpp">
+      <Filter>Fichiers sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionCalculator.cpp">
       <Filter>Fichiers sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
@@ -186,6 +195,12 @@
       <Filter>Fichiers d%27en-tête\Page\UI</Filter>
     </ClInclude>
     <ClInclude Include="CustomRandom.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionData.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionCalculator.h">
       <Filter>Fichiers d%27en-tête\Tools</Filter>
     </ClInclude>
   </ItemGroup>
