@@ -15,7 +15,7 @@ private:
 
 	UIGamePage* ui;
 
-	ExplosionCalculator eCalcul;
+	ExplosionCalculator explosionCalcul;
 
 	MapEntity map[169];
 	float mapExplosion[169];

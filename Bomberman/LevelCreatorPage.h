@@ -31,7 +31,7 @@ class LevelCreatorPage
 
 	UILevelCreatorPage* ui;
 
-	int unPlacableIndex[12] = { 0, 1, 13, 11, 12, 25, 143, 156, 157, 155, 166, 167 };
+	int unPlacableIndex[12] = { 0, 1, 13, 11, 12, 25, 143, 156, 157, 155, 167, 168 };
 	
 	void LoadTextures();
 

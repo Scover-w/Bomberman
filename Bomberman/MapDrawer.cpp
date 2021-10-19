@@ -208,7 +208,7 @@ void MapDrawer::Draw()
 
         if (*(mapExplosion + i) >= 0.0f)
         {
-            int state = *(mapExplosion + i) / 0.083333333333f;
+            int state = *(mapExplosion + i) / 0.04166666666667f;
             explosionMaskSprite.top = 250 * ((int)(state / 4)); 
             explosionMaskSprite.left = 250 * (state % 4);
             explosionImg.SetTextureRect(explosionMaskSprite);

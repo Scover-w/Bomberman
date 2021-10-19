@@ -92,7 +92,7 @@ void GamePage::UpdateBombs()
             value = -1.0f;
             int positionBombId = positionBombs.front();
             positionBombs.pop();
-            ExplosionData tempExplositionE = eCalcul.GetData(map, mapExplosion, positionBombId, player.GetRange());
+            ExplosionData tempExplositionE = explosionCalcul.GetData(map, mapExplosion, positionBombId, player.GetRange());
             player.CheckDamageBomb(tempExplositionE);
 
             int frontValue = bombPlayerId.front();
@@ -119,9 +119,8 @@ void GamePage::UpdateExplosions()
 
         value += deltaTime;
 
-        if (value > 1.0f)
+        if (value > 0.5f)
             value = -1.0f;
-
 
         mapExplosion[i] = value;
     }

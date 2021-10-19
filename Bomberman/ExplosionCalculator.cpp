@@ -20,13 +20,6 @@ ExplosionData ExplosionCalculator::GetData(MapEntity(&map2)[169], float(&mapE)[1
 	map = map2;
 	mapExplosion = mapE;
 
-	/*for (int i = 0; i < 169; i++)
-	{
-		cout << "----------------------------" << endl;
-		cout << "i : " << i << endl;
-		cout << map[i] << " , " << &map[i] << endl;
-		cout << *(map + i) << " , " << (map + i) << endl;
-	}*/
 	ExplosionData entity;
 
 	entity.centerId = pos;

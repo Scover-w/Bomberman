@@ -1,6 +1,6 @@
 #include "MapEditor.h"
 
-
+int MapEditor::unPlacableIndex[12] = { 0, 1, 13, 11, 12, 25, 143, 156, 157, 155, 167, 168 };
 
 bool MapEditor::LoadMap(int mapId, MapEntity(&map2)[169])
 {
@@ -67,4 +67,30 @@ void MapEditor::LoadRandomMap(MapEntity(&map2)[169])
 	int randomMapId = CustomRandom::GetRandom(1, maxId);
 
 	LoadMap(randomMapId, map2);
+
+	bool exit = false;
+
+	for (int i = 0; i < 169; i++)
+	{
+		exit = false;
+		for (int j = 0; j < 12; j++)
+		{
+			if (i == unPlacableIndex[j])
+			{
+				exit = true;
+				break;
+			}
+		}
+
+		if (exit)
+			continue;
+
+		if (map2[i] == MapEntity::None)
+		{
+			int rdV = CustomRandom::GetRandom(0, 10);
+
+			if (rdV < 8)
+				map2[i] = MapEntity::DBlock;
+		}
+	}
 }
