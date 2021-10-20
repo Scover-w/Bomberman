@@ -66,6 +66,8 @@ public:
 	int GetRange();
 	int GetId();
 
+	void ResetOnBombId(int);
+
 	void AddSpeed();
 	void AddBomb();
 	void AddRange();

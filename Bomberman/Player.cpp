@@ -242,21 +242,28 @@ void Player::Move()
 
     bool isWall = false;
     bool isBomb = false;
+    bool isOwnBomb = false;
 
     if (futurePosition.x > 1469 || futurePosition.x < 0 || futurePosition.y > 1469 || futurePosition.y < 0)
         isWall = true;
 
-   
+  
+
     for (int j = 0; j < 4; j++)
     {
-        if (map[futurPosPlayerId[j]] == MapEntity::Wall || map[futurPosPlayerId[j]] == MapEntity::DBlock)
+        MapEntity entity = *(map + futurPosPlayerId[j]);
+
+        if (entity == MapEntity::Wall || entity == MapEntity::DBlock)
             isWall = true;
 
-        if (map[futurPosPlayerId[j]] == MapEntity::Bomb && futurPosPlayerId[j] != onBombId)
+        if (entity == MapEntity::Bomb && futurPosPlayerId[j] != onBombId)
             isBomb = true;
+
+        if (entity == MapEntity::Bomb && futurPosPlayerId[j] == onBombId)
+            isOwnBomb = true;
     }
 
-    if (!isBomb)
+    if (!isOwnBomb)
         onBombId = -1;
 
     if (!isWall && !isBomb)
@@ -318,6 +325,12 @@ void Player::CheckCollectable()
 int Player::GetId()
 {
     return id;
+}
+
+void Player::ResetOnBombId(int id)
+{
+    if (id == onBombId)
+        onBombId = -1;
 }
 
 void Player::AddSpeed()

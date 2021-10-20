@@ -99,8 +99,12 @@ void GamePage::UpdateBombs(float deltaTime)
 
             int frontValue = bombOwner[i];
             bombOwner[i] = -1;
+            map[i] = MapEntity::None;
             if (frontValue == player.GetId())
+            {
                 player.AddBomb();
+                player.ResetOnBombId(i);
+            }
             
         }
 
