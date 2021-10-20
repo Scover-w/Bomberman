@@ -30,13 +30,15 @@ private:
 	MapEntity* map;
 	float* mapExplosion;
 	float* mapBomb;
-	float* mapCollectable;
+	float* collectableTime;
+
+	float GetPseudoRandom(int);
 
 public:
 	static MapDrawer* instance;
 	MapDrawer();
 	~MapDrawer();
-	void SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169], float(&mapC)[169]);
+	void SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169], float*);
 	void SetMap(MapEntity(&map2)[169]);
 	void SetPlayer(Player*);
 	void DrawEnv(bool);

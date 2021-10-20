@@ -3,7 +3,7 @@
 
 GamePage::GamePage()
 {
-    player.SetMaps(map, mapCollectable);
+    player.SetMap(map);
     UIGamePage* temp = new UIGamePage(this);
     ui = temp;
     hasWin = false;
@@ -12,7 +12,7 @@ GamePage::GamePage()
     {
         mapExplosion[i] = -1.0f;
         mapBomb[i] = -1.0f;
-        mapCollectable[i] = -1.0f;
+        bombOwner[i] = -1;
     }
 }
 
@@ -25,8 +25,8 @@ void GamePage::LoadPage()
 {
     DataManager::instance->NoFirstLoad();
     MapEditor::LoadRandomMap(map);
-    MapDrawer::instance->SetMaps(map, mapExplosion, mapBomb, mapCollectable);
-    explosionCalcul.SetMaps(map, mapExplosion, mapCollectable);
+    MapDrawer::instance->SetMaps(map, mapExplosion, mapBomb, &animCollectable);
+    explosionCalcul.SetMaps(map, mapExplosion, mapBomb);
     player.Reset();
     MapDrawer::instance->SetPlayer(&player);
 }
@@ -56,18 +56,17 @@ void GamePage::Update()
         else
         {
             mapBomb[posPlayerIndex] = 0.0f;
-            map[posPlayerIndex] = MapEntity::BombT;
-            bombPlayerId.push(player.GetId());
-            positionBombs.push(posPlayerIndex);
+            map[posPlayerIndex] = MapEntity::Bomb;
+            bombOwner[posPlayerIndex] = player.GetId();
+            player.SetOnBombId(posPlayerIndex);
         }
         
     }
 
     float deltaT = Timer::instance->GetDeltaTime();
-
+    animCollectable += deltaT;
     UpdateBombs(deltaT);
     UpdateExplosions(deltaT);
-    UpdateCollectables(deltaT);
     player.Update();
 
 
@@ -94,14 +93,12 @@ void GamePage::UpdateBombs(float deltaTime)
         if (value > 3.0f)
         {
             value = -1.0f;
-            int positionBombId = positionBombs.front();
-            positionBombs.pop();
-            // Range right player
-            ExplosionData tempExplositionE = explosionCalcul.GetData(positionBombId, player.GetRange());
+
+            ExplosionData tempExplositionE = explosionCalcul.GetData(i, player.GetRange());
             player.CheckDamageBomb(tempExplositionE);
 
-            int frontValue = bombPlayerId.front();
-            bombPlayerId.pop();
+            int frontValue = bombOwner[i];
+            bombOwner[i] = -1;
             if (frontValue == player.GetId())
                 player.AddBomb();
             
@@ -130,18 +127,4 @@ void GamePage::UpdateExplosions(float deltaTime)
     }
 }
 
-void GamePage::UpdateCollectables(float deltaTime)
-{
-    float value;
-    for (int i = 0; i < 169; i++)
-    {
-        value = mapCollectable[i];
 
-        if (value < 0.0f)
-            continue;
-
-        value += deltaTime;
-
-        mapCollectable[i] = value;
-    }
-}

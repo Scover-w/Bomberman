@@ -76,12 +76,12 @@ MapDrawer::~MapDrawer()
 
 }
 
-void MapDrawer::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169], float(&mapC)[169])
+void MapDrawer::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169], float* timeAnim)
 {
 	map = map2;
     mapExplosion = mapE;
     mapBomb = mapB;
-    mapCollectable = mapC;
+    collectableTime = timeAnim;
     selectedWall = CustomRandom::GetRandom(0, 4);
     selectedDestructable = CustomRandom::GetRandom(0, 14);
     selectedGround = CustomRandom::GetRandom(0, 16);
@@ -218,7 +218,7 @@ void MapDrawer::Draw()
 
         
 
-        if (*(mapCollectable + i) >= 0.0f)
+        /*if (*(mapCollectable + i) >= 0.0f)
         {
             switch (*(map + i))
             {
@@ -239,7 +239,35 @@ void MapDrawer::Draw()
                     powerImg.Draw();
                     break;
             }
+        }*/
+
+        
+        
+        if (*(map + i) > MapEntity::Bomb)
+        {
+            float x = GetPseudoRandom(i);
+            switch (*(map + i))
+            {
+                case MapEntity::LifeIt:
+                    heartImg.SetPosition(positionSelection.x, positionSelection.y + (sin(x + *collectableTime) + 1) * -5.0f);
+                    heartImg.Draw();
+                    break;
+                case MapEntity::BombIt:
+                    bombImg2.SetPosition(positionSelection.x, positionSelection.y + (sin(x + *collectableTime) + 1) * -5.0f);
+                    bombImg2.Draw();
+                    break;
+                case MapEntity::SpeedIt:
+                    speedImg.SetPosition(positionSelection.x, positionSelection.y + (sin(x + *collectableTime) + 1) * -5.0f);
+                    speedImg.Draw();
+                    break;
+                default: // PowerIt
+                    powerImg.SetPosition(positionSelection.x, positionSelection.y + (sin(x + *collectableTime) + 1) * -5.0f);
+                    powerImg.Draw();
+                    break;
+            }
         }
+        
+
 
         if (*(mapExplosion + i) >= 0.0f)
         {
@@ -251,4 +279,12 @@ void MapDrawer::Draw()
             explosionImg.Draw();
         }
 	}
+}
+
+float MapDrawer::GetPseudoRandom(int i)
+{
+    float x = sinf(i / 169.0f) * 10000.0f;
+    x = (x - floorf(x)) * 4.0f;
+
+    return x;
 }

@@ -30,7 +30,8 @@ private:
 
 
 	MapEntity* map;
-	float* mapCollectable;
+
+	int onBombId = -1;
 
 	int lives = 1;
 	int range = 1;
@@ -59,7 +60,8 @@ public:
 
 	void Reset();
 
-	void SetMaps(MapEntity*, float*);
+	void SetMap(MapEntity*);
+	void SetOnBombId(int);
 	int GetPositionIndex();
 	int GetRange();
 	int GetId();

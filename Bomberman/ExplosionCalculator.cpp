@@ -12,11 +12,11 @@ ExplosionCalculator::~ExplosionCalculator()
 
 }
 
-void ExplosionCalculator::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapC)[169])
+void ExplosionCalculator::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169])
 {
 	map = map2;
 	mapExplosion = mapE;
-	mapCollectable = mapC;
+	mapBomb = mapB;
 }
 
 ExplosionData ExplosionCalculator::GetData(int positionId, int range)
@@ -48,17 +48,19 @@ int ExplosionCalculator::AskYUp(Vector2i position, int delta)
 		return delta;
 	}
 
-	*(mapExplosion + ((position.y - 1) * Settings::NB_HEIGHT_MAP + position.x)) = 0.0f;
+	int i = ((position.y - 1) * Settings::NB_HEIGHT_MAP + position.x);
+
+	UpdatePosition(i);
 
 	if (entity == MapEntity::DBlock)
 	{
-		PutCollectable(position.x, position.y - 1);
+		PutCollectable(i);
 		return delta - 1;
 	}
 
 	if (entity > 3)
 	{
-		RemoveCollectable(position.x, position.y - 1);
+		RemoveCollectable(i);
 	}
 
 
@@ -82,17 +84,18 @@ int ExplosionCalculator::AskYDown(Vector2i position, int delta)
 		return delta;
 	}
 
-	*(mapExplosion + ((position.y + 1) * Settings::NB_HEIGHT_MAP + position.x)) = 0.0f;
+	int i = ((position.y + 1 )* Settings::NB_HEIGHT_MAP + position.x);
+	UpdatePosition(i);
 
 	if (entity == MapEntity::DBlock)
 	{
-		PutCollectable(position.x, position.y + 1);
+		PutCollectable(i);
 		return delta - 1;
 	}
 
 	if (entity > 3)
 	{
-		RemoveCollectable(position.x, position.y + 1);
+		RemoveCollectable(i);
 	}
 
 	delta--;
@@ -115,18 +118,18 @@ int ExplosionCalculator::AskXLeft(Vector2i position, int delta)
 		return delta;
 	}
 
-	
-	*(mapExplosion + (position.y * Settings::NB_HEIGHT_MAP + (position.x - 1))) = 0.0f;
+	int i = (position.y * Settings::NB_HEIGHT_MAP + position.x - 1);
+	UpdatePosition(i);
 
 	if (entity == MapEntity::DBlock)
 	{
-		PutCollectable(position.x - 1, position.y);
+		PutCollectable(i);
 		return delta - 1;
 	}
 
 	if (entity > 3)
 	{
-		RemoveCollectable(position.x - 1, position.y);
+		RemoveCollectable(i);
 	}
 
 	delta--;
@@ -149,17 +152,18 @@ int ExplosionCalculator::AskXRight(Vector2i position, int delta)
 		return delta;
 	}
 
-	*(mapExplosion + (position.y * Settings::NB_HEIGHT_MAP + (position.x + 1))) = 0.0f;
+	int i = (position.y * Settings::NB_HEIGHT_MAP + position.x + 1);
+	UpdatePosition(i);
 
 	if (entity == MapEntity::DBlock)
 	{
-		PutCollectable(position.x + 1, position.y);
+		PutCollectable(i);
 		return delta - 1;
 	}
 
 	if (entity > 3)
 	{
-		RemoveCollectable(position.x + 1, position.y);
+		RemoveCollectable(i);
 	}
 
 	delta--;
@@ -170,9 +174,8 @@ int ExplosionCalculator::AskXRight(Vector2i position, int delta)
 	return AskXRight(position, delta);
 }
 
-void ExplosionCalculator::PutCollectable(int x, int y)
+void ExplosionCalculator::PutCollectable(int i)
 {
-	int i = (y * Settings::NB_HEIGHT_MAP + x);
 
 	if (CustomRandom::GetRandom(0, 2))
 	{
@@ -195,13 +198,17 @@ void ExplosionCalculator::PutCollectable(int x, int y)
 			*(map + i) = MapEntity::PowerIt;
 			break;
 	}
-
-	*(mapCollectable + i) = 0.0f;
 }
 
-void ExplosionCalculator::RemoveCollectable(int x, int y)
+void ExplosionCalculator::RemoveCollectable(int i)
 {
-	int i = (y * Settings::NB_HEIGHT_MAP + x);
 	*(map + i) = MapEntity::None;
-	*(mapCollectable + i) = -1.0f;
+}
+
+void ExplosionCalculator::UpdatePosition(int i)
+{
+	*(mapExplosion + i) = 0.0f;
+
+	if(*(mapBomb + i) >= 0.0f)
+		*(mapBomb + i) = 3.001f;
 }

@@ -11,18 +11,19 @@ class ExplosionCalculator
 private:
 	MapEntity* map;
 	float* mapExplosion;
-	float* mapCollectable;
+	float* mapBomb;
 public:
 	ExplosionCalculator();
 	~ExplosionCalculator();
-	void SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapC)[169]);
+	void SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169]);
 	ExplosionData GetData(int, int);
 	int AskYUp(Vector2i, int);
 	int AskYDown(Vector2i, int);
 	int AskXLeft(Vector2i, int);
 	int AskXRight(Vector2i, int);
 
-	void PutCollectable(int, int);
-	void RemoveCollectable(int, int);
+	void PutCollectable(int);
+	void RemoveCollectable(int);
+	void UpdatePosition(int);
 };
 

@@ -141,10 +141,14 @@ int Player::GetStateAnimationDeath()
         return 3;
 }
 
-void Player::SetMaps(MapEntity* mp, float* mapC)
+void Player::SetMap(MapEntity* mp)
 {
     map = mp;
-    mapCollectable = mapC;
+}
+
+void Player::SetOnBombId(int bombPos)
+{
+    onBombId = bombPos;
 }
 
 int Player::GetPositionIndex()
@@ -237,6 +241,7 @@ void Player::Move()
 
 
     bool isWall = false;
+    bool isBomb = false;
 
     if (futurePosition.x > 1469 || futurePosition.x < 0 || futurePosition.y > 1469 || futurePosition.y < 0)
         isWall = true;
@@ -246,9 +251,15 @@ void Player::Move()
     {
         if (map[futurPosPlayerId[j]] == MapEntity::Wall || map[futurPosPlayerId[j]] == MapEntity::DBlock)
             isWall = true;
+
+        if (map[futurPosPlayerId[j]] == MapEntity::Bomb && futurPosPlayerId[j] != onBombId)
+            isBomb = true;
     }
 
-    if (!isWall)
+    if (!isBomb)
+        onBombId = -1;
+
+    if (!isWall && !isBomb)
     {
         cartPosition.x += direction.x;
         cartPosition.y += direction.y;
@@ -301,7 +312,6 @@ void Player::CheckCollectable()
     if (isIn)
     {
         *(map + positionIndex) = MapEntity::None;
-        *(mapCollectable + positionIndex) = -1.0f;
     }
 }
 
@@ -341,7 +351,7 @@ bool Player::AskRemoveBomb()
 
 void Player::Reset()
 {
-    lives = 1;
+    lives = 10;
     range = 1;
     bombs = 1;
     speed = 120.0f;

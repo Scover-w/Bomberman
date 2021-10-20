@@ -92,11 +92,10 @@ int main()
  
 /* 
 TO DO :
-- save maps and 
-- UI click button
-- heritage UIMage
-- bombe
-- collision
+- box bomb wall if propritary
+- ui partout
+- shadow ?
+- son
 - gestion jeu : 1, 2,3 etc
-- item
+- ia
 */
