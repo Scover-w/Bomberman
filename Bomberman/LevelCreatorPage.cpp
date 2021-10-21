@@ -84,7 +84,7 @@ void LevelCreatorPage::Update()
     ui->Update();
     MapDrawer::instance->DrawEnv(true);
 
-    MapDrawer::instance->Draw();
+    MapDrawer::instance->DrawEditor();
 
     DrawSelection();
 

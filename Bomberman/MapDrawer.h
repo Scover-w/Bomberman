@@ -43,5 +43,6 @@ public:
 	void SetPlayer(Player*);
 	void DrawEnv(bool);
 	void Draw();
+	void DrawEditor();
 };
 

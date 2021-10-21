@@ -92,7 +92,6 @@ int main()
  
 /* 
 TO DO :
-- box bomb wall if propritary
 - ui partout
 - shadow ?
 - son

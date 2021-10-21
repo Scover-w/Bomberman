@@ -6,27 +6,27 @@ UILevelCreatorPage::UILevelCreatorPage(LevelCreatorPage* page1)
 	title.SetPosition(40, 250);
 	title.SetRotation(-26.5);
 
-	nextButton.SetTexture("Images/UI/Right.png");
+	nextButton.SetTexture("Images/UI/LevelCreator/Right.png");
 	nextButton.SetPosition(1800,850);
 	nextButton.SetScale(0.5f, .5f);
-	previousButton.SetTexture("Images/UI/Left.png");
+	previousButton.SetTexture("Images/UI/LevelCreator/Left.png");
 	previousButton.SetPosition(1750, 850);
 	previousButton.SetScale(0.5f, .5f);
-	backMenuButton.SetTexture("Images/UI/Left.png");
+	backMenuButton.SetTexture("Images/UI/LevelCreator/Left.png");
 	backMenuButton.SetPosition(-80, -40);
 	backMenuButton.SetScale(0.5f, .5f);
-	saveButton.SetTexture("Images/UI/Save.png");
+	saveButton.SetTexture("Images/UI/LevelCreator/Save.png");
 	saveButton.SetPosition(60, 850);
 	saveButton.SetScale(0.5f, .5f);
 	saveButton.Disable();
-	switchModeButton1.SetTexture("Images/UI/EditionMode.png");
+	switchModeButton1.SetTexture("Images/UI/LevelCreator/EditionMode.png");
 	switchModeButton1.SetPosition(1820, -40);
 	switchModeButton1.SetScale(0.5f, .5f);
 	switchModeButton1.Disable();
-	switchModeButton2.SetTexture("Images/UI/NormalMode.png");
+	switchModeButton2.SetTexture("Images/UI/LevelCreator/NormalMode.png");
 	switchModeButton2.SetPosition(1820, -40);
 	switchModeButton2.SetScale(0.5f, .5f);
-	newLevelButton.SetTexture("Images/UI/Create.png");
+	newLevelButton.SetTexture("Images/UI/LevelCreator/Create.png");
 	newLevelButton.SetPosition(130, 850);
 	newLevelButton.SetScale(0.5f, .5f);
 

@@ -281,6 +281,34 @@ void MapDrawer::Draw()
 	}
 }
 
+void MapDrawer::DrawEditor()
+{
+    Vector2f positionSelection;
+
+    for (int i = 0; i < 169; i++)
+    {
+        positionSelection = CustomMath::PositionToIsoCoordF(i);
+
+
+        switch (*(map + i))
+        {
+            case MapEntity::None:
+                grounds[selectedGround].SetPosition(positionSelection);
+                grounds[selectedGround].Draw();
+                break;
+            case MapEntity::Wall:
+                walls[selectedWall].SetPosition(positionSelection);
+                walls[selectedWall].Draw();
+                break;
+
+            case MapEntity::DBlock:
+                destructables[selectedDestructable].SetPosition(positionSelection);
+                destructables[selectedDestructable].Draw();
+                break;
+        }
+    }
+}
+
 float MapDrawer::GetPseudoRandom(int i)
 {
     float x = sinf(i / 169.0f) * 10000.0f;
