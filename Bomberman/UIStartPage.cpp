@@ -4,7 +4,7 @@ UIStartPage::UIStartPage(StartPage* p)
 {
 	page = p;
 
-	continueButton.SetTexture("Images/UI/ClickToContinue.png");
+	continueButton.SetTexture("Images/UI/StartPage/ClickToContinue.png");
 	continueButton.SetPosition(1630, 1060);
     continueButton.SetScale(0.5f, 0.5f);
 
@@ -33,8 +33,6 @@ void UIStartPage::Update(Shader& shader)
     int visibility = (sin(animation) + 1) * 60;
 
     Color visi(255, 255, 255, visibility);
-
-    
 
     mousePosition = MouseTool::GetGlobalPosition();
     continueButton.DoesClick(mousePosition);

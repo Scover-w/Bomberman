@@ -14,6 +14,12 @@ Player::Player()
 {
     image.SetTexture("Images/Player/SpriteSheetPlayer.png");
     image.SetOrigin(77, 128);
+
+    shadow.SetTexture("Images/Player/Shadow.png");
+    shadow.SetOrigin(20.0f, 40.0f);
+    Color transparent(255, 255, 255, 120);
+    shadow.SetColor(transparent);
+
     maskSprite.height = 171;
     maskSprite.width = 156;
 
@@ -275,7 +281,10 @@ void Player::Move()
     positionIndex = CustomMath::CartCoordFToPosition(cartPosition);
     CheckCollectable();
 
-    image.SetPosition(CustomMath::CartesianToIsometric(cartPosition));
+    Vector2f p = CustomMath::CartesianToIsometric(cartPosition);
+
+    image.SetPosition(p);
+    shadow.SetPosition(p);
 }
 
 void Player::ManageInvicibility()
@@ -389,7 +398,14 @@ void Player::Update()
 
 void Player::Draw()
 {
-    if (!isDead())
+    if (isDead())
+    {
+        int stateAnim = GetStateAnimationDeath();
+        maskSprite.top = 684 + directionAnimationV2i.y * directionAnimationV2i.x * 171; // (171 * 4 = 684)
+        maskSprite.left = 156 * stateAnim;
+        image.SetTextureRect(maskSprite);
+    }
+    else
     {
         int stateAnim = GetStateAnimation();
         SetDirectionAnimationVector2i();
@@ -397,13 +413,7 @@ void Player::Draw()
 
         maskSprite.left = 156 * stateAnim;
         image.SetTextureRect(maskSprite);
-    }
-    else
-    {
-        int stateAnim = GetStateAnimationDeath();
-        maskSprite.top = 684 + directionAnimationV2i.y * directionAnimationV2i.x * 171; // (171 * 4 = 684)
-        maskSprite.left = 156 * stateAnim;
-        image.SetTextureRect(maskSprite);
+        shadow.Draw();
     }
 
     image.Draw();

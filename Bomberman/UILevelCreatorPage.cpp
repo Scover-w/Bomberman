@@ -2,7 +2,7 @@
 
 UILevelCreatorPage::UILevelCreatorPage(LevelCreatorPage* page1)
 {
-	title.SetTexture("Images/UI/ModeEditeur.png");
+	title.SetTexture("Images/UI/LevelCreator/ModeEditeur.png");
 	title.SetPosition(40, 250);
 	title.SetRotation(-26.5);
 

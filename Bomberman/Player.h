@@ -15,6 +15,7 @@ private:
 	static Color normal;
 
 	IMageUI image;
+	IMageUI shadow;
 
 	Vector2f cartPosition;
 	Vector2f direction;
