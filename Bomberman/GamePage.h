@@ -22,8 +22,6 @@ private:
 	float mapBomb[169];
 	int bombOwner[169];
 
-	float animCollectable = 0.0f;
-
 	bool inGame = false;
 	bool hasWin;
 

@@ -76,12 +76,11 @@ MapDrawer::~MapDrawer()
 
 }
 
-void MapDrawer::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169], float* timeAnim)
+void MapDrawer::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169])
 {
 	map = map2;
     mapExplosion = mapE;
     mapBomb = mapB;
-    collectableTime = timeAnim;
     selectedWall = CustomRandom::GetRandom(0, 4);
     selectedDestructable = CustomRandom::GetRandom(0, 14);
     selectedGround = CustomRandom::GetRandom(0, 16);
@@ -214,54 +213,29 @@ void MapDrawer::Draw()
             bombImg.SetPosition(positionSelection.x, positionSelection.y + (sin(*(mapBomb + i)) + 1) * -5.0f);
             bombImg.SetScale(.3f + sin(*(mapBomb + i) * 2.0f) * 0.01f, .3f + sin(*(mapBomb + i) * 2.0f) * 0.01f);
             bombImg.Draw();
-        }
-
+        } 
         
+        float time = Timer::instance->GetTimeSpent();
 
-        /*if (*(mapCollectable + i) >= 0.0f)
-        {
-            switch (*(map + i))
-            {
-                case MapEntity::LifeIt:
-                    heartImg.SetPosition(positionSelection.x, positionSelection.y + (sin(*(mapCollectable + i)) + 1) * -5.0f);
-                    heartImg.Draw();
-                    break;
-                case MapEntity::BombIt:
-                    bombImg2.SetPosition(positionSelection.x, positionSelection.y + (sin(*(mapCollectable + i)) + 1) * -5.0f);
-                    bombImg2.Draw();
-                    break;
-                case MapEntity::SpeedIt:
-                    speedImg.SetPosition(positionSelection.x, positionSelection.y + (sin(*(mapCollectable + i)) + 1) * -5.0f);
-                    speedImg.Draw();
-                    break;
-                default: // PowerIt
-                    powerImg.SetPosition(positionSelection.x, positionSelection.y + (sin(*(mapCollectable + i)) + 1) * -5.0f);
-                    powerImg.Draw();
-                    break;
-            }
-        }*/
-
-        
-        
         if (*(map + i) > MapEntity::Bomb)
         {
-            float x = GetPseudoRandom(i);
+            float x = CustomRandom::GetPseudoRandom(i);
             switch (*(map + i))
             {
                 case MapEntity::LifeIt:
-                    heartImg.SetPosition(positionSelection.x, positionSelection.y + (sin(x + *collectableTime) + 1) * -5.0f);
+                    heartImg.SetPosition(positionSelection.x, positionSelection.y + (sin(x + time) + 1) * -5.0f);
                     heartImg.Draw();
                     break;
                 case MapEntity::BombIt:
-                    bombImg2.SetPosition(positionSelection.x, positionSelection.y + (sin(x + *collectableTime) + 1) * -5.0f);
+                    bombImg2.SetPosition(positionSelection.x, positionSelection.y + (sin(x + time) + 1) * -5.0f);
                     bombImg2.Draw();
                     break;
                 case MapEntity::SpeedIt:
-                    speedImg.SetPosition(positionSelection.x, positionSelection.y + (sin(x + *collectableTime) + 1) * -5.0f);
+                    speedImg.SetPosition(positionSelection.x, positionSelection.y + (sin(x + time) + 1) * -5.0f);
                     speedImg.Draw();
                     break;
                 default: // PowerIt
-                    powerImg.SetPosition(positionSelection.x, positionSelection.y + (sin(x + *collectableTime) + 1) * -5.0f);
+                    powerImg.SetPosition(positionSelection.x, positionSelection.y + (sin(x + time) + 1) * -5.0f);
                     powerImg.Draw();
                     break;
             }
@@ -307,12 +281,4 @@ void MapDrawer::DrawEditor()
                 break;
         }
     }
-}
-
-float MapDrawer::GetPseudoRandom(int i)
-{
-    float x = sinf(i / 169.0f) * 10000.0f;
-    x = (x - floorf(x)) * 4.0f;
-
-    return x;
 }

@@ -25,7 +25,7 @@ void GamePage::LoadPage()
 {
     DataManager::instance->NoFirstLoad();
     MapEditor::LoadRandomMap(map);
-    MapDrawer::instance->SetMaps(map, mapExplosion, mapBomb, &animCollectable);
+    MapDrawer::instance->SetMaps(map, mapExplosion, mapBomb);
     explosionCalcul.SetMaps(map, mapExplosion, mapBomb);
     player.Reset();
     MapDrawer::instance->SetPlayer(&player);
@@ -64,7 +64,7 @@ void GamePage::Update()
     }
 
     float deltaT = Timer::instance->GetDeltaTime();
-    animCollectable += deltaT;
+
     UpdateBombs(deltaT);
     UpdateExplosions(deltaT);
     player.Update();

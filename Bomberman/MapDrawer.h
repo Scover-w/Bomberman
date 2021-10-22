@@ -1,6 +1,7 @@
 #pragma once
 #include "headersProject.h"
 #include "Player.h"
+#include "CustomRandom.h"
 
 class MapDrawer
 {
@@ -30,15 +31,13 @@ private:
 	MapEntity* map;
 	float* mapExplosion;
 	float* mapBomb;
-	float* collectableTime;
 
-	float GetPseudoRandom(int);
 
 public:
 	static MapDrawer* instance;
 	MapDrawer();
 	~MapDrawer();
-	void SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169], float*);
+	void SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169]);
 	void SetMap(MapEntity(&map2)[169]);
 	void SetPlayer(Player*);
 	void DrawEnv(bool);

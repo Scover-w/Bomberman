@@ -120,6 +120,8 @@ void UIGamePage::Update()
 
 void UIGamePage::Draw()
 {
+	float x;
+	Vector2f deltaV(0.0f, 0.0f);
 	for (int i = 0; i < 8; i++)
 	{
 		blueGround.SetPosition(groundUIBluePosition[i]);
@@ -135,35 +137,51 @@ void UIGamePage::Draw()
 		yellowGround.Draw();
 	}
 
+	float time = Timer::instance->GetTimeSpent();
 
 	for (int i = 0; i < 16; i += 4)
 	{
-		heartUI.SetPosition(itemPosition[i]);
+		x = CustomRandom::GetPseudoRandom(i);
+		deltaV.y = (sin(x + time) + 1) * 5.0f;
+		heartUI.SetPosition(itemPosition[i] + deltaV);
 		heartUI.Draw();
 
-		bombUI.SetPosition(itemPosition[i + 1]);
+		x = CustomRandom::GetPseudoRandom(i + 1);
+		deltaV.y = (sin(x + time) + 1) * 5.0f;
+		bombUI.SetPosition(itemPosition[i + 1] + deltaV);
 		bombUI.Draw();
 
-		lightUI.SetPosition(itemPosition[i + 2]);
+		x = CustomRandom::GetPseudoRandom(i + 2);
+		deltaV.y = (sin(x + time) + 1) * 5.0f;
+		lightUI.SetPosition(itemPosition[i + 2] + deltaV);
 		lightUI.Draw();
 
-		powerUI.SetPosition(itemPosition[i + 3]);
+		x = CustomRandom::GetPseudoRandom(i + 3);
+		deltaV.y = (sin(x + time) + 1) * 5.0f;
+		powerUI.SetPosition(itemPosition[i + 3] + deltaV);
 		powerUI.Draw();
 	}
 
 	for (int i = 16; i < 32; i += 4)
 	{
-		testText.setPosition(itemPosition[i]);
+		float x = CustomRandom::GetPseudoRandom(i);
+		deltaV.y = (sin(x + time) + 1) * 5.0f;
+		testText.setPosition(itemPosition[i] + deltaV);
 		StaticWindow::window->draw(testText);
     
-
-		testText.setPosition(itemPosition[i + 1]);
+		x = CustomRandom::GetPseudoRandom(i + 1);
+		deltaV.y = (sin(x + time) + 1) * 5.0f;
+		testText.setPosition(itemPosition[i + 1] + deltaV);
 		StaticWindow::window->draw(testText);
 
-		testText.setPosition(itemPosition[i + 2]);
+		x = CustomRandom::GetPseudoRandom(i + 2);
+		deltaV.y = (sin(x + time) + 1) * 5.0f;
+		testText.setPosition(itemPosition[i + 2] + deltaV);
 		StaticWindow::window->draw(testText);
 
-		testText.setPosition(itemPosition[i + 3]);
+		x = CustomRandom::GetPseudoRandom(i + 3);
+		deltaV.y = (sin(x + time) + 1) * 5.0f;
+		testText.setPosition(itemPosition[i + 3] + deltaV);
 		StaticWindow::window->draw(testText);
 	}
 }

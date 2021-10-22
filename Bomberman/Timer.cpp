@@ -17,6 +17,7 @@ void Timer::SetDeltaTime()
 {
     deltaTime = clock.getElapsedTime().asSeconds();
 
+    timeSpent += deltaTime;
     clock.restart();
 }
 
@@ -25,3 +26,7 @@ float Timer::GetDeltaTime()
     return deltaTime;
 }
 
+float Timer::GetTimeSpent()
+{
+    return timeSpent;
+}
