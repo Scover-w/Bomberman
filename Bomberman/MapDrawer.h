@@ -22,6 +22,8 @@ private:
 	IMageUI bombImg2;
 	IMageUI powerImg;
 
+	IMageUI shadowItem;
+
 	int selectedWall;
 	int selectedDestructable;
 	int selectedGround;
@@ -31,6 +33,13 @@ private:
 	MapEntity* map;
 	float* mapExplosion;
 	float* mapBomb;
+	float time;
+
+	Color transparency;
+
+
+	float GetDeltaAnimItem(int);
+	void DrawShadowItem(Vector2f&, float);
 
 
 public:

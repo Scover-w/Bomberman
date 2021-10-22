@@ -55,20 +55,25 @@ MapDrawer::MapDrawer()
     explosionMaskSprite.width = 250;
 
     heartImg.SetTexture("Images/Collectables/heart.png");
-    heartImg.SetOrigin(123, 30);
+    heartImg.SetOrigin(123, 30 + 50.0f);
     heartImg.SetScale(0.15f, 0.15f);
 
     speedImg.SetTexture("Images/Collectables/LightSpeed.png");
-    speedImg.SetOrigin(316, 70);
+    speedImg.SetOrigin(316, 70 + 50.0f);
     speedImg.SetScale(0.05f, 0.05f);
 
     bombImg2.SetTexture("Images/Collectables/Bomb.png");
-    bombImg2.SetOrigin(120, 63);
+    bombImg2.SetOrigin(120, 63 + 50.0f);
     bombImg2.SetScale(0.15f, 0.15f);
 
     powerImg.SetTexture("Images/Collectables/Boom.png");
-    powerImg.SetOrigin(60, 0);
+    powerImg.SetOrigin(60, 0 + 50.0f);
     powerImg.SetScale(0.20f, 0.20f);
+
+    shadowItem.SetTexture("Images/Collectables/Shadow.png");
+    shadowItem.SetOrigin(15.0f, -6.0f);
+
+    transparency = Color(255, 255, 255, 100);
 }
 
 MapDrawer::~MapDrawer()
@@ -183,6 +188,7 @@ void MapDrawer::Draw()
         }
     }
 
+    time = Timer::instance->GetTimeSpent();
 
 	for (int i = 0; i < 169; i++)
 	{
@@ -214,8 +220,6 @@ void MapDrawer::Draw()
             bombImg.SetScale(.3f + sin(*(mapBomb + i) * 2.0f) * 0.01f, .3f + sin(*(mapBomb + i) * 2.0f) * 0.01f);
             bombImg.Draw();
         } 
-        
-        float time = Timer::instance->GetTimeSpent();
 
         if (*(map + i) > MapEntity::Bomb)
         {
@@ -223,19 +227,23 @@ void MapDrawer::Draw()
             switch (*(map + i))
             {
                 case MapEntity::LifeIt:
-                    heartImg.SetPosition(positionSelection.x, positionSelection.y + (sin(x + time) + 1) * -5.0f);
+                    DrawShadowItem(positionSelection, x);
+                    heartImg.SetPosition(positionSelection.x, positionSelection.y + GetDeltaAnimItem(x));
                     heartImg.Draw();
                     break;
                 case MapEntity::BombIt:
-                    bombImg2.SetPosition(positionSelection.x, positionSelection.y + (sin(x + time) + 1) * -5.0f);
+                    DrawShadowItem(positionSelection, x);
+                    bombImg2.SetPosition(positionSelection.x, positionSelection.y + GetDeltaAnimItem(x));
                     bombImg2.Draw();
                     break;
                 case MapEntity::SpeedIt:
-                    speedImg.SetPosition(positionSelection.x, positionSelection.y + (sin(x + time) + 1) * -5.0f);
+                    DrawShadowItem(positionSelection, x);
+                    speedImg.SetPosition(positionSelection.x, positionSelection.y + GetDeltaAnimItem(x));
                     speedImg.Draw();
                     break;
                 default: // PowerIt
-                    powerImg.SetPosition(positionSelection.x, positionSelection.y + (sin(x + time) + 1) * -5.0f);
+                    DrawShadowItem(positionSelection, x);
+                    powerImg.SetPosition(positionSelection.x, positionSelection.y + GetDeltaAnimItem(x));
                     powerImg.Draw();
                     break;
             }
@@ -281,4 +289,17 @@ void MapDrawer::DrawEditor()
                 break;
         }
     }
+}
+
+float MapDrawer::GetDeltaAnimItem(int x)
+{
+    return (sin(x + time) + 1) * -5.0f;
+}
+
+void MapDrawer::DrawShadowItem(Vector2f& p, float x)
+{
+    transparency.a = ((sin(-x + time) + 1) * 0.5f * 0.4f + 0.3f) * 255.0f;
+    shadowItem.SetColor(transparency);
+    shadowItem.SetPosition(p);
+    shadowItem.Draw();
 }
