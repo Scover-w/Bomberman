@@ -14,7 +14,6 @@ UIGamePage::UIGamePage(GamePage* p)
 	testText.setFillColor(sf::Color::White);
 
 	transparency = Color(255, 255, 255, 100);
-	deltaItem = Vector2f(0.0f, 0.0f);
 	deltaShadowNumber = Vector2f(10.0f, 0.0f);
 }
 
