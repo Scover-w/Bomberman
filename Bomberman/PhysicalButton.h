@@ -20,7 +20,8 @@ public:
 	~PhysicalButton();
 	bool DoesClick(int);
 	void SetTextures(string, string, string);
-	void SetPosition(Vector2f);
+	void SetPositionId(int);
 	void SetOrigin(Vector2f);
+	void SetOrigin(float, float);
 	void Draw();
 };

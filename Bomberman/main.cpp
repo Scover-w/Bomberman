@@ -112,6 +112,7 @@ int main()
  
 /* 
 TO DO :
+- delta to compensate : setorigin wall black
 - ui partout
 - son
 - gestion jeu : 1, 2,3 etc

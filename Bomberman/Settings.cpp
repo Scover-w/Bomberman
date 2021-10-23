@@ -15,4 +15,4 @@ const float Settings::ISOMETRIC_SIZE_TILE = 79.9031f;
 const float Settings::CARTESIAN_ATOMIC_HEIGHT = 113.0f;
 
 const Vector2f Settings::GAME_TRANSLATION_MAP = Vector2f(79.0f, 57.0f);
-const Vector2f Settings::UI_TRANSLATION_MAP = Vector2f(79.0f, 57.0f - (8 * ISOMETRIC_SIZE_TILE));
+const Vector2f Settings::UI_TRANSLATION_MAP = Vector2f(79.0f, 57.0f - (8 * ISOMETRIC_SIZE_TILE)  - 37.0f);

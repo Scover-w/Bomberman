@@ -51,8 +51,8 @@ void LevelCreatorPage::LoadTextures()
     brickWall.SetOrigin(80, 37);
     brickWall.SetColor(transparent);
 
-    redTest.SetTexture("Images/Test/BrickTest.png");
-    redTest.SetOrigin(80, 37);
+    redTest.SetTexture("Images/Editor/RedPoint.png");
+    redTest.SetOrigin(5.0f, 5.0f);
 }
 
 
@@ -98,11 +98,11 @@ void LevelCreatorPage::Update()
     ui->Draw();
 
     int temp = MouseTool::UM_GetIndexPositionMouse();
+    cout << temp << endl;
     Vector2f positionSelection = CustomMath::UM_PositionToIsoCoordF(temp);
     redTest.SetPosition(positionSelection);
     redTest.Draw();
-
-    
+   
 }
 
 void LevelCreatorPage::ManageEvent()

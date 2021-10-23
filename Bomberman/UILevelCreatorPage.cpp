@@ -26,9 +26,9 @@ UILevelCreatorPage::UILevelCreatorPage(LevelCreatorPage* page1)
 	switchModeButton2.SetTexture("Images/UI/LevelCreator/NormalMode.png");
 	switchModeButton2.SetPosition(1820, -40);
 	switchModeButton2.SetScale(0.5f, .5f);
-	newLevelButton.SetTexture("Images/UI/LevelCreator/Create.png");
-	newLevelButton.SetPosition(130, 850);
-	newLevelButton.SetScale(0.5f, .5f);
+	//newLevelButton.SetTexture("Images/UI/LevelCreator/Create.png");
+	//newLevelButton.SetPosition(130, 850);
+	//newLevelButton.SetScale(0.5f, .5f);
 
 	levelText.setFont(SelectedFont::instance->GetFont());
 	levelText.setPosition(1450, 770);
@@ -36,11 +36,12 @@ UILevelCreatorPage::UILevelCreatorPage(LevelCreatorPage* page1)
 	levelText.setRotation(-26.5);
 	page = page1;
 
-	/*newLevelPButton.SetTextures("Images/UI/Button/PhysicalButton.png",
+	newLevelPButton.SetTextures("Images/UI/Button/PhysicalButton.png",
 								"Images/UI/Button/PhysicalButtonHover.png", 
-								"Images/UI/Button/PhysicalButtonClick.png");*/
+								"Images/UI/Button/PhysicalButtonClick.png");
 
-	//newLevelPButton.SetPosition(i);
+	newLevelPButton.SetPositionId(657);
+	newLevelPButton.SetOrigin(0.0f, 0.0f);
 }
 
 UILevelCreatorPage::~UILevelCreatorPage()
@@ -51,6 +52,8 @@ UILevelCreatorPage::~UILevelCreatorPage()
 void UILevelCreatorPage::Update()
 {
 	mousePosition = MouseTool::GetGlobalPosition();
+
+	mouseUIPositionId = MouseTool::UM_GetIndexPositionMouse();
 
 	if (nextButton.DoesClick(mousePosition))
 		page->UINextLevelClick();
@@ -81,10 +84,11 @@ void UILevelCreatorPage::Update()
 		page->UISwitchModeClick();
 	}
 
+	/*if (newLevelButton.DoesClick(mousePosition))
+		page->UICreateLevel();*/
 
-
-	if (newLevelButton.DoesClick(mousePosition))
-		page->UICreateLevel();
+	if (newLevelPButton.DoesClick(mouseUIPositionId))
+		cout << "Click" << endl;
 }
 
 void UILevelCreatorPage::Draw()
@@ -96,7 +100,9 @@ void UILevelCreatorPage::Draw()
 	saveButton.Draw();
 	switchModeButton1.Draw();
 	switchModeButton2.Draw();
-	newLevelButton.Draw();
+	//newLevelButton.Draw();
+
+	newLevelPButton.Draw();
 
 	StaticWindow::window->draw(levelText);
 }

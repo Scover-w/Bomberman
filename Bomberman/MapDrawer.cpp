@@ -7,7 +7,7 @@ MapDrawer::MapDrawer()
 	instance = this;
 
     wallEnvImg.SetTexture("Images/Walls/BlackBrick.png");
-    wallEnvImg.SetOrigin(80, 37);
+    wallEnvImg.SetOrigin(80, 0); // 37 base
 
     string nameDestruc[] = { "BlackPeridot",  "BluePeridot",  "BlueRuby",
                              "GreenPeridot",  "GreenRuby",  "OrangePeridot",

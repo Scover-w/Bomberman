@@ -3,7 +3,7 @@
 
 class Button : public IMageUI
 {
-private:
+protected:
 	static Color white;
 	static Color gray;
 	static Color black;
@@ -19,8 +19,6 @@ private:
 	bool lastClick = true;
 
 	void ResetState();
-
-protected:
 
 	bool DoesClick(bool);
 

@@ -15,6 +15,7 @@ private:
 	int maxMapId;
 
 	Vector2f mousePosition;
+	int mouseUIPositionId;
 
 	IMageUI title;
 
@@ -26,7 +27,7 @@ private:
 	Button switchModeButton2;
 	Button newLevelButton;
 
-	//PhysicalButton newLevelPButton;
+	PhysicalButton newLevelPButton;
 
 	Text levelText;	
 
