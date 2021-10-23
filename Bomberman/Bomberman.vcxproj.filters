@@ -37,6 +37,18 @@
     <Filter Include="Fichiers sources\Objects">
       <UniqueIdentifier>{40dbdedb-a7ae-42a5-b00a-5ddc0bf66a1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Tools\Map">
+      <UniqueIdentifier>{13abf15f-ea3f-407c-bf2e-bd9ba4eed1da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Tools\UI">
+      <UniqueIdentifier>{fae18f80-2c6e-4f1b-bc0c-ba18d0c25778}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Tools\UI">
+      <UniqueIdentifier>{1984b26b-eddb-46ba-947a-8ccdbac593c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Tools\Map">
+      <UniqueIdentifier>{6be59305-a172-4908-998d-3516c87900f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -75,32 +87,11 @@
     <ClCompile Include="Player.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="MouseTool.cpp">
-      <Filter>Fichiers sources\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="MapEditor.cpp">
-      <Filter>Fichiers sources\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="MapDrawer.cpp">
-      <Filter>Fichiers sources\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="DataManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="CursorManager.cpp">
-      <Filter>Fichiers sources\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="UILevelCreatorPage.cpp">
       <Filter>Fichiers sources\Page\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="IMageUI.cpp">
-      <Filter>Fichiers sources\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Fichiers sources\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectedFont.cpp">
-      <Filter>Fichiers sources\Tools</Filter>
     </ClCompile>
     <ClCompile Include="UIStartPage.cpp">
       <Filter>Fichiers sources\Page\UI</Filter>
@@ -114,8 +105,29 @@
     <ClCompile Include="ExplosionCalculator.cpp">
       <Filter>Fichiers sources\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="MapDrawer.cpp">
+      <Filter>Fichiers sources\Tools\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditor.cpp">
+      <Filter>Fichiers sources\Tools\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Fichiers sources\Tools\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CursorManager.cpp">
+      <Filter>Fichiers sources\Tools\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="IMageUI.cpp">
+      <Filter>Fichiers sources\Tools\UI</Filter>
+    </ClCompile>
     <ClCompile Include="PhysicalButton.cpp">
-      <Filter>Fichiers sources\Tools</Filter>
+      <Filter>Fichiers sources\Tools\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectedFont.cpp">
+      <Filter>Fichiers sources\Tools\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseTool.cpp">
+      <Filter>Fichiers sources\Tools\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -164,32 +176,11 @@
     <ClInclude Include="Player.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="MouseTool.h">
-      <Filter>Fichiers d%27en-tête\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="MapEditor.h">
-      <Filter>Fichiers d%27en-tête\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="MapEntity.h">
-      <Filter>Fichiers d%27en-tête\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="MapDrawer.h">
-      <Filter>Fichiers d%27en-tête\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="CursorManager.h">
       <Filter>Fichiers d%27en-tête\Tools</Filter>
     </ClInclude>
     <ClInclude Include="UILevelCreatorPage.h">
       <Filter>Fichiers d%27en-tête\Page\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="IMageUI.h">
-      <Filter>Fichiers d%27en-tête\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Fichiers d%27en-tête\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="SelectedFont.h">
-      <Filter>Fichiers d%27en-tête\Tools</Filter>
     </ClInclude>
     <ClInclude Include="UIStartPage.h">
       <Filter>Fichiers d%27en-tête\Page\UI</Filter>
@@ -206,8 +197,29 @@
     <ClInclude Include="ExplosionCalculator.h">
       <Filter>Fichiers d%27en-tête\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Fichiers d%27en-tête\Tools\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CursorManager.h">
+      <Filter>Fichiers d%27en-tête\Tools\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMageUI.h">
+      <Filter>Fichiers d%27en-tête\Tools\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MapDrawer.h">
+      <Filter>Fichiers d%27en-tête\Tools\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditor.h">
+      <Filter>Fichiers d%27en-tête\Tools\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseTool.h">
+      <Filter>Fichiers d%27en-tête\Tools\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectedFont.h">
+      <Filter>Fichiers d%27en-tête\Tools\UI</Filter>
+    </ClInclude>
     <ClInclude Include="PhysicalButton.h">
-      <Filter>Fichiers d%27en-tête\Tools</Filter>
+      <Filter>Fichiers d%27en-tête\Tools\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
