@@ -40,6 +40,7 @@ private:
 
 	float GetDeltaAnimItem(int);
 	void DrawShadowItem(Vector2f&, float);
+	void DrawWallEnv(int);
 
 
 public:

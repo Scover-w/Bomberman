@@ -2,28 +2,28 @@
 
 const float CustomMath::rotation = M_PI / 4.0f;
 
-Vector2i CustomMath::PositionToCoord(int i)
+Vector2i CustomMath::GM_PositionToCoord(int i)
 {
 	Vector2i coord;
-	coord.y = i / Settings::NB_HEIGHT_MAP;
-	coord.x = i - coord.y * Settings::NB_HEIGHT_MAP;
+	coord.y = i / Settings::SIZE_GAME_MAP;
+	coord.x = i - coord.y * Settings::SIZE_GAME_MAP;
 	coord.x *= Settings::CARTESIAN_ATOMIC_HEIGHT;
 	coord.y *= Settings::CARTESIAN_ATOMIC_HEIGHT;
 
 	return coord;
 }
 
-int CustomMath::CartCoordFToPosition(Vector2f coord)
+int CustomMath::GM_CartCoordFToPosition(Vector2f coord)
 {
-	return ((int)((int)coord.y / Settings::CARTESIAN_ATOMIC_HEIGHT)) * 13 + ((int)((int)coord.x / Settings::CARTESIAN_ATOMIC_HEIGHT));
+	return ((int)((int)coord.y / Settings::CARTESIAN_ATOMIC_HEIGHT)) * Settings::SIZE_GAME_MAP + ((int)((int)coord.x / Settings::CARTESIAN_ATOMIC_HEIGHT));
 }
 
-Vector2f CustomMath::PositionToCartCoordF(int i)
+Vector2f CustomMath::GM_PositionToCartCoordF(int i)
 {
 	Vector2i coord;
 
-	coord.y = i / Settings::NB_HEIGHT_MAP;
-	coord.x = i - coord.y * Settings::NB_HEIGHT_MAP;
+	coord.y = i / Settings::SIZE_GAME_MAP;
+	coord.x = i - coord.y * Settings::SIZE_GAME_MAP;
 	coord.x *= Settings::CARTESIAN_ATOMIC_HEIGHT; 
 	coord.y *= Settings::CARTESIAN_ATOMIC_HEIGHT;
 
@@ -32,12 +32,12 @@ Vector2f CustomMath::PositionToCartCoordF(int i)
 	return temp;
 }
 
-Vector2f CustomMath::PositionToIsoCoordF(int i)
+Vector2f CustomMath::GM_PositionToIsoCoordF(int i)
 {
-	return CartesianToIsometric(PositionToCartCoordF(i));
+	return GM_CartesianToIsometric(GM_PositionToCartCoordF(i));
 }
 
-Vector2f CustomMath::CartesianToIsometric(Vector2f cart)
+Vector2f CustomMath::GM_CartesianToIsometric(Vector2f cart)
 {
 	Vector2f isoV;
 	
@@ -45,17 +45,17 @@ Vector2f CustomMath::CartesianToIsometric(Vector2f cart)
 	isoV.y = cart.x * sin(rotation) + cart.y * cos(rotation);
 	
 	isoV.y /= 2.0f;
-	isoV.y += Settings::Y_TRANSLATION_MAP;
-	isoV.x += Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::NB_WIDTH_MAP / 2.0f * sqrt(2)) - Settings::X_TRANSLATION_MAP;
+	isoV.y += Settings::GAME_TRANSLATION_MAP.y;
+	isoV.x += Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::SIZE_GAME_MAP / 2.0f * sqrt(2)) - Settings::GAME_TRANSLATION_MAP.x;
 
 	return isoV;
 }
 
-Vector2f CustomMath::IsometricToCartesian(Vector2f iso)
+Vector2f CustomMath::GM_IsometricToCartesian(Vector2f iso)
 {
+	iso.y -= Settings::GAME_TRANSLATION_MAP.y;
+	iso.x -= Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::SIZE_GAME_MAP / 2.0f * sqrt(2)) - Settings::GAME_TRANSLATION_MAP.x;
 	iso.y *= 2.0f;
-	iso.y -= Settings::Y_TRANSLATION_MAP;
-	iso.x -= Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::NB_WIDTH_MAP / 2.0f * sqrt(2)) - Settings::X_TRANSLATION_MAP;
 	Vector2f cartV;
 	cartV.x = iso.x * cos(-rotation) - iso.y * sin(-rotation);
 	cartV.y = iso.y * cos(rotation) - iso.x * sin(rotation);
@@ -63,44 +63,63 @@ Vector2f CustomMath::IsometricToCartesian(Vector2f iso)
 	return cartV;
 }
 
-Vector2f CustomMath::EnvCartesianToIsometric(Vector2f cart)
+Vector2i CustomMath::UM_PositionToCoord(int i)
 {
-	// Verified
-	Vector2f isoV;
+	Vector2i coord;
+	coord.y = i / Settings::SIZE_UI_MAP;
+	coord.x = i - coord.y * Settings::SIZE_UI_MAP;
+	coord.x *= Settings::CARTESIAN_ATOMIC_HEIGHT;
+	coord.y *= Settings::CARTESIAN_ATOMIC_HEIGHT;
 
-	isoV.x = cart.x * cos(-rotation) - cart.y * sin(-rotation);
-	isoV.y = cart.x * sin(-rotation) + cart.y * cos(-rotation);
-
-	isoV.y /= 2.0f;
-	isoV.y += Settings::Y_TRANSLATION_MAP;
-	isoV.x += Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::NB_WIDTH_MAP  / 2.0f * sqrt(2)) - Settings::X_TRANSLATION_MAP;
-
-	return isoV;
+	return coord;
 }
 
-Vector2f CustomMath::EnvIsometricToCartesian(Vector2f iso)
+int CustomMath::UM_CartCoordFToPosition(Vector2f coord)
 {
-	iso.y *= 2.0f;
-	iso.y -= Settings::Y_TRANSLATION_MAP;
-	iso.x -= Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::NB_WIDTH_MAP  / 2.0f * sqrt(2)) - Settings::X_TRANSLATION_MAP;
-	Vector2f cartV;
-	cartV.x = iso.x * cos(rotation) - iso.y * sin(rotation);
-	cartV.y = iso.y * cos(-rotation) - iso.x * sin(-rotation);
-
-	return cartV;
+	return ((int)((int)coord.y / Settings::CARTESIAN_ATOMIC_HEIGHT)) * Settings::SIZE_UI_MAP + ((int)((int)coord.x / Settings::CARTESIAN_ATOMIC_HEIGHT));
 }
 
-Vector2f CustomMath::EnvPositionToIsoCoordF(int i)
+Vector2f CustomMath::UM_PositionToCartCoordF(int i)
 {
-	// Verified
 	Vector2i coord;
 
-	coord.y = i / (Settings::NB_HEIGHT_MAP + 8);
-	coord.x = i - coord.y * (Settings::NB_HEIGHT_MAP + 8);
+	coord.y = i / Settings::SIZE_UI_MAP;
+	coord.x = i - coord.y * Settings::SIZE_UI_MAP;
 	coord.x *= Settings::CARTESIAN_ATOMIC_HEIGHT;
 	coord.y *= Settings::CARTESIAN_ATOMIC_HEIGHT;
 
 	Vector2f temp(coord);
 
-	return CartesianToIsometric(temp);
+	return temp;
+}
+
+Vector2f CustomMath::UM_PositionToIsoCoordF(int i)
+{
+	return UM_CartesianToIsometric(UM_PositionToCartCoordF(i));
+}
+
+Vector2f CustomMath::UM_CartesianToIsometric(Vector2f cart)
+{
+	Vector2f isoV;
+
+	isoV.x = cart.x * cos(rotation) - cart.y * sin(rotation);
+	isoV.y = cart.x * sin(rotation) + cart.y * cos(rotation);
+
+	isoV.y /= 2.0f;
+	isoV.y += Settings::UI_TRANSLATION_MAP.y;
+	isoV.x += Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::SIZE_GAME_MAP / 2.0f * sqrt(2)) - Settings::UI_TRANSLATION_MAP.x;
+
+	return isoV;
+}
+
+Vector2f CustomMath::UM_IsometricToCartesian(Vector2f iso)
+{
+	iso.y -= Settings::UI_TRANSLATION_MAP.y;
+	iso.x -= Settings::CARTESIAN_ATOMIC_HEIGHT * (Settings::SIZE_GAME_MAP / 2.0f * sqrt(2)) - Settings::UI_TRANSLATION_MAP.x;
+	iso.y *= 2.0f;
+	Vector2f cartV;
+	cartV.x = iso.x * cos(-rotation) - iso.y * sin(-rotation);
+	cartV.y = iso.y * cos(rotation) - iso.x * sin(rotation);
+
+	return cartV;
 }

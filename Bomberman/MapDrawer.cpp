@@ -104,70 +104,74 @@ void MapDrawer::SetPlayer(Player* play)
     player = play;
 }
 
+void MapDrawer::DrawWallEnv(int i)
+{
+    Vector2f pos = CustomMath::UM_PositionToIsoCoordF(i);
+    wallEnvImg.SetPosition(pos);
+    wallEnvImg.Draw();
+}
+
 void MapDrawer::DrawEnv(bool isFirstPart)
 {
     if (isFirstPart)
     {
-        // Mirror up
-        int indexs[] = { -27 , -15, -14};
-        int step = -1;
-
-        for (int i = 0; i < 3; i++)
+        // Right Up Side
+        for (int i = 13, j = 3; i < 203; i += 27)
         {
-            wallEnvImg.SetPosition(CustomMath::PositionToIsoCoordF(indexs[i]));
-            wallEnvImg.Draw();
-        }
-
-        // Right side
-        for (int i = 12; i < 169; i += 13)
-        {
-            for (int j = 0; j < 13; j++)
+            for (int k = 0; k < j; k++)
             {
-                if ((i - j) % 13 == 0 /* || j < 5 */ )
-                    continue;
-                Vector2f vector = CustomMath::EnvCartesianToIsometric(CustomMath::PositionToCartCoordF(i - j));
-                wallEnvImg.SetPosition(vector);
-                wallEnvImg.Draw();
-            }
+                DrawWallEnv(i + k);
+            } 
+            j += 2;
         }
 
-        // Left side
-        for (int i = 104; i > 0; i -= 13)
+        // Left Up Side
+        int i = 229;
+        int j = 3;
+        for (; i < 365; i += 27)
         {
-            for (int j = 0; j < 13; j++)
+            for (int k = 0; k < j; k++)
             {
-                Vector2f vector = CustomMath::EnvCartesianToIsometric(CustomMath::PositionToCartCoordF(-(i + j)));
-                wallEnvImg.SetPosition(vector);
-                wallEnvImg.Draw();
+                DrawWallEnv(i + k);
             }
+            j++;
         }
-
-
+        for (; i < 567; i += 29)
+        {
+            for (int k = 0; k < j; k++)
+            {
+                DrawWallEnv(i + k);
+            }
+            j--;
+        }
     }
     else
     {
-
         // Right side
-        for (int i = 0; i < 14; i++)
+        for (int i = 245, j = 3; i < 582; i += 28)
         {
-            for (int j = 13; j < 21; j++)
+            for (int k = 0; k < j; k++)
             {
-                Vector2f vector = CustomMath::EnvPositionToIsoCoordF(i * 21 + j);
-                wallEnvImg.SetPosition(vector);
-                wallEnvImg.Draw();
+                if ((i + k) % 28 == 0)
+                    break;
+                else
+                    DrawWallEnv(i + k);
             }
+
+            j += (i < 386) ? 1 : -1;
         }
 
         // Left side
-        for (int i = 273; i < 441; i += 21) // 20 * 13= 260 , 20*7 + 260=400
+        for (int i = 594, j = 17; i < 798; i += 29)
         {
-            for (int j = 0; j < 20; j++)
+            for (int k = 0; k < j; k++)
             {
-                Vector2f vector = CustomMath::EnvPositionToIsoCoordF(i + j);
-                wallEnvImg.SetPosition(vector);
-                wallEnvImg.Draw();
+                DrawWallEnv(i + k);
             }
+            j -= 2;
         }
+
+        
     }
 
 }
@@ -182,7 +186,7 @@ void MapDrawer::Draw()
         int entity = *(map + i);
         if (!(entity == MapEntity::Wall || entity == MapEntity::DBlock))
         {
-            positionSelection = CustomMath::PositionToIsoCoordF(i);
+            positionSelection = CustomMath::GM_PositionToIsoCoordF(i);
             grounds[selectedGround].SetPosition(positionSelection);
             grounds[selectedGround].Draw();
         }
@@ -192,7 +196,7 @@ void MapDrawer::Draw()
 
 	for (int i = 0; i < 169; i++)
 	{
-        positionSelection = CustomMath::PositionToIsoCoordF(i);
+        positionSelection = CustomMath::GM_PositionToIsoCoordF(i);
 
  
         switch (*(map + i))
@@ -269,7 +273,7 @@ void MapDrawer::DrawEditor()
 
     for (int i = 0; i < 169; i++)
     {
-        positionSelection = CustomMath::PositionToIsoCoordF(i);
+        positionSelection = CustomMath::GM_PositionToIsoCoordF(i);
 
 
         switch (*(map + i))

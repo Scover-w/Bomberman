@@ -60,17 +60,17 @@ void UIGamePage::LoadImages()
 
 void UIGamePage::LoadUIPositions()
 {
-	int bluePos[] = { -59, -58, -57, -56,  -46, -45, -44, -43 };
-	int redPos[] = { 42, 55, 68, 81, 41, 54, 67, 80 };
-	int greenPos[] = { 160, 139, 118, 97, 161, 140, 119 , 98 };
-	int yellowPos[] = { 297, 298, 299, 300, 318, 319, 320, 321 };
+	int bluePos[] = { 424, 396, 368, 340, 425, 397, 369, 341 };
+	int redPos[] = { 152, 153, 154, 155, 180, 181, 182, 183 };
+	int greenPos[] = { 442, 414, 386, 358, 443, 415, 387, 359 };
+	int yellowPos[] = { 628, 629, 630, 631, 656, 657, 658, 659 };
 
 	for (int i = 0; i < 8; i++)
 	{
-		groundUIBluePosition[i] = CustomMath::EnvCartesianToIsometric(CustomMath::PositionToCartCoordF(bluePos[i]));
-		groundUIRedPosition[i] = CustomMath::EnvCartesianToIsometric(CustomMath::PositionToCartCoordF(redPos[i]));
-		groundUIGreenPosition[i] = CustomMath::EnvPositionToIsoCoordF(greenPos[i]);
-		groundUIYellowPosition[i] = CustomMath::EnvPositionToIsoCoordF(yellowPos[i]);
+		groundUIBluePosition[i] = CustomMath::UM_PositionToIsoCoordF(bluePos[i]);
+		groundUIRedPosition[i] = CustomMath::UM_PositionToIsoCoordF(redPos[i]);
+		groundUIGreenPosition[i] = CustomMath::UM_PositionToIsoCoordF(greenPos[i]);
+		groundUIYellowPosition[i] = CustomMath::UM_PositionToIsoCoordF(yellowPos[i]);
 	}
 
 	for (int i = 0; i < 8; i++)
@@ -94,20 +94,10 @@ void UIGamePage::LoadUIPositions()
 
 		int deltaPos = (i < 4) ? 0 : 4;
 
-		if (i % 4 < 2)
-		{
-			itemPosition[i * 4] = CustomMath::EnvCartesianToIsometric(CustomMath::PositionToCartCoordF(*(pos + deltaPos)));
-			itemPosition[i * 4 + 1] = CustomMath::EnvCartesianToIsometric(CustomMath::PositionToCartCoordF(*(pos + deltaPos + 1)));
-			itemPosition[i * 4 + 2] = CustomMath::EnvCartesianToIsometric(CustomMath::PositionToCartCoordF(*(pos + deltaPos + 2)));
-			itemPosition[i * 4 + 3] = CustomMath::EnvCartesianToIsometric(CustomMath::PositionToCartCoordF(*(pos + deltaPos + 3)));
-		}
-		else
-		{
-			itemPosition[i * 4] = CustomMath::EnvPositionToIsoCoordF(*(pos + deltaPos));
-			itemPosition[i * 4 + 1] = CustomMath::EnvPositionToIsoCoordF(*(pos + deltaPos + 1));
-			itemPosition[i * 4 + 2] = CustomMath::EnvPositionToIsoCoordF(*(pos + deltaPos + 2));
-			itemPosition[i * 4 + 3] = CustomMath::EnvPositionToIsoCoordF(*(pos + deltaPos + 3));
-		}
+		itemPosition[i * 4] = CustomMath::UM_PositionToIsoCoordF(*(pos + deltaPos));
+		itemPosition[i * 4 + 1] = CustomMath::UM_PositionToIsoCoordF(*(pos + deltaPos + 1));
+		itemPosition[i * 4 + 2] = CustomMath::UM_PositionToIsoCoordF(*(pos + deltaPos + 2));
+		itemPosition[i * 4 + 3] = CustomMath::UM_PositionToIsoCoordF(*(pos + deltaPos + 3));
 
 		Vector2f deltaV = (i < 4)? Vector2f(80.0f,0.0f) : Vector2f(70.0f,0.0f);
 

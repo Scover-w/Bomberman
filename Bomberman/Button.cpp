@@ -26,28 +26,23 @@ void Button::ResetState()
 	isActive = true;
 }
 
-bool Button::DoesClick(Vector2f mousePosition)
+bool Button::DoesClick(bool isMouseOnIt)
 {
-	if (!isEnable || !isActive)
-		return false;
-
-	bool temp = sprite.getGlobalBounds().contains(mousePosition);
-
-	if (temp == true && Mouse::isButtonPressed(Mouse::Left) && !isClicked && !lastClick)
+	if (isMouseOnIt == true && Mouse::isButtonPressed(Mouse::Left) && !isClicked && !lastClick)
 	{
 		sprite.setColor(black);
 		isClicked = true;
 		isReleased = false;
 		return true;
 	}
-	else if (temp == true && !Mouse::isButtonPressed(Mouse::Left) && !isReleased)
+	else if (isMouseOnIt == true && !Mouse::isButtonPressed(Mouse::Left) && !isReleased)
 	{
 		sprite.setColor(gray);
 		isReleased = true;
 		isClicked = false;
 	}
 
-	if (temp == false && isHover)
+	if (isMouseOnIt == false && isHover)
 	{
 		sprite.setColor(white);
 		isHover = false;
@@ -56,7 +51,7 @@ bool Button::DoesClick(Vector2f mousePosition)
 		return false;
 	}
 
-	if (temp == true && isHover == false)
+	if (isMouseOnIt == true && isHover == false)
 	{
 		sprite.setColor(gray);
 		isHover = true;
@@ -65,8 +60,15 @@ bool Button::DoesClick(Vector2f mousePosition)
 
 	lastClick = Mouse::isButtonPressed(Mouse::Left);
 
-
 	return false;
+}
+
+bool Button::DoesClick(Vector2f mousePosition)
+{
+	if (!isEnable || !isActive)
+		return false;
+
+	return DoesClick(sprite.getGlobalBounds().contains(mousePosition));
 }
 
 void Button::Enable()

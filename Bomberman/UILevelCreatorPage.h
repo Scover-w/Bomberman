@@ -1,8 +1,8 @@
 #pragma once
 #include "headersProject.h"
 #include "MouseTool.h"
-#include "Button.h"
 #include "LevelCreatorPage.h"
+#include "PhysicalButton.h"
 
 class UILevelCreatorPage
 {
@@ -25,6 +25,8 @@ private:
 	Button switchModeButton1;
 	Button switchModeButton2;
 	Button newLevelButton;
+
+	//PhysicalButton newLevelPButton;
 
 	Text levelText;	
 

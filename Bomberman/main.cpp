@@ -12,7 +12,7 @@
 
 int main()
 {
-    RenderWindow window(sf::VideoMode(Settings::WIDTH_SCREEN, Settings::HEIGHT_SCREEN), "Bomberman"/*, sf::Style::Fullscreen*/); // 50px per images
+    RenderWindow window(sf::VideoMode(Settings::SIZE_SCREEN.x, Settings::SIZE_SCREEN.y), "Bomberman", sf::Style::Fullscreen); // 50px per images
 
     StaticWindow staticWindow;
     staticWindow.window = &window;
@@ -38,10 +38,27 @@ int main()
 
     dataManager.SetCurrentPage(currentPage);
 
-    sf::View view(sf::FloatRect(0, 0, Settings::WIDTH_SCREEN, Settings::HEIGHT_SCREEN));
-    view.zoom(1.1f);
+    View view(FloatRect(0, 0, Settings::SIZE_SCREEN.x, Settings::SIZE_SCREEN.y));
+    view.zoom(Settings::ZOOM);
     window.setView(view);
 
+    Texture texture;
+    texture.create(Settings::SIZE_SCREEN.x, Settings::SIZE_SCREEN.y);
+
+    Clock clk;
+
+    Vector2f pos1 = CustomMath::GM_PositionToIsoCoordF(0);
+    Vector2f pos2 = CustomMath::GM_PositionToIsoCoordF(14);
+
+    cout << "Pos 1 -> x : " << pos1.x << " , y : " << pos1.y << endl;
+    cout << "Pos 2 -> x : " << pos2.x << " , y : " << pos2.y << endl;
+
+    cout << pos2.y - pos1.y << endl;
+
+    pos2 = CustomMath::GM_PositionToIsoCoordF(1);
+    cout << "Pos 1 -> x : " << pos1.x << " , y : " << pos1.y << endl;
+    cout << "Pos 2 -> x : " << pos2.x << " , y : " << pos2.y << endl;
+    cout << pos2.x - pos1.x << endl;
 
     while (window.isOpen())
     {
@@ -84,6 +101,9 @@ int main()
         }
 
         window.display();    
+
+        
+
     }
 
     return 0;
@@ -93,8 +113,9 @@ int main()
 /* 
 TO DO :
 - ui partout
-- shadow ?
 - son
 - gestion jeu : 1, 2,3 etc
 - ia
+- seamless between Menu and Game with transition shader : passing time to get seamless shader
+   -> fade out  //texture.update(window);
 */

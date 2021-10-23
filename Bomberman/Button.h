@@ -20,12 +20,18 @@ private:
 
 	void ResetState();
 
+protected:
+
+	bool DoesClick(bool);
+
 public:
+
 	Button();
 	~Button();
 	void Enable();
 	void Disable();
 	void SetActive(bool);
 	bool DoesClick(Vector2f);
+	
 };
 

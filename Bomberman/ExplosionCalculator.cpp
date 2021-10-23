@@ -21,7 +21,7 @@ void ExplosionCalculator::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], floa
 
 ExplosionData ExplosionCalculator::GetData(int positionId, int range)
 {
-	Vector2i pos(positionId % Settings::NB_HEIGHT_MAP, positionId / Settings::NB_HEIGHT_MAP);
+	Vector2i pos(positionId % Settings::SIZE_GAME_MAP, positionId / Settings::SIZE_GAME_MAP);
 
 	ExplosionData entity;
 
@@ -31,7 +31,7 @@ ExplosionData ExplosionCalculator::GetData(int positionId, int range)
 	entity.yUp = range - AskYUp(pos, range);
 	entity.yDown = range - AskYDown(pos, range);
 
-	*(mapExplosion + (pos.y * Settings::NB_HEIGHT_MAP + pos.x)) = 0.0f;
+	*(mapExplosion + (pos.y * Settings::SIZE_GAME_MAP + pos.x)) = 0.0f;
 
 	return entity;
 }
@@ -41,14 +41,14 @@ int ExplosionCalculator::AskYUp(Vector2i position, int delta)
 	if (position.y - 1 < 0)
 		return delta;
 
-	MapEntity entity = *(map + ((position.y - 1) * Settings::NB_HEIGHT_MAP + position.x));
+	MapEntity entity = *(map + ((position.y - 1) * Settings::SIZE_GAME_MAP + position.x));
 
 	if (entity == MapEntity::Wall)
 	{
 		return delta;
 	}
 
-	int i = ((position.y - 1) * Settings::NB_HEIGHT_MAP + position.x);
+	int i = ((position.y - 1) * Settings::SIZE_GAME_MAP + position.x);
 
 	UpdatePosition(i);
 
@@ -77,14 +77,14 @@ int ExplosionCalculator::AskYDown(Vector2i position, int delta)
 	if (position.y + 1 > 12)
 		return delta;
 
-	MapEntity entity = *(map + ((position.y + 1) * Settings::NB_HEIGHT_MAP + position.x));
+	MapEntity entity = *(map + ((position.y + 1) * Settings::SIZE_GAME_MAP + position.x));
 
 	if (entity == MapEntity::Wall)
 	{
 		return delta;
 	}
 
-	int i = ((position.y + 1 )* Settings::NB_HEIGHT_MAP + position.x);
+	int i = ((position.y + 1 )* Settings::SIZE_GAME_MAP + position.x);
 	UpdatePosition(i);
 
 	if (entity == MapEntity::DBlock)
@@ -111,14 +111,14 @@ int ExplosionCalculator::AskXLeft(Vector2i position, int delta)
 	if (position.x - 1 < 0)
 		return delta;
 
-	MapEntity entity = *(map + (position.y * Settings::NB_HEIGHT_MAP + (position.x - 1)));
+	MapEntity entity = *(map + (position.y * Settings::SIZE_GAME_MAP + (position.x - 1)));
 
 	if (entity == MapEntity::Wall)
 	{
 		return delta;
 	}
 
-	int i = (position.y * Settings::NB_HEIGHT_MAP + position.x - 1);
+	int i = (position.y * Settings::SIZE_GAME_MAP + position.x - 1);
 	UpdatePosition(i);
 
 	if (entity == MapEntity::DBlock)
@@ -145,14 +145,14 @@ int ExplosionCalculator::AskXRight(Vector2i position, int delta)
 	if (position.x + 1 > 12)
 		return delta;
 
-	MapEntity entity = *(map + (position.y * Settings::NB_HEIGHT_MAP + (position.x + 1)));
+	MapEntity entity = *(map + (position.y * Settings::SIZE_GAME_MAP + (position.x + 1)));
 
 	if (entity == MapEntity::Wall)
 	{
 		return delta;
 	}
 
-	int i = (position.y * Settings::NB_HEIGHT_MAP + position.x + 1);
+	int i = (position.y * Settings::SIZE_GAME_MAP + position.x + 1);
 	UpdatePosition(i);
 
 	if (entity == MapEntity::DBlock)

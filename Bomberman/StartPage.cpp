@@ -6,17 +6,17 @@ StartPage::StartPage()
 {
     if (sf::Shader::isAvailable())
     {
-        shaderT.create(Settings::MULTIPLIED_WIDTH_SCREEN, Settings::MULTIPLIED_HEIGHT_SCREEN);
+        shaderT.create(Settings::MULTIPLIED_SIZE_SCREEN.x, Settings::MULTIPLIED_SIZE_SCREEN.y);
         shaderS.setTexture(shaderT);
         shaderS.setPosition(-96, -54);
         // https://www.glslsandbox.com
-        if (!shader.loadFromFile("Shader/shadertest.frag", sf::Shader::Fragment))
+        if (!shader.loadFromFile("Shader/StarWars.frag", sf::Shader::Fragment))
         {
             // erreur...
         }
         else
         {
-            shader.setUniform("resolution", sf::Vector2f(Settings::WIDTH_SCREEN, Settings::HEIGHT_SCREEN));
+            shader.setUniform("resolution", sf::Vector2f(Settings::SIZE_SCREEN.x, Settings::SIZE_SCREEN.y));
         }
     }
 

@@ -1,28 +1,25 @@
 #pragma once
-
+#include <SFML/Graphics.hpp>
+using namespace sf;
 
 class Settings
 {
 public:
-	static const int HEIGHT_SCREEN;
-	static const int WIDTH_SCREEN;
+	static const Vector2i SIZE_SCREEN;
+	
+	static const float ZOOM;
 
-	static const int MULTIPLIED_HEIGHT_SCREEN;
-	static const int MULTIPLIED_WIDTH_SCREEN;
+	static const Vector2f MULTIPLIED_SIZE_SCREEN;
 
-	static const int NB_HEIGHT_MAP;
-	static const int NB_WIDTH_MAP;
+	static const int SIZE_GAME_MAP;
+	static const int SIZE_UI_MAP;
 
-	static const int ATOMIC_HEIGHT_MAP;
-	static const int ATOMIC_WIDTH_MAP;
-
-	static const int HEIGHT_MAP;
-	static const int WIDTH_MAP;
+	static const float ISOMETRIC_SIZE_TILE;
 
 	static const float CARTESIAN_ATOMIC_HEIGHT;
 
-	static const float X_TRANSLATION_MAP;
-	static const float Y_TRANSLATION_MAP;
+	static const Vector2f GAME_TRANSLATION_MAP;
+	static const Vector2f UI_TRANSLATION_MAP;
 
 	// 80, 39
 };

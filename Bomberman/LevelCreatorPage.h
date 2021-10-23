@@ -15,6 +15,8 @@ class LevelCreatorPage
 	IMageUI wallImg;
 	IMageUI brickWall;
 
+	IMageUI redTest;
+
 	Vector2i tempVector;
 
 	MapEntity map[169]{ MapEntity::None };

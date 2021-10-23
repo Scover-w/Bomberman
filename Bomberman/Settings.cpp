@@ -1,21 +1,18 @@
 #include "Settings.h"
 
-const int Settings::HEIGHT_SCREEN = 1080;//650;
-const int Settings::WIDTH_SCREEN = 1920;//850;
+const Vector2i Settings::SIZE_SCREEN = Vector2i(1920, 1080);
 
-const int Settings::MULTIPLIED_HEIGHT_SCREEN = HEIGHT_SCREEN * 1.1f;
-const int Settings::MULTIPLIED_WIDTH_SCREEN = WIDTH_SCREEN * 1.1f;
+const float Settings::ZOOM = 1.1f;
 
-const int Settings::NB_HEIGHT_MAP = 13;
-const int Settings::NB_WIDTH_MAP = 13;
+const Vector2f Settings::MULTIPLIED_SIZE_SCREEN = Vector2f(SIZE_SCREEN.x * ZOOM, SIZE_SCREEN.y * ZOOM);
 
-const int Settings::ATOMIC_HEIGHT_MAP = 81;
-const int Settings::ATOMIC_WIDTH_MAP = 41;
 
-const int Settings::HEIGHT_MAP = ATOMIC_HEIGHT_MAP * NB_HEIGHT_MAP;
-const int Settings::WIDTH_MAP = ATOMIC_WIDTH_MAP * NB_WIDTH_MAP;
+const int Settings::SIZE_GAME_MAP = 13;
+const int Settings::SIZE_UI_MAP = 28;
+
+const float Settings::ISOMETRIC_SIZE_TILE = 79.9031f;
 
 const float Settings::CARTESIAN_ATOMIC_HEIGHT = 113.0f;
 
-const float Settings::X_TRANSLATION_MAP = 79.0f;
-const float Settings::Y_TRANSLATION_MAP = 57.0f;
+const Vector2f Settings::GAME_TRANSLATION_MAP = Vector2f(79.0f, 57.0f);
+const Vector2f Settings::UI_TRANSLATION_MAP = Vector2f(79.0f, 57.0f - (8 * ISOMETRIC_SIZE_TILE));

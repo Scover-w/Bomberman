@@ -6,25 +6,33 @@
 using namespace std;
 using namespace sf;
 
+
+// UM : UI Map
+
 class CustomMath
 {
 	static const float rotation;
 public:
-	static Vector2i PositionToCoord(int);
-	static int CartCoordFToPosition(Vector2f);
+	// GM : GameMap
+	static Vector2i GM_PositionToCoord(int);
+	static int GM_CartCoordFToPosition(Vector2f);
 
-	static Vector2f PositionToCartCoordF(int);
-	static Vector2f PositionToIsoCoordF(int);
+	static Vector2f GM_PositionToCartCoordF(int);
+	static Vector2f GM_PositionToIsoCoordF(int);
 
 	
-	static Vector2f CartesianToIsometric(Vector2f cart);
-	static Vector2f IsometricToCartesian(Vector2f cart);
+	static Vector2f GM_CartesianToIsometric(Vector2f cart);
+	static Vector2f GM_IsometricToCartesian(Vector2f cart);
+
+	// UM : UI Map
+	static Vector2i UM_PositionToCoord(int);
+	static int UM_CartCoordFToPosition(Vector2f);
+
+	static Vector2f UM_PositionToCartCoordF(int);
+	static Vector2f UM_PositionToIsoCoordF(int);
 
 
-	// Draw env function
-	static Vector2f EnvCartesianToIsometric(Vector2f cart);
-	static Vector2f EnvIsometricToCartesian(Vector2f cart);
-
-	static Vector2f EnvPositionToIsoCoordF(int);
+	static Vector2f UM_CartesianToIsometric(Vector2f cart);
+	static Vector2f UM_IsometricToCartesian(Vector2f cart);
 };
 

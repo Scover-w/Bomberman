@@ -35,6 +35,12 @@ UILevelCreatorPage::UILevelCreatorPage(LevelCreatorPage* page1)
 	levelText.setCharacterSize(50);
 	levelText.setRotation(-26.5);
 	page = page1;
+
+	/*newLevelPButton.SetTextures("Images/UI/Button/PhysicalButton.png",
+								"Images/UI/Button/PhysicalButtonHover.png", 
+								"Images/UI/Button/PhysicalButtonClick.png");*/
+
+	//newLevelPButton.SetPosition(i);
 }
 
 UILevelCreatorPage::~UILevelCreatorPage()

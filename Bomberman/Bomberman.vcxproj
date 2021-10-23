@@ -159,6 +159,7 @@
     <ClCompile Include="MapEditor.cpp" />
     <ClCompile Include="MenuPage.cpp" />
     <ClCompile Include="MouseTool.cpp" />
+    <ClCompile Include="PhysicalButton.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SelectedFont.cpp" />
     <ClCompile Include="Settings.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="MenuPage.h" />
     <ClInclude Include="MouseTool.h" />
     <ClInclude Include="Page.h" />
+    <ClInclude Include="PhysicalButton.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SelectedFont.h" />

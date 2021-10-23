@@ -9,8 +9,8 @@ UIStartPage::UIStartPage(StartPage* p)
     continueButton.SetScale(0.5f, 0.5f);
 
     storyText.setFont(SelectedFont::instance->GetFont());
-    positionText.x = Settings::WIDTH_SCREEN / 2.0f - 370.0f;
-    positionText.y = Settings::HEIGHT_SCREEN;
+    positionText.x = Settings::SIZE_SCREEN.x / 2.0f - 370.0f;
+    positionText.y = Settings::SIZE_SCREEN.y;
     storyText.setPosition(positionText);
     storyText.setString(history);
     storyText.setCharacterSize(18);

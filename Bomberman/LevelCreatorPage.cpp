@@ -50,6 +50,9 @@ void LevelCreatorPage::LoadTextures()
     brickWall.SetTexture("Images/Walls/BrickAlt1.png");
     brickWall.SetOrigin(80, 37);
     brickWall.SetColor(transparent);
+
+    redTest.SetTexture("Images/Test/BrickTest.png");
+    redTest.SetOrigin(80, 37);
 }
 
 
@@ -93,6 +96,13 @@ void LevelCreatorPage::Update()
     ManageEvent();
 
     ui->Draw();
+
+    int temp = MouseTool::UM_GetIndexPositionMouse();
+    Vector2f positionSelection = CustomMath::UM_PositionToIsoCoordF(temp);
+    redTest.SetPosition(positionSelection);
+    redTest.Draw();
+
+    
 }
 
 void LevelCreatorPage::ManageEvent()
@@ -113,7 +123,7 @@ void LevelCreatorPage::MousePressed(Event& e)
 {
     if (isEditing)
     {
-        if (MouseTool::GetIndexPositionMouse() < 0)
+        if (MouseTool::GM_GetIndexPositionMouse() < 0)
             ClickUI(e);
         else
             ClickMap(e);  
@@ -143,8 +153,8 @@ void LevelCreatorPage::ClickUI(Event& e)
 
 void LevelCreatorPage::DrawSelection()
 {
-    int temp = MouseTool::GetIndexPositionMouse();
-
+    int temp = MouseTool::GM_GetIndexPositionMouse();
+    
     if (temp != selectedIndexs[0])
     {
         for (int i = 0; i < 4; i++)
@@ -161,7 +171,7 @@ void LevelCreatorPage::DrawSelection()
         if (selectedIndexs[i] == -1)
             break;
 
-        Vector2f positionSelection = CustomMath::PositionToIsoCoordF(selectedIndexs[i]);
+        Vector2f positionSelection = CustomMath::GM_PositionToIsoCoordF(selectedIndexs[i]);
         brickWall.SetPosition(positionSelection);
         brickWall.Draw();
     }
@@ -172,7 +182,7 @@ void LevelCreatorPage::ComputeMirrorSelection()
     if (selectedIndexs[0] == 84) // Center of matrice in both axes : N*N / 2
         return;
 
-    if (selectedIndexs[0] % Settings::NB_HEIGHT_MAP == 6) // Center of matrice on x axis : N / 2
+    if (selectedIndexs[0] % Settings::SIZE_GAME_MAP == 6) // Center of matrice on x axis : N / 2
     {
         selectedIndexs[1] = MirrorX(selectedIndexs[0]);
         return;
@@ -193,13 +203,13 @@ void LevelCreatorPage::ComputeMirrorSelection()
 
 int LevelCreatorPage::MirrorX(int index)
 {
-    int middleLineIndex = (index % Settings::NB_HEIGHT_MAP) + Settings::NB_HEIGHT_MAP * 6;
+    int middleLineIndex = (index % Settings::SIZE_GAME_MAP) + Settings::SIZE_GAME_MAP * 6;
     return middleLineIndex + middleLineIndex - index;
 }
 
 int LevelCreatorPage::MirrorY(int index)
 {
-    return index - (index % Settings::NB_HEIGHT_MAP - 6) * 2;
+    return index - (index % Settings::SIZE_GAME_MAP - 6) * 2;
 }
 
 void LevelCreatorPage::AddEntity()

@@ -203,7 +203,7 @@ void Player::TakeDamage()
 void Player::CheckDamageBomb(const ExplosionData& eData)
 {
     Vector2f positionf = image.GetPosition();
-    positionf = CustomMath::IsometricToCartesian(positionf);
+    positionf = CustomMath::GM_IsometricToCartesian(positionf);
     Vector2i position(positionf.x / Settings::CARTESIAN_ATOMIC_HEIGHT, positionf.y / Settings::CARTESIAN_ATOMIC_HEIGHT);
 
     if (position.y == eData.centerId.y)
@@ -278,10 +278,10 @@ void Player::Move()
         cartPosition.y += direction.y;
     }
 
-    positionIndex = CustomMath::CartCoordFToPosition(cartPosition);
+    positionIndex = CustomMath::GM_CartCoordFToPosition(cartPosition);
     CheckCollectable();
 
-    Vector2f p = CustomMath::CartesianToIsometric(cartPosition);
+    Vector2f p = CustomMath::GM_CartesianToIsometric(cartPosition);
 
     image.SetPosition(p);
     shadow.SetPosition(p);
