@@ -47,19 +47,6 @@ int main()
 
     Clock clk;
 
-    Vector2f pos1 = CustomMath::GM_PositionToIsoCoordF(0);
-    Vector2f pos2 = CustomMath::GM_PositionToIsoCoordF(14);
-
-    cout << "Pos 1 -> x : " << pos1.x << " , y : " << pos1.y << endl;
-    cout << "Pos 2 -> x : " << pos2.x << " , y : " << pos2.y << endl;
-
-    cout << pos2.y - pos1.y << endl;
-
-    pos2 = CustomMath::GM_PositionToIsoCoordF(1);
-    cout << "Pos 1 -> x : " << pos1.x << " , y : " << pos1.y << endl;
-    cout << "Pos 2 -> x : " << pos2.x << " , y : " << pos2.y << endl;
-    cout << pos2.x - pos1.x << endl;
-
     while (window.isOpen())
     {
         window.clear(sf::Color::Black);

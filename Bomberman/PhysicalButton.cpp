@@ -2,10 +2,12 @@
 
 PhysicalButton::PhysicalButton() : Button()
 {
-	for (int i = 0; i < 8; i++)
-	{
-		idsMap[i] = -1;
-	}
+	ResetIds();
+	SetTextures("Images/UI/Button/PhysicalButton.png",
+		"Images/UI/Button/PhysicalButtonHover.png",
+		"Images/UI/Button/PhysicalButtonClick.png");
+
+	SetOrigin(80.0f, 37.0f);
 }
 
 PhysicalButton::~PhysicalButton()
@@ -13,26 +15,33 @@ PhysicalButton::~PhysicalButton()
 
 }
 
-bool PhysicalButton::DoesClick(int id)
+void PhysicalButton::ResetIds()
 {
-	if (idsMap[0] == id)
-	{
-		isHover = true;
-		return true;
-	}
-
-
 	for (int i = 0; i < 8; i++)
 	{
-		if (id == -1)
-			return false;
+		idsMap[i] = -1;
+	}
+}
 
-		//if(true)
-		//return true;
+
+bool PhysicalButton::DoesClick(int id)
+{
+	if (!isEnable || !isActive)
+		return false;
+
+	bool isMouseOnIt = false;
+
+	for (int i = 0; i < width; i++)
+	{
+		if (id >= (idOrigin + i * Settings::SIZE_UI_MAP) && id <= (idOrigin + i * Settings::SIZE_UI_MAP + height - 1))
+		{
+			isMouseOnIt = true;
+		}
 	}
 
-	return false;
+	return Button::DoesClick(isMouseOnIt);
 }
+	
 
 void PhysicalButton::SetTextures(string normalT, string hoverT, string clickT)
 {
@@ -41,38 +50,86 @@ void PhysicalButton::SetTextures(string normalT, string hoverT, string clickT)
 	clickImg.SetTexture(clickT);
 }
 
-void PhysicalButton::SetPositionId(int posId)
+void PhysicalButton::SetId(int index, int pos)
 {
-	idsMap[0] = posId;
+	idsMap[index] = pos;
+	positions[index] = CustomMath::UM_PositionToIsoCoordF(pos);
+}
+
+void PhysicalButton::SetIds(int posId)
+{
+	ResetIds();
+	idOrigin = posId;
+	if (type == PhysicalButtonType::Square)
+	{
+		SetId(0, posId);
+		width = 1;
+		height = 1;
+		return;
+	}
+	
+	if (type == PhysicalButtonType::BigSquare)
+	{
+		width = 2;
+		height = 2;
+	}
+	else // Rectangle
+	{
+		height = (rotation == RotationType::Horizontal) ? 2 : 4;
+		width = (rotation == RotationType::Horizontal) ? 4 : 2;
+	}
+	
+	int cursorIndex = 0;
+
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j+= 1)
+		{
+			SetId(cursorIndex, posId + i + j * Settings::SIZE_UI_MAP);
+			cursorIndex++;
+		}
+	}
+}
+
+void PhysicalButton::SetBasicProperties(int posId, PhysicalButtonType typ, RotationType rot)
+{
+	type = typ;
+	rotation = rot;
+	SetIds(posId);
 	position = CustomMath::UM_PositionToIsoCoordF(posId);
 	SetPosition(position);
 	hoverImg.SetPosition(position);
 }
 
-void PhysicalButton::SetOrigin(Vector2f pos)
-{
-	Button::SetOrigin(pos);
-	hoverImg.SetOrigin(pos);
-	clickImg.SetOrigin(pos);
-}
 
 void PhysicalButton::SetOrigin(float x, float y)
 {
-	Vector2f pos = Vector2f(x, y);
-	SetOrigin(pos);
+	Button::SetOrigin(x, y);
+	hoverImg.SetOrigin(x, y);
+	clickImg.SetOrigin(x, y);
 }
 
 void PhysicalButton::Draw()
 {
-	/*for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		if (idsMap[i] == -1)
 			break;
 
-		// Draw for each case
-	}*/
-	if (isHover)
-		hoverImg.Draw();
-	else
-		Button::Draw();
+		if (isClicked)
+		{
+			clickImg.SetPosition(positions[i]);
+			clickImg.Draw();
+		}
+		else if(isHover)
+		{
+			hoverImg.SetPosition(positions[i]);
+			hoverImg.Draw();
+		}
+		else
+		{
+			SetPosition(positions[i]);
+			Button::Draw();
+		}
+	}		
 }
