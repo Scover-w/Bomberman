@@ -28,16 +28,21 @@ void Button::ResetState()
 
 bool Button::DoesClick(bool isMouseOnIt)
 {
-	if (isMouseOnIt == true && Mouse::isButtonPressed(Mouse::Left) && !isClicked && !lastClick)
+	if (isMouseOnIt && Mouse::isButtonPressed(Mouse::Left) && !isClicked && !lastClick)
 	{
 		sprite.setColor(black);
 		isClicked = true;
 		isReleased = false;
-		return true;
 	}
-	else if (isMouseOnIt == true && !Mouse::isButtonPressed(Mouse::Left) && !isReleased)
+	else if (isMouseOnIt && !Mouse::isButtonPressed(Mouse::Left) && !isReleased)
 	{
 		sprite.setColor(gray);
+		isReleased = true;
+		isClicked = false;
+		return true;
+	}
+	else if (!isMouseOnIt && !Mouse::isButtonPressed(Mouse::Left) && !isReleased)
+	{
 		isReleased = true;
 		isClicked = false;
 	}
