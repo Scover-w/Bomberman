@@ -4,5 +4,6 @@ enum PhysicalButtonType
 {
 	Square,
 	BigSquare,
-	Rectangle
+	Rectangle3,
+	Rectangle4
 };

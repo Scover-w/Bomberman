@@ -36,7 +36,8 @@ UILevelCreatorPage::UILevelCreatorPage(LevelCreatorPage* page1)
 	levelText.setRotation(-26.5);
 	page = page1;
 
-	newLevelPButton.SetBasicProperties(657, PhysicalButtonType::BigSquare, RotationType::Vertical);
+	newLevelPButton.SetBasicProperties(657, PhysicalButtonType::Rectangle3, RotationType::Vertical);
+	newLevelPButton.SetText("Créer");
 }
 
 UILevelCreatorPage::~UILevelCreatorPage()
@@ -79,11 +80,8 @@ void UILevelCreatorPage::Update()
 		page->UISwitchModeClick();
 	}
 
-	/*if (newLevelButton.DoesClick(mousePosition))
-		page->UICreateLevel();*/
-
 	if (newLevelPButton.DoesClick(mouseUIPositionId))
-		cout << "Click" << endl;
+		page->UICreateLevel();
 }
 
 void UILevelCreatorPage::Draw()
@@ -95,7 +93,6 @@ void UILevelCreatorPage::Draw()
 	saveButton.Draw();
 	switchModeButton1.Draw();
 	switchModeButton2.Draw();
-	//newLevelButton.Draw();
 
 	newLevelPButton.Draw();
 
@@ -107,7 +104,7 @@ void UILevelCreatorPage::SetEditionMode()
 	switchModeButton1.Enable();
 	switchModeButton2.Disable();
 	saveButton.Enable();
-	newLevelButton.Disable();
+	newLevelPButton.Disable();
 	previousButton.Disable();
 	nextButton.Disable();
 	isEditing = true;
@@ -118,7 +115,7 @@ void UILevelCreatorPage::SetNormalMode()
 	switchModeButton1.Disable();
 	switchModeButton2.Enable();
 	saveButton.Disable();
-	newLevelButton.Enable();
+	newLevelPButton.Enable();
 	previousButton.Enable();
 	nextButton.Enable();
 	isEditing = false;

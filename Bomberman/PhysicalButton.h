@@ -7,9 +7,11 @@
 class PhysicalButton : public Button
 {
 private:
-
+	static Vector2f deltaClick;
 	IMageUI hoverImg;
 	IMageUI clickImg;
+
+	Text text;
 	
 	Vector2f position;
 
@@ -32,6 +34,7 @@ public:
 	PhysicalButton();
 	~PhysicalButton();
 	bool DoesClick(int);
+	void SetText(string);
 	void SetBasicProperties(int, PhysicalButtonType, RotationType);
 	void Draw();
 };

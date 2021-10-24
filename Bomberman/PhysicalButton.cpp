@@ -1,5 +1,7 @@
 #include "PhysicalButton.h"
 
+Vector2f PhysicalButton::deltaClick = Vector2f(0.0f, 15.0f);
+
 PhysicalButton::PhysicalButton() : Button()
 {
 	ResetIds();
@@ -7,6 +9,10 @@ PhysicalButton::PhysicalButton() : Button()
 		"Images/UI/Button/PhysicalButtonHover.png",
 		"Images/UI/Button/PhysicalButtonClick.png");
 
+	text.setFont(SelectedFont::instance->GetFont());
+	text.setCharacterSize(50);
+	text.setFillColor(Color::Black);
+	text.setRotation(26.1f);
 	SetOrigin(80.0f, 37.0f);
 }
 
@@ -52,8 +58,12 @@ void PhysicalButton::SetTextures(string normalT, string hoverT, string clickT)
 
 void PhysicalButton::SetId(int index, int pos)
 {
+	Vector2f posV = CustomMath::UM_PositionToIsoCoordF(pos);
 	idsMap[index] = pos;
-	positions[index] = CustomMath::UM_PositionToIsoCoordF(pos);
+	positions[index] = posV;
+
+	if (index == 0)
+		text.setPosition(posV);
 }
 
 void PhysicalButton::SetIds(int posId)
@@ -73,7 +83,12 @@ void PhysicalButton::SetIds(int posId)
 		width = 2;
 		height = 2;
 	}
-	else // Rectangle
+	else if(type == PhysicalButtonType::Rectangle3)
+	{
+		height = (rotation == RotationType::Horizontal) ? 2 : 3;
+		width = (rotation == RotationType::Horizontal) ? 3 : 2;
+	}
+	else
 	{
 		height = (rotation == RotationType::Horizontal) ? 2 : 4;
 		width = (rotation == RotationType::Horizontal) ? 4 : 2;
@@ -109,6 +124,11 @@ void PhysicalButton::SetOrigin(float x, float y)
 	clickImg.SetOrigin(x, y);
 }
 
+void PhysicalButton::SetText(string t)
+{
+	text.setString(t);
+}
+
 void PhysicalButton::Draw()
 {
 	for (int i = 0; i < 8; i++)
@@ -131,5 +151,14 @@ void PhysicalButton::Draw()
 			SetPosition(positions[i]);
 			Button::Draw();
 		}
-	}		
+	}	
+	if (isClicked)
+	{
+		text.setPosition(positions[0] + deltaClick);
+	}
+	else
+	{
+		text.setPosition(positions[0]);
+	}
+	StaticWindow::window->draw(text);
 }
