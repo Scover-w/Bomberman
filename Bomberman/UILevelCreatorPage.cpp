@@ -37,7 +37,8 @@ UILevelCreatorPage::UILevelCreatorPage(LevelCreatorPage* page1)
 	page = page1;
 
 	newLevelPButton.SetBasicProperties(657, PhysicalButtonType::Rectangle3, RotationType::Vertical);
-	newLevelPButton.SetText("Créer");
+	newLevelPButton.SetImgText("Images/UI/LevelCreator/CreateTextButton.png");
+	newLevelPButton.SetOriginText(55, -15);
 }
 
 UILevelCreatorPage::~UILevelCreatorPage()

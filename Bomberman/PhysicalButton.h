@@ -11,7 +11,7 @@ private:
 	IMageUI hoverImg;
 	IMageUI clickImg;
 
-	Text text;
+	IMageUI textImg;
 	
 	Vector2f position;
 
@@ -34,7 +34,8 @@ public:
 	PhysicalButton();
 	~PhysicalButton();
 	bool DoesClick(int);
-	void SetText(string);
+	void SetOriginText(float, float);
+	void SetImgText(string);
 	void SetBasicProperties(int, PhysicalButtonType, RotationType);
 	void Draw();
 };

@@ -9,10 +9,6 @@ PhysicalButton::PhysicalButton() : Button()
 		"Images/UI/Button/PhysicalButtonHover.png",
 		"Images/UI/Button/PhysicalButtonClick.png");
 
-	text.setFont(SelectedFont::instance->GetFont());
-	text.setCharacterSize(50);
-	text.setFillColor(Color::Black);
-	text.setRotation(26.1f);
 	SetOrigin(80.0f, 37.0f);
 }
 
@@ -29,6 +25,15 @@ void PhysicalButton::ResetIds()
 	}
 }
 
+void PhysicalButton::SetImgText(string url)
+{
+	textImg.SetTexture(url);
+}
+
+void PhysicalButton::SetOriginText(float x, float y)
+{
+	textImg.SetOrigin(x, y);
+}
 
 bool PhysicalButton::DoesClick(int id)
 {
@@ -63,7 +68,7 @@ void PhysicalButton::SetId(int index, int pos)
 	positions[index] = posV;
 
 	if (index == 0)
-		text.setPosition(posV);
+		textImg.SetPosition(posV);
 }
 
 void PhysicalButton::SetIds(int posId)
@@ -124,10 +129,6 @@ void PhysicalButton::SetOrigin(float x, float y)
 	clickImg.SetOrigin(x, y);
 }
 
-void PhysicalButton::SetText(string t)
-{
-	text.setString(t);
-}
 
 void PhysicalButton::Draw()
 {
@@ -154,11 +155,11 @@ void PhysicalButton::Draw()
 	}	
 	if (isClicked)
 	{
-		text.setPosition(positions[0] + deltaClick);
+		textImg.SetPosition(positions[0] + deltaClick);
 	}
 	else
 	{
-		text.setPosition(positions[0]);
+		textImg.SetPosition(positions[0]);
 	}
-	StaticWindow::window->draw(text);
+	textImg.Draw();
 }
