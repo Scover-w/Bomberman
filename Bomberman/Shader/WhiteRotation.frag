@@ -38,11 +38,11 @@ float cube(vec3 p, vec3 s)
   return d;
 }
 
-float map(vec3 p)
+float map(vec3 p, float m_time)
 {
   vec3 q = p;
-  q = twist(q,cos(time));
-  q.z += time*2.+4.*abs(sin(time*2.));
+  q = twist(q,cos(m_time));
+  q.z += m_time*2.+4.*abs(sin(m_time*2.));
   q.z = mod(q.z,2.) - 1.;
   float d;
 
@@ -64,7 +64,8 @@ float map(vec3 p)
 
 void main()
 {
-  time *= 0.01;
+  float m_time = time;
+  m_time *= 0.01;
   vec2 p = (gl_FragCoord.xy * 2. - resolution.xy) / min(resolution.x,resolution.y);
 
   //camera
@@ -88,7 +89,7 @@ void main()
   vec3 rPos = cPos;
   for(int i = 0; i < 32; i++)
   {
-    dist = map(rPos);
+    dist = map(rPos, m_time);
 
     fogDist += dist;
     if(dist < 0.001)

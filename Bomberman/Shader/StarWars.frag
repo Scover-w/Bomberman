@@ -40,9 +40,9 @@ float cube(vec3 p, vec3 s)
   return max(max(q.x,q.y),q.z);
 }
 
-float map(vec3 p)
+float map(vec3 p, float m_time)
 {
-  float tbpm = time * bpm / 60.;
+  float tbpm = m_time * bpm / 60.;
 
   vec3 q = p;
 
@@ -82,10 +82,12 @@ void main()
   float tbpm = time * bpm / 60.;
   float seq = floor(tbpm);
 
-  time *= 0.2;
+  float m_time = time;
+
+  m_time *= 0.2;
   //camera
   vec3 cPos = vec3(0.,0.,10.);
-  cPos.z -= time*20. + (5.*(abs(sin(tbpm*3.08))));
+  cPos.z -= m_time*20. + (5.*(abs(sin(tbpm*3.08))));
   vec3 cDir = vec3(0.,0.,-1);
   vec3 cUp = vec3(0.,1.,0.);
   vec3 cSide = cross(cDir , cUp);
@@ -105,7 +107,7 @@ void main()
 
   for(int i = 0; i< 128; i ++)
   {
-    dist = map(rPos);
+    dist = map(rPos, m_time);
     rLen += dist;
     rPos = cPos + rLen * ray;
     mainEmissive += exp(dist*-0.2);
