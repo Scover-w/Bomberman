@@ -10,7 +10,12 @@ BotPlayer::~BotPlayer()
 
 }
 
-int BotPlayer::GetManhattanDistance(Vector2i v1, Vector2i v2)
+void BotPlayer::SetMap(MapEntity* mp)
+{
+	map = mp;
+}
+
+int BotPlayer::GetDistance(Vector2i v1, Vector2i v2)
 {
 	return (abs(v1.x - v2.x) + abs(v1.y - v2.y));
 }

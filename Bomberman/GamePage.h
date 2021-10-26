@@ -4,6 +4,7 @@
 #include "MapEditor.h"
 #include "MapDrawer.h"
 #include "ExplosionCalculator.h"
+#include "BotPlayer.h"
 
 
 class UIGamePage;
@@ -12,6 +13,10 @@ class GamePage
 {
 private:
 	Player player;
+
+	BotPlayer bot1;
+	BotPlayer bot2;
+	BotPlayer bot3;
 
 	UIGamePage* ui;
 
