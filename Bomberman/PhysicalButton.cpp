@@ -1,6 +1,6 @@
 #include "PhysicalButton.h"
 
-Vector2f PhysicalButton::deltaClick = Vector2f(0.0f, 15.0f);
+Vector2f PhysicalButton::deltaClick = Vector2f(0.0f, 7.0f);
 
 PhysicalButton::PhysicalButton() : Button()
 {
@@ -93,10 +93,25 @@ void PhysicalButton::SetIds(int posId)
 		height = (rotation == RotationType::Horizontal) ? 2 : 3;
 		width = (rotation == RotationType::Horizontal) ? 3 : 2;
 	}
-	else
+	else if(type == PhysicalButtonType::Rectangle4)
 	{
 		height = (rotation == RotationType::Horizontal) ? 2 : 4;
 		width = (rotation == RotationType::Horizontal) ? 4 : 2;
+	}
+	else if (type == PhysicalButtonType::Rectangle5)
+	{
+		height = (rotation == RotationType::Horizontal) ? 2 : 5;
+		width = (rotation == RotationType::Horizontal) ? 5 : 2;
+	}
+	else if (type == PhysicalButtonType::Rectangle6)
+	{
+		height = (rotation == RotationType::Horizontal) ? 2 : 6;
+		width = (rotation == RotationType::Horizontal) ? 6 : 2;
+	}
+	else
+	{
+		height = (rotation == RotationType::Horizontal) ? 2 : 7;
+		width = (rotation == RotationType::Horizontal) ? 7 : 2;
 	}
 	
 	int cursorIndex = 0;
@@ -129,10 +144,37 @@ void PhysicalButton::SetOrigin(float x, float y)
 	clickImg.SetOrigin(x, y);
 }
 
+void PhysicalButton::Enable()
+{
+	ResetState();
+
+	Color& color = (isActive) ? white : semiTransparent;
+
+	sprite.setColor(color);
+	hoverImg.SetColor(color);
+	clickImg.SetColor(color);
+
+	isEnable = true;
+}
+
+void PhysicalButton::Disable()
+{
+	ResetState();
+	isEnable = false;
+
+	sprite.setColor(invisible);
+	hoverImg.SetColor(invisible);
+	clickImg.SetColor(invisible);
+}
 
 void PhysicalButton::Draw()
 {
-	for (int i = 0; i < 8; i++)
+	if (!isEnable)
+		return;
+
+	int max = height * width;
+
+	for (int i = 0; i < max; i++)
 	{
 		if (idsMap[i] == -1)
 			break;

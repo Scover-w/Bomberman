@@ -6,39 +6,41 @@ UILevelCreatorPage::UILevelCreatorPage(LevelCreatorPage* page1)
 	title.SetPosition(40, 250);
 	title.SetRotation(-26.5);
 
-	nextButton.SetTexture("Images/UI/LevelCreator/Right.png");
-	nextButton.SetPosition(1800,850);
-	nextButton.SetScale(0.5f, .5f);
-	previousButton.SetTexture("Images/UI/LevelCreator/Left.png");
-	previousButton.SetPosition(1750, 850);
-	previousButton.SetScale(0.5f, .5f);
-	backMenuButton.SetTexture("Images/UI/LevelCreator/Left.png");
-	backMenuButton.SetPosition(-80, -40);
-	backMenuButton.SetScale(0.5f, .5f);
-	saveButton.SetTexture("Images/UI/LevelCreator/Save.png");
-	saveButton.SetPosition(60, 850);
-	saveButton.SetScale(0.5f, .5f);
-	saveButton.Disable();
-	switchModeButton1.SetTexture("Images/UI/LevelCreator/EditionMode.png");
-	switchModeButton1.SetPosition(1820, -40);
-	switchModeButton1.SetScale(0.5f, .5f);
-	switchModeButton1.Disable();
-	switchModeButton2.SetTexture("Images/UI/LevelCreator/NormalMode.png");
-	switchModeButton2.SetPosition(1820, -40);
-	switchModeButton2.SetScale(0.5f, .5f);
-	//newLevelButton.SetTexture("Images/UI/LevelCreator/Create.png");
-	//newLevelButton.SetPosition(130, 850);
-	//newLevelButton.SetScale(0.5f, .5f);
+	nextPButton.SetBasicProperties(416, PhysicalButtonType::Square, RotationType::Vertical);
+	nextPButton.SetImgText("Images/UI/LevelCreator/RightPB.png");
+	nextPButton.SetOriginText(24, -15);
 
+	previousPButton.SetBasicProperties(414, PhysicalButtonType::Square, RotationType::Vertical);
+	previousPButton.SetImgText("Images/UI/LevelCreator/LeftPB.png");
+	previousPButton.SetOriginText(18, -17);
+
+	backMenuPButton.SetBasicProperties(366, PhysicalButtonType::Square, RotationType::Vertical);
+	backMenuPButton.SetImgText("Images/UI/LevelCreator/LeftPB.png");
+	backMenuPButton.SetOriginText(18, -17);
+
+	savePButton.SetBasicProperties(656, PhysicalButtonType::Rectangle6, RotationType::Vertical);
+	savePButton.SetImgText("Images/UI/LevelCreator/SavePB.png");
+	savePButton.SetOriginText(50, -38);
+	savePButton.Disable();
+
+	switchModePButton1.SetBasicProperties(124, PhysicalButtonType::Rectangle4, RotationType::Vertical);
+	switchModePButton1.SetImgText("Images/UI/LevelCreator/EditorModePB.png");
+	switchModePButton1.SetOriginText(41, -39);
+	switchModePButton1.Disable();
+
+	switchModePButton2.SetBasicProperties(124, PhysicalButtonType::Rectangle4, RotationType::Vertical);
+	switchModePButton2.SetImgText("Images/UI/LevelCreator/NormalModePB.png");
+	switchModePButton2.SetOriginText(41, -39);
+
+	newLevelPButton.SetBasicProperties(657, PhysicalButtonType::Rectangle3, RotationType::Vertical);
+	newLevelPButton.SetImgText("Images/UI/LevelCreator/CreateTextButton.png");
+	newLevelPButton.SetOriginText(60, -35);
+	
 	levelText.setFont(SelectedFont::instance->GetFont());
 	levelText.setPosition(1450, 770);
 	levelText.setCharacterSize(50);
 	levelText.setRotation(-26.5);
 	page = page1;
-
-	newLevelPButton.SetBasicProperties(657, PhysicalButtonType::Rectangle3, RotationType::Vertical);
-	newLevelPButton.SetImgText("Images/UI/LevelCreator/CreateTextButton.png");
-	newLevelPButton.SetOriginText(55, -15);
 }
 
 UILevelCreatorPage::~UILevelCreatorPage()
@@ -52,22 +54,22 @@ void UILevelCreatorPage::Update()
 
 	mouseUIPositionId = MouseTool::UM_GetIndexPositionMouse();
 
-	if (nextButton.DoesClick(mousePosition))
+	if (nextPButton.DoesClick(mouseUIPositionId))
 		page->UINextLevelClick();
 
-	if (previousButton.DoesClick(mousePosition))
+	if (previousPButton.DoesClick(mouseUIPositionId))
 		page->UIPreviousLevelClick();
 
-	if (backMenuButton.DoesClick(mousePosition))
+	if (backMenuPButton.DoesClick(mouseUIPositionId))
 	{
 		SetNormalMode();
 		page->UIBackMenu();
 	}
 
-	if (saveButton.DoesClick(mousePosition))
+	if (savePButton.DoesClick(mouseUIPositionId))
 		page->UISaveClick();
 
-	if (switchModeButton1.DoesClick(mousePosition) || switchModeButton2.DoesClick(mousePosition))
+	if (switchModePButton1.DoesClick(mouseUIPositionId) || switchModePButton2.DoesClick(mouseUIPositionId))
 	{
 		isEditing = !isEditing;
 		if (isEditing)
@@ -88,12 +90,12 @@ void UILevelCreatorPage::Update()
 void UILevelCreatorPage::Draw()
 {
 	title.Draw();
-	nextButton.Draw();
-	previousButton.Draw();
-	backMenuButton.Draw();
-	saveButton.Draw();
-	switchModeButton1.Draw();
-	switchModeButton2.Draw();
+	nextPButton.Draw();
+	previousPButton.Draw();
+	backMenuPButton.Draw();
+	savePButton.Draw();
+	switchModePButton1.Draw();
+	switchModePButton2.Draw();
 
 	newLevelPButton.Draw();
 
@@ -102,23 +104,23 @@ void UILevelCreatorPage::Draw()
 
 void UILevelCreatorPage::SetEditionMode()
 {
-	switchModeButton1.Enable();
-	switchModeButton2.Disable();
-	saveButton.Enable();
+	switchModePButton1.Enable();
+	switchModePButton2.Disable();
+	savePButton.Enable();
 	newLevelPButton.Disable();
-	previousButton.Disable();
-	nextButton.Disable();
+	previousPButton.Disable();
+	nextPButton.Disable();
 	isEditing = true;
 }
 
 void UILevelCreatorPage::SetNormalMode()
 {
-	switchModeButton1.Disable();
-	switchModeButton2.Enable();
-	saveButton.Disable();
+	switchModePButton1.Disable();
+	switchModePButton2.Enable();
+	savePButton.Disable();
 	newLevelPButton.Enable();
-	previousButton.Enable();
-	nextButton.Enable();
+	previousPButton.Enable();
+	nextPButton.Enable();
 	isEditing = false;
 }
 
@@ -133,12 +135,12 @@ void UILevelCreatorPage::SetActualMapId(int id)
 	levelText.setString("Level : " + to_string(id));
 
 	if (id <= 1)
-		previousButton.SetActive(false);
+		previousPButton.SetActive(false);
 	else
-		previousButton.SetActive(true);
+		previousPButton.SetActive(true);
 
 	if (id >= maxMapId)
-		nextButton.SetActive(false);
+		nextPButton.SetActive(false);
 	else
-		nextButton.SetActive(true);
+		nextPButton.SetActive(true);
 }

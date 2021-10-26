@@ -19,14 +19,12 @@ private:
 
 	IMageUI title;
 
-	Button nextButton;
-	Button previousButton;
-	Button backMenuButton;
-	Button saveButton;
-	Button switchModeButton1;
-	Button switchModeButton2;
-	Button newLevelButton;
-
+	PhysicalButton nextPButton;
+	PhysicalButton previousPButton;
+	PhysicalButton backMenuPButton;
+	PhysicalButton savePButton;
+	PhysicalButton switchModePButton1;
+	PhysicalButton switchModePButton2;
 	PhysicalButton newLevelPButton;
 
 	Text levelText;	

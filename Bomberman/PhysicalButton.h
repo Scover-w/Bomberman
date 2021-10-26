@@ -15,7 +15,7 @@ private:
 	
 	Vector2f position;
 
-	Vector2f positions[8];
+	Vector2f positions[14];
 
 	PhysicalButtonType type;
 	RotationType rotation;
@@ -23,7 +23,7 @@ private:
 	int width, height;
 	int idOrigin;
 
-	int idsMap[8];
+	int idsMap[14];
 	void SetIds(int);
 	void ResetIds();
 	void SetId(int, int);
@@ -37,5 +37,7 @@ public:
 	void SetOriginText(float, float);
 	void SetImgText(string);
 	void SetBasicProperties(int, PhysicalButtonType, RotationType);
+	void Enable();
+	void Disable();
 	void Draw();
 };

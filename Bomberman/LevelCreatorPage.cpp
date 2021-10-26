@@ -97,9 +97,9 @@ void LevelCreatorPage::Update()
 
     ui->Draw();
 
-    /*int temp = MouseTool::UM_GetIndexPositionMouse();
+    int temp = MouseTool::UM_GetIndexPositionMouse();
     cout << temp << endl;
-    Vector2f positionSelection = CustomMath::UM_PositionToIsoCoordF(temp);
+    /*Vector2f positionSelection = CustomMath::UM_PositionToIsoCoordF(temp);
     redTest.SetPosition(positionSelection);
     redTest.Draw();*/
    
