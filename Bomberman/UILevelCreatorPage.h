@@ -27,6 +27,8 @@ private:
 	PhysicalButton switchModePButton2;
 	PhysicalButton newLevelPButton;
 
+	IMageUI borderLevel;
+
 	Text levelText;	
 
 public:

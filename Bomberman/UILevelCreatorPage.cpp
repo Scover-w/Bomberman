@@ -36,8 +36,12 @@ UILevelCreatorPage::UILevelCreatorPage(LevelCreatorPage* page1)
 	newLevelPButton.SetImgText("Images/UI/LevelCreator/CreateTextButton.png");
 	newLevelPButton.SetOriginText(60, -35);
 	
+	borderLevel.SetTexture("Images/UI/LevelCreator/BorderLevel.png");
+	borderLevel.SetPosition(CustomMath::UM_PositionToIsoCoordF(580));
+	borderLevel.SetOrigin(0, -3);
+
 	levelText.setFont(SelectedFont::instance->GetFont());
-	levelText.setPosition(1450, 770);
+	levelText.setPosition(CustomMath::UM_PositionToIsoCoordF(581));
 	levelText.setCharacterSize(50);
 	levelText.setRotation(-26.5);
 	page = page1;
@@ -98,6 +102,8 @@ void UILevelCreatorPage::Draw()
 	switchModePButton2.Draw();
 
 	newLevelPButton.Draw();
+
+	borderLevel.Draw();
 
 	StaticWindow::window->draw(levelText);
 }
