@@ -4,6 +4,7 @@
 GamePage::GamePage()
 {
     player.SetMap(map);
+    bot1.SetMap(map);
     UIGamePage* temp = new UIGamePage(this);
     ui = temp;
     hasWin = false;

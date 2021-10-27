@@ -5,13 +5,15 @@
 class BotPlayer : Player
 {
 private:
-
-	int GetManhattanDistance(Vector2i, Vector2i);
+	static MapEntity* map;
+	int GetDistance(Vector2i, Vector2i);
 	bool IsCellValid(int, int);
 
 public:
 	BotPlayer();
 	~BotPlayer();
+
+	static void SetMap(MapEntity*);
 };
 
 /*
