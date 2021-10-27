@@ -33,6 +33,8 @@ private:
 	bool beforeSpace = false;
 	bool currentSpace = false;
 
+	bool tempTest = false;
+
 	void UpdateBombs(float);
 	void UpdateExplosions(float);
 
@@ -42,5 +44,6 @@ public:
 
 	void LoadPage();
 	void Update();
+	void ManageEvent();
 };
 

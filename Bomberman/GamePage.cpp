@@ -32,10 +32,8 @@ void GamePage::LoadPage()
     MapDrawer::instance->SetPlayer(&player);
 }
 
-void GamePage::Update()
+void GamePage::ManageEvent()
 {
-    ui->Update();
-
     // Rising front
     beforeSpace = currentSpace;
     currentSpace = Keyboard::isKeyPressed(Keyboard::Space);
@@ -45,7 +43,17 @@ void GamePage::Update()
     {
         if (event.type == Event::Closed || (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
             StaticWindow::window->close();
+        else if (Keyboard::isKeyPressed(Keyboard::T) && !tempTest)
+        {
+            tempTest = true;
+            bot1.UpdateTwodMap();
+            Vector2i src(0,0); 
+            Vector2i dst(12,12);
+            bot1.SearchPath(src, dst);
+            bot1.Coucou();
+        }
     }
+
 
     if (currentSpace && !beforeSpace && player.AskRemoveBomb())
     {
@@ -61,8 +69,15 @@ void GamePage::Update()
             bombOwner[posPlayerIndex] = player.GetId();
             player.SetOnBombId(posPlayerIndex);
         }
-        
+
     }
+}
+
+void GamePage::Update()
+{
+    ui->Update();
+
+    ManageEvent();
 
     float deltaT = Timer::instance->GetDeltaTime();
 
@@ -74,6 +89,12 @@ void GamePage::Update()
     MapDrawer::instance->DrawEnv(true);
     MapDrawer::instance->Draw();
     MapDrawer::instance->DrawEnv(false);
+
+    bot1.UpdateTwodMap();
+    Vector2i src(0, 0);
+    Vector2i dst(12, 12);
+    bot1.SearchPath(src, dst);
+    bot1.Coucou();
 
     ui->Draw();
 

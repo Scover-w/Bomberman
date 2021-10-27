@@ -68,7 +68,7 @@ void MapEditor::LoadRandomMap(MapEntity(&map2)[169])
 
 	LoadMap(randomMapId, map2);
 
-	bool exit = false;
+	/*bool exit = false;
 
 	for (int i = 0; i < 169; i++)
 	{
@@ -92,5 +92,5 @@ void MapEditor::LoadRandomMap(MapEntity(&map2)[169])
 			if (rdV < 8)
 				map2[i] = MapEntity::DBlock;
 		}
-	}
+	}*/
 }
