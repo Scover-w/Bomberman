@@ -153,7 +153,7 @@ void PhysicalButton::Enable()
 	sprite.setColor(color);
 	hoverImg.SetColor(color);
 	clickImg.SetColor(color);
-
+	textImg.SetColor(color);
 	isEnable = true;
 }
 
@@ -165,6 +165,7 @@ void PhysicalButton::Disable()
 	sprite.setColor(invisible);
 	hoverImg.SetColor(invisible);
 	clickImg.SetColor(invisible);
+	textImg.SetColor(invisible);
 }
 
 void PhysicalButton::Draw()
@@ -204,4 +205,24 @@ void PhysicalButton::Draw()
 		textImg.SetPosition(positions[0]);
 	}
 	textImg.Draw();
+}
+
+void PhysicalButton::SetActive(bool state)
+{
+	isActive = state;
+
+	if (isEnable && !isActive)
+	{ 
+		hoverImg.SetColor(semiTransparent);
+		clickImg.SetColor(semiTransparent);
+		textImg.SetColor(semiTransparent);
+		Button::SetActive(state);
+	}
+	else if (isEnable && isActive)
+	{
+		hoverImg.SetColor(white);
+		clickImg.SetColor(white);
+		textImg.SetColor(white);
+		Button::SetActive(state);
+	}
 }

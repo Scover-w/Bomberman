@@ -1,22 +1,11 @@
 #include "MenuPage.h"
 #include "Settings.h"
+#include "UIMenuPage.h"
 
 MenuPage::MenuPage()
 {
-    if (sf::Shader::isAvailable())
-    {
-        shaderT.create(Settings::MULTIPLIED_SIZE_SCREEN.x, Settings::MULTIPLIED_SIZE_SCREEN.y);
-        shaderS.setTexture(shaderT);
-        shaderS.setPosition(-96, -54);
-        if (!shader.loadFromFile("Shader/WhiteRotation.frag", sf::Shader::Fragment))
-        {
-            // erreur...
-        }
-        else
-        {
-            shader.setUniform("resolution", sf::Vector2f(Settings::SIZE_SCREEN.x, Settings::SIZE_SCREEN.y));
-        }
-    }
+    UIMenuPage* temp = new UIMenuPage(this);
+    ui = temp;
 }
 
 MenuPage::~MenuPage()
@@ -27,32 +16,89 @@ MenuPage::~MenuPage()
 void MenuPage::LoadPage()
 {
     DataManager::instance->NoFirstLoad();
+    timerAnimation = 1.5f;
+    inAnimation = true;
+    directionAnimation = false;
+    ui->HideButtons();
 }
 
-void MenuPage::Update()
+void MenuPage::ManageEvent()
 {
     Event event;
     while (StaticWindow::window->pollEvent(event))
     {
-        if (event.type == event.KeyPressed && event.key.code == Keyboard::Enter)
-        {
-            Page page = Page::Game;
-            DataManager::instance->SetCurrentPage(page);
-        }
-        else if (event.type == event.KeyPressed && event.key.code == Keyboard::C)
+        if ((event.type == Event::KeyPressed && event.key.code == Keyboard::C))
         {
             Page page = Page::LevelCreator;
             DataManager::instance->SetCurrentPage(page);
         }
-        else if (event.type == Event::Closed || (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
+        if ((event.type == Event::KeyPressed && event.key.code == Keyboard::T))
+        {
+            inAnimation = true;
+            timerAnimation = 0.0f;
+            directionAnimation = true;
+        }
+        if (event.type == Event::Closed || (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
             StaticWindow::window->close();
-        
     }
+}
 
-    shader.setUniform("time", clk.getElapsedTime().asSeconds());
+void MenuPage::ManageMap()
+{
+    MapDrawer::instance->DrawEnv(true);
 
-    if (sf::Shader::isAvailable())
+    if (inAnimation)
     {
-        StaticWindow::window->draw(shaderS, &shader);
+        timerAnimation = (directionAnimation) ? timerAnimation + Timer::instance->GetDeltaTime() : timerAnimation - Timer::instance->GetDeltaTime();
+        MapDrawer::instance->DrawArenaInGround();
+        MapDrawer::instance->DrawAnimatedArenaInWall(timerAnimation);
     }
+    else
+    {
+        MapDrawer::instance->DrawArenaInWall();
+    }
+
+    if (inAnimation)
+    {
+        if (timerAnimation > 1.5f)
+        {
+            DataManager::instance->SetCurrentPage(wishPage);
+        }
+        else if (timerAnimation <= 0.0f)
+        {
+            inAnimation = false;
+            ui->DisplayButtons();
+        }
+    }
+    
+
+    MapDrawer::instance->DrawEnv(false);
+}
+
+void MenuPage::Update()
+{
+    ui->Update();
+
+    ManageEvent();
+    ManageMap();
+
+    ui->Draw();
+}
+
+void MenuPage::PlayClick()
+{
+    inAnimation = true;
+    timerAnimation = 0.0f;
+    directionAnimation = true;
+    wishPage = Page::Game;
+    ui->HideButtons();
+}
+
+void MenuPage::EditorClick()
+{
+    inAnimation = true;
+    timerAnimation = 0.0f;
+    directionAnimation = true;
+    wishPage = Page::LevelCreator;
+    ui->HideButtons();
 }

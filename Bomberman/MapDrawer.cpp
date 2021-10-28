@@ -114,6 +114,13 @@ void MapDrawer::DrawWallEnv(int i)
     wallEnvImg.Draw();
 }
 
+void MapDrawer::DrawGround(int i)
+{
+    Vector2f positionSelection = CustomMath::GM_PositionToIsoCoordF(i);
+    grounds[selectedGround].SetPosition(positionSelection);
+    grounds[selectedGround].Draw();
+}
+
 void MapDrawer::DrawEnv(bool isFirstPart)
 {
     if (isFirstPart)
@@ -179,6 +186,60 @@ void MapDrawer::DrawEnv(bool isFirstPart)
 
 }
 
+void MapDrawer::DrawArenaInWall()
+{
+    for (int i = 232; i < 570; i += Settings::SIZE_UI_MAP)
+    {
+        for (int j = 0; j < 13; j++)
+        {
+            DrawWallEnv(i + j);
+        }
+    }
+}
+
+
+void MapDrawer::DrawAnimatedArenaInWall(const float& timer)
+{
+    Vector2f pos;
+    Vector2f delta;
+    float translation = -Settings::MULTIPLIED_SIZE_SCREEN.y;
+    float step = 0.003f;
+    int k = 0;
+    float state = timer / 1.5f;
+    float relativeState;
+
+    for (int i = 232; i < 570; i += Settings::SIZE_UI_MAP)
+    {
+        for (int j = 0; j < 13; j++)
+        {
+            relativeState = timer - (k * step);
+            if (relativeState < 0)
+                delta = Vector2f(0, 0);
+            else
+                delta = Vector2f(0, translation * relativeState);
+
+            pos = CustomMath::UM_PositionToIsoCoordF(i + j);
+            wallEnvImg.SetPosition(pos + delta);
+            wallEnvImg.Draw();
+            
+        }
+        k += 13;
+    }
+}
+
+void MapDrawer::DrawArenaInGround()
+{
+    Vector2f positionSelection;
+
+    for (int i = 0; i < 13; i++)
+    {
+        for (int j = 0; j < 13; j++)
+        {
+            DrawGround(i * 13 + j);
+        }
+    }
+}
+
 void MapDrawer::Draw()
 {
 
@@ -189,9 +250,7 @@ void MapDrawer::Draw()
         int entity = *(map + i);
         if (!(entity == MapEntity::Wall || entity == MapEntity::DBlock))
         {
-            positionSelection = CustomMath::GM_PositionToIsoCoordF(i);
-            grounds[selectedGround].SetPosition(positionSelection);
-            grounds[selectedGround].Draw();
+            DrawGround(i);
         }
     }
 

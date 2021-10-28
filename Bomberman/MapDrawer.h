@@ -45,7 +45,7 @@ private:
 	float GetDeltaAnimItem(int);
 	void DrawShadowItem(Vector2f&, float);
 	void DrawWallEnv(int);
-
+	void DrawGround(int);
 
 public:
 	static MapDrawer* instance;
@@ -55,6 +55,9 @@ public:
 	void SetMap(MapEntity(&map2)[169]);
 	void SetPlayers(Player*,BotPlayer*,BotPlayer*, BotPlayer*);
 	void DrawEnv(bool);
+	void DrawArenaInWall();
+	void DrawAnimatedArenaInWall(const float&);
+	void DrawArenaInGround();
 	void Draw();
 	void DrawEditor();
 };

@@ -39,5 +39,6 @@ public:
 	void SetBasicProperties(int, PhysicalButtonType, RotationType);
 	void Enable();
 	void Disable();
+	void SetActive(bool);
 	void Draw();
 };

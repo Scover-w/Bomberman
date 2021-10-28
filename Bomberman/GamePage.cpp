@@ -65,7 +65,6 @@ void GamePage::ManageEvent()
             bombOwner[posPlayerIndex] = player.GetId();
             player.SetOnBombId(posPlayerIndex);
         }
-
     }
 }
 
@@ -86,7 +85,7 @@ void GamePage::Update()
 
 
     MapDrawer::instance->DrawEnv(true);
-    MapDrawer::instance->Draw();
+    MapDrawer::instance->DrawArenaInWall();
     MapDrawer::instance->DrawEnv(false);
 
     
