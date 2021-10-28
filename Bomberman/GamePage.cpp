@@ -4,7 +4,9 @@
 GamePage::GamePage()
 {
     player.SetMap(map);
-    bot1.SetMap(map);
+    /*bot1.SetMap(map);
+    bot2.SetMap(map);
+    bot3.SetMap(map);*/
     UIGamePage* temp = new UIGamePage(this);
     ui = temp;
     hasWin = false;
@@ -29,7 +31,10 @@ void GamePage::LoadPage()
     MapDrawer::instance->SetMaps(map, mapExplosion, mapBomb);
     explosionCalcul.SetMaps(map, mapExplosion, mapBomb);
     player.Reset();
-    MapDrawer::instance->SetPlayer(&player);
+    bot1.Reset();
+    bot2.Reset();
+    bot3.Reset();
+    MapDrawer::instance->SetPlayers(&player, &bot1, &bot2, &bot3);
 }
 
 void GamePage::ManageEvent()
@@ -43,15 +48,6 @@ void GamePage::ManageEvent()
     {
         if (event.type == Event::Closed || (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
             StaticWindow::window->close();
-        else if (Keyboard::isKeyPressed(Keyboard::T) && !tempTest)
-        {
-            tempTest = true;
-            bot1.UpdateTwodMap();
-            Vector2i src(0,0); 
-            Vector2i dst(12,12);
-            bot1.SearchPath(src, dst);
-            bot1.Coucou();
-        }
     }
 
 
@@ -84,17 +80,16 @@ void GamePage::Update()
     UpdateBombs(deltaT);
     UpdateExplosions(deltaT);
     player.Update();
+    bot1.Update();
+    bot2.Update();
+    bot3.Update();
 
 
     MapDrawer::instance->DrawEnv(true);
     MapDrawer::instance->Draw();
     MapDrawer::instance->DrawEnv(false);
 
-    bot1.UpdateTwodMap();
-    Vector2i src(0, 0);
-    Vector2i dst(12, 12);
-    bot1.SearchPath(src, dst);
-    bot1.Coucou();
+    
 
     ui->Draw();
 

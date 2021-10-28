@@ -9,14 +9,14 @@ Color Player::invicible(255, 255, 255, 150);
 Color Player::normal(255, 255, 255, 255);
 
 int Player::nbPlayer = 0;
+MapEntity* Player::map = nullptr;
 
 Player::Player()
 {
-    image.SetTexture("Images/Player/SpriteSheetPlayer.png");
     image.SetOrigin(77, 128);
 
     shadow.SetTexture("Images/Player/Shadow.png");
-    shadow.SetOrigin(20.0f, 40.0f);
+    shadow.SetOrigin(20.0f, 42.0f);
     Color transparent(255, 255, 255, 120);
     shadow.SetColor(transparent);
 
@@ -25,6 +25,22 @@ Player::Player()
 
     id = nbPlayer;
     nbPlayer++;
+
+    switch (id)
+    {
+        case 0:
+            image.SetTexture("Images/Player/BluePlayer.png");
+            break;
+        case 1:
+            image.SetTexture("Images/Player/RedPlayer.png");
+            break;
+        case 2:
+            image.SetTexture("Images/Player/YellowPlayer.png");
+            break;
+        case 3:
+            image.SetTexture("Images/Player/GreenPlayer.png");
+            break;
+    }
 }
 
 Player::~Player()
@@ -75,13 +91,9 @@ void Player::DeltaAnimation()
 int Player::GetStateAnimation()
 {
     DeltaAnimation();
-    
-    if (!Keyboard::isKeyPressed(Keyboard::Left) && !Keyboard::isKeyPressed(Keyboard::Right) 
-        && !Keyboard::isKeyPressed(Keyboard::Up) && !Keyboard::isKeyPressed(Keyboard::Down))
-    {
-        return 0;
-    }
 
+    if (direction.x > -0.0001f && direction.x < 0.0001f && direction.y > -0.0001f && direction.y < 0.0001f)
+        return 0;
     if (animation < 0.1f)
         return 0;
     else if (animation < 0.2f)
@@ -178,7 +190,6 @@ void Player::GetDirection()
     direction.x = direction.x * (speed * Timer::instance->GetDeltaTime());
     direction.y = direction.y * (speed * Timer::instance->GetDeltaTime());
 }
-
 
 bool Player::isDead()
 {
@@ -380,8 +391,12 @@ void Player::Reset()
     animation = 0.0f;
     isInvicible = false;
 
-    Vector2f temp(Settings::CARTESIAN_ATOMIC_HEIGHT / 2, Settings::CARTESIAN_ATOMIC_HEIGHT / 2);
-    cartPosition = temp;
+    if (id == 0) // Player
+    {
+        Vector2f temp(Settings::CARTESIAN_ATOMIC_HEIGHT / 2, Settings::CARTESIAN_ATOMIC_HEIGHT / 2);
+        cartPosition = temp;
+        positionIndex = CustomMath::GM_CartCoordFToPosition(cartPosition);
+    }
 }
 
 int Player::GetRange()

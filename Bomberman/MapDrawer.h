@@ -2,6 +2,7 @@
 #include "headersProject.h"
 #include "Player.h"
 #include "CustomRandom.h"
+#include "BotPlayer.h"
 
 class MapDrawer
 {
@@ -29,6 +30,9 @@ private:
 	int selectedGround;
 
 	Player* player;
+	BotPlayer* bot1;
+	BotPlayer* bot2;
+	BotPlayer* bot3;
 
 	MapEntity* map;
 	float* mapExplosion;
@@ -49,7 +53,7 @@ public:
 	~MapDrawer();
 	void SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169]);
 	void SetMap(MapEntity(&map2)[169]);
-	void SetPlayer(Player*);
+	void SetPlayers(Player*,BotPlayer*,BotPlayer*, BotPlayer*);
 	void DrawEnv(bool);
 	void Draw();
 	void DrawEditor();

@@ -1,6 +1,6 @@
 #include "BotPlayer.h"
 
-MapEntity* BotPlayer::map = nullptr;
+//MapEntity* BotPlayer::map = nullptr;
 int BotPlayer::twodMap[13][13];
 
 BotPlayer::BotPlayer() : Player()
@@ -13,9 +13,41 @@ BotPlayer::~BotPlayer()
 
 }
 
-void BotPlayer::SetMap(MapEntity* mp)
+void BotPlayer::ResetPath()
 {
-	map = mp;
+    while (!path.empty())
+    {
+        Vector2i p = path.top();
+        path.pop();
+    }
+}
+
+void BotPlayer::Reset()
+{
+    Player::Reset();
+    Vector2f startPos;
+
+    switch (id)
+    {
+        case 1:
+            startPos = Vector2f(Settings::CARTESIAN_ATOMIC_HEIGHT * 12 + Settings::HALF_CARTESIAN_ATOMIC_HEIGHT, Settings::CARTESIAN_ATOMIC_HEIGHT - Settings::HALF_CARTESIAN_ATOMIC_HEIGHT);
+            break;
+        case 2:
+            startPos = Vector2f(Settings::CARTESIAN_ATOMIC_HEIGHT - Settings::HALF_CARTESIAN_ATOMIC_HEIGHT, Settings::CARTESIAN_ATOMIC_HEIGHT * 12 + Settings::HALF_CARTESIAN_ATOMIC_HEIGHT);
+            break;
+        case 3:
+            startPos = Vector2f(Settings::CARTESIAN_ATOMIC_HEIGHT * 12 + Settings::HALF_CARTESIAN_ATOMIC_HEIGHT, Settings::CARTESIAN_ATOMIC_HEIGHT * 12  + Settings::HALF_CARTESIAN_ATOMIC_HEIGHT);
+            break;
+    }
+
+    cartPosition = startPos;
+    positionIndex = CustomMath::GM_CartCoordFToPosition(cartPosition);
+
+    Vector2f p = CustomMath::GM_CartesianToIsometric(cartPosition);
+    image.SetPosition(p);
+    shadow.SetPosition(p);
+
+    ResetPath();
 }
 
 void BotPlayer::UpdateTwodMap()
@@ -55,13 +87,21 @@ bool BotPlayer::IsEqual(const Vector2i& v1, const Vector2i& v2)
     return (v1.x == v2.x && v1.y == v2.y);
 }
 
+void BotPlayer::SetDirection()
+{
+    Vector2i targetP = path.top();
+    Vector2i currentP = Vector2i(positionIndex % 13, positionIndex / 13);
+    
+    int deltaX = (targetP.x - currentP.x);
+    int deltaY = (targetP.y - currentP.y);
+
+    direction.x = deltaX * (speed * Timer::instance->GetDeltaTime());
+    direction.y = deltaY * (speed * Timer::instance->GetDeltaTime());
+}
+
 void BotPlayer::SetPath(const Vector2i& dest)
 {
-    while (!path.empty())
-    {
-        Vector2i p = path.top();
-        path.pop();
-    }
+    ResetPath();
 
     int x = dest.x;
     int y = dest.y;
@@ -75,12 +115,51 @@ void BotPlayer::SetPath(const Vector2i& dest)
         y = next_node.y;
     } while (!IsEqual(cellDetails[x][y].parent,next_node));
 
-    path.emplace(x, y);
+    //path.emplace(x, y);
+
+    SetDirection();
 }
 
-void BotPlayer::Coucou()
+
+bool BotPlayer::IsInTargetCell()
 {
-    path.size();
+    if (path.size() == 0)
+        return false;
+
+    int targetPos = path.top().x + path.top().y * 13;
+    if(positionIndex != targetPos)
+        return false;
+
+    Vector2f middlePosition = Vector2f(cartPosition.x - path.top().x * Settings::CARTESIAN_ATOMIC_HEIGHT, cartPosition.y - path.top().y * Settings::CARTESIAN_ATOMIC_HEIGHT);
+
+    middlePosition.x = abs(middlePosition.x - Settings::HALF_CARTESIAN_ATOMIC_HEIGHT);
+    middlePosition.y = abs(middlePosition.y - Settings::HALF_CARTESIAN_ATOMIC_HEIGHT);
+
+    if (middlePosition.x > 20.0f && middlePosition.y > 20.0f)
+        return true;
+
+    return false;
+}
+
+void BotPlayer::Update()
+{
+    if (IsInTargetCell())
+    {
+        // In target
+    }
+
+
+    if (path.size() == 0)
+    {
+        UpdateTwodMap();
+        SearchPath(Vector2i(positionIndex % 13, positionIndex / 13), Vector2i(0,1));
+    }
+
+    Vector2i temp = path.top();
+
+
+    ManageInvicibility();
+    Move();
 }
 
 void BotPlayer::SearchPath(const Vector2i& src, const Vector2i& dest)

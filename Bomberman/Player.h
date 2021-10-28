@@ -3,7 +3,7 @@
 
 class Player
 {
-private:
+protected:
 	static int nbPlayer;
 
 	int id;
@@ -29,8 +29,7 @@ private:
 	IntRect maskSprite;
 	Vector2i directionAnimationV2i;
 
-
-	MapEntity* map;
+	static MapEntity* map;
 
 	int onBombId = -1;
 
@@ -56,6 +55,7 @@ private:
 	void CheckCollectable();
 
 public:
+
 	Player();
 	~Player();
 

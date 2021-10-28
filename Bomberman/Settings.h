@@ -17,6 +17,7 @@ public:
 	static const float ISOMETRIC_SIZE_TILE;
 
 	static const float CARTESIAN_ATOMIC_HEIGHT;
+	static const float HALF_CARTESIAN_ATOMIC_HEIGHT;
 
 	static const Vector2f GAME_TRANSLATION_MAP;
 	static const Vector2f UI_TRANSLATION_MAP;

@@ -99,9 +99,12 @@ void MapDrawer::SetMap(MapEntity(&map2)[169])
     selectedGround = 0;
 }
 
-void MapDrawer::SetPlayer(Player* play)
+void MapDrawer::SetPlayers(Player* p, BotPlayer* b1, BotPlayer* b2, BotPlayer* b3)
 {
-    player = play;
+    player = p;
+    bot1 = b1;
+    bot2 = b2;
+    bot3 = b3;
 }
 
 void MapDrawer::DrawWallEnv(int i)
@@ -216,6 +219,21 @@ void MapDrawer::Draw()
         if (player->GetPositionIndex() == i)
         {
             player->Draw();
+        }
+
+        if (bot1->GetPositionIndex() == i)
+        {
+            bot1->Draw();
+        }
+
+        if (bot2->GetPositionIndex() == i)
+        {
+            bot2->Draw();
+        }
+
+        if (bot3->GetPositionIndex() == i)
+        {
+            bot3->Draw();
         }
 
         if (*(mapBomb + i) >= 0.0f)
