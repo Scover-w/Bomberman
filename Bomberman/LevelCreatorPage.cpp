@@ -61,6 +61,12 @@ void LevelCreatorPage::SwitchEditing()
 {
     isEditing = !isEditing;
 
+    if (!isEditing)
+    {
+        LoadPage();
+        MapEditor::LoadMap(selectedMapId, map);
+    }
+
     brickWall.SetColor(isEditing ? midtransparent : transparent);
 }
 
