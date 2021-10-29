@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "CustomMath.h"
+#include "SoundManager.h"
 
 
 Vector2i Player::upRightCorner(10, -10);
@@ -356,21 +357,25 @@ void Player::ResetOnBombId(int id)
 void Player::AddSpeed()
 {
     speed += 20.0f;
+    SoundManager::instance->Play(SoundType::PowerUp3);
 }
 
 void Player::AddBomb()
 {
     bombs++;
+    SoundManager::instance->Play(SoundType::PowerUp2);
 }
 
 void Player::AddRange()
 {
     range++;
+    SoundManager::instance->Play(SoundType::PowerUp4);
 }
 
 void Player::AddLife()
 {
     lives++;
+    SoundManager::instance->Play(SoundType::PowerUp1);
 }
 
 bool Player::AskRemoveBomb()
@@ -384,7 +389,7 @@ bool Player::AskRemoveBomb()
 
 void Player::Reset()
 {
-    lives = 10;
+    lives = 1;
     range = 1;
     bombs = 1;
     speed = 120.0f;
@@ -399,9 +404,24 @@ void Player::Reset()
     }
 }
 
+int Player::GetSpeed()
+{
+    return (speed - 120.0f) / 20.0f;
+}
+
 int Player::GetRange()
 {
     return range;
+}
+
+int Player::GetNbBomb()
+{
+    return bombs;
+}
+
+int Player::GetLife()
+{
+    return lives;
 }
 
 void Player::Update()

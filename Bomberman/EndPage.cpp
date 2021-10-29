@@ -18,7 +18,7 @@ void EndPage::LoadPage()
 	DataManager::instance->NoFirstLoad();
 
 	hasWin = DataManager::instance->AskWin();
-	ui->SetWin(true);
+	ui->SetWin(hasWin);
 }
 
 void EndPage::ManageEvent()

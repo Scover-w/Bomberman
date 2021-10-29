@@ -10,7 +10,7 @@ SoundManager::SoundManager()
 	bufferPowerUp1.loadFromFile("Sound/PowerUp1.wav");
 	bufferPowerUp2.loadFromFile("Sound/PowerUp2.wav");
 	bufferPowerUp3.loadFromFile("Sound/PowerUp3.wav");
-	bufferPowerUp4.loadFromFile("Sound/PowerUp4.wav");
+	bufferPowerUp4.loadFromFile("Sound/PowerUp5.wav");
 	bufferExplosion.loadFromFile("Sound/Explosion.wav");
 	bufferWin.loadFromFile("Sound/Win.wav");
 	bufferLose.loadFromFile("Sound/KillVoice.wav");

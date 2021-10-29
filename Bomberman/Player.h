@@ -64,7 +64,7 @@ public:
 	void SetMap(MapEntity*);
 	void SetOnBombId(int);
 	int GetPositionIndex();
-	int GetRange();
+	
 	int GetId();
 
 	void ResetOnBombId(int);
@@ -74,6 +74,10 @@ public:
 	void AddRange();
 	void AddLife();
 
+	int GetSpeed();
+	int GetNbBomb();
+	int GetRange();
+	int GetLife();
 
 
 	bool AskRemoveBomb();

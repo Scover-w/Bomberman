@@ -153,9 +153,10 @@ void BotPlayer::Update()
     {
         UpdateTwodMap();
         SearchPath(Vector2i(positionIndex % 13, positionIndex / 13), Vector2i(0,1));
+
     }
 
-    Vector2i temp = path.top();
+    
 
 
     ManageInvicibility();

@@ -5,6 +5,12 @@ class UIGamePage
 private:
 	GamePage* page;
 
+	Player* player;
+
+	BotPlayer* bot1;
+	BotPlayer* bot2;
+	BotPlayer* bot3;
+
 	IMageUI blueGround;
 	IMageUI redGround;
 	IMageUI greenGround;
@@ -40,11 +46,18 @@ private:
 	void DrawShadowItem(float, int);
 	void DrawShadowNumber(float, int);
 
+	int SetLifePlayerText(int);
+	int SetBombPlayerText(int);
+	int SetRangePlayerText(int);
+	int SetSpeedPlayerText(int);
+
 public:
 	UIGamePage(GamePage*);
 	~UIGamePage();
 
 	void Update();
 	void Draw();
+
+	void SetPlayers(Player*, BotPlayer*, BotPlayer*, BotPlayer*);
 };
 

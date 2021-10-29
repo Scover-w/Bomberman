@@ -1,22 +1,19 @@
 #include "GamePage.h"
 #include "UIGamePage.h"
+#include "SoundManager.h"
 
 GamePage::GamePage()
 {
     player.SetMap(map);
-    /*bot1.SetMap(map);
-    bot2.SetMap(map);
-    bot3.SetMap(map);*/
     UIGamePage* temp = new UIGamePage(this);
     ui = temp;
+
+    ui->SetPlayers(&player, &bot1, &bot2, &bot3);
+
     hasWin = false;
 
-    for (int i = 0; i < 169; i++)
-    {
-        mapExplosion[i] = -1.0f;
-        mapBomb[i] = -1.0f;
-        bombOwner[i] = -1;
-    }
+    explosionCalcul.SetMaps(map, mapExplosion, mapBomb);
+    MapDrawer::instance->SetPlayers(&player, &bot1, &bot2, &bot3);
 }
 
 GamePage::~GamePage()
@@ -29,12 +26,19 @@ void GamePage::LoadPage()
     DataManager::instance->NoFirstLoad();
     MapEditor::LoadRandomMap(map);
     MapDrawer::instance->SetMaps(map, mapExplosion, mapBomb);
-    explosionCalcul.SetMaps(map, mapExplosion, mapBomb);
+    
     player.Reset();
     bot1.Reset();
     bot2.Reset();
     bot3.Reset();
-    MapDrawer::instance->SetPlayers(&player, &bot1, &bot2, &bot3);
+    
+
+    for (int i = 0; i < 169; i++)
+    {
+        mapExplosion[i] = -1.0f;
+        mapBomb[i] = -1.0f;
+        bombOwner[i] = -1;
+    }
 }
 
 void GamePage::ManageEvent()
@@ -109,6 +113,7 @@ void GamePage::UpdateBombs(float deltaTime)
 
         if (value > 3.0f)
         {
+            SoundManager::instance->Play(SoundType::Explosion);
             value = -1.0f;
 
             ExplosionData tempExplositionE = explosionCalcul.GetData(i, player.GetRange());
@@ -126,6 +131,8 @@ void GamePage::UpdateBombs(float deltaTime)
         }
 
         mapBomb[i] = value;
+
+        
     }
 }
 
@@ -153,6 +160,7 @@ void GamePage::CheckEndGame()
 {
     if (player.IsDead())
     {
+        SoundManager::instance->Play(SoundType::Lose);
         Page page = Page::End;
         DataManager::instance->SetWinValue(false);
         DataManager::instance->SetCurrentPage(page);
@@ -161,6 +169,7 @@ void GamePage::CheckEndGame()
 
     if (bot1.IsDead() && bot2.IsDead() && bot3.IsDead())
     {
+        SoundManager::instance->Play(SoundType::Win);
         Page page = Page::End;
         DataManager::instance->SetWinValue(true);
         DataManager::instance->SetCurrentPage(page);
