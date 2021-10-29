@@ -45,5 +45,6 @@ public:
 	void LoadPage();
 	void Update();
 	void ManageEvent();
+	void CheckEndGame();
 };
 

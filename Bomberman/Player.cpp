@@ -81,7 +81,7 @@ void Player::DeltaAnimation()
 {
     animation += Timer::instance->GetDeltaTime();
 
-    if (isDead())
+    if (IsDead())
         return;
 
     if (animation > 0.8f)
@@ -191,7 +191,7 @@ void Player::GetDirection()
     direction.y = direction.y * (speed * Timer::instance->GetDeltaTime());
 }
 
-bool Player::isDead()
+bool Player::IsDead()
 {
     return lives <= 0;
 }
@@ -203,7 +203,7 @@ void Player::TakeDamage()
 
     lives--;
 
-    if (!isDead())
+    if (!IsDead())
     {
         isInvicible = true;
         invincibilityTime = 0.0f;
@@ -248,7 +248,7 @@ void Player::CheckDamageBomb(const ExplosionData& eData)
 
 void Player::Move()
 {
-    if (isDead())
+    if (IsDead())
         return;
 
 
@@ -413,7 +413,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-    if (isDead())
+    if (IsDead())
     {
         int stateAnim = GetStateAnimationDeath();
         maskSprite.top = 684 + directionAnimationV2i.y * directionAnimationV2i.x * 171; // (171 * 4 = 684)

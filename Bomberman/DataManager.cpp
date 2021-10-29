@@ -33,3 +33,13 @@ void DataManager::NoFirstLoad()
 {
 	isFirstLoad = false;
 }
+
+void DataManager::SetWinValue(bool v)
+{
+	hasWin = v;
+}
+
+bool DataManager::AskWin()
+{
+	return hasWin;
+}

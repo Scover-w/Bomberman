@@ -10,7 +10,7 @@ MenuPage::MenuPage()
 
 MenuPage::~MenuPage()
 {
-
+    free(ui);
 }
 
 void MenuPage::LoadPage()
@@ -30,6 +30,11 @@ void MenuPage::ManageEvent()
         if ((event.type == Event::KeyPressed && event.key.code == Keyboard::C))
         {
             Page page = Page::LevelCreator;
+            DataManager::instance->SetCurrentPage(page);
+        }
+        if ((event.type == Event::KeyPressed && event.key.code == Keyboard::E))
+        {
+            Page page = Page::End;
             DataManager::instance->SetCurrentPage(page);
         }
         if ((event.type == Event::KeyPressed && event.key.code == Keyboard::T))

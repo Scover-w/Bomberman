@@ -92,6 +92,7 @@ void GamePage::Update()
 
     ui->Draw();
 
+    CheckEndGame();
 }
 
 void GamePage::UpdateBombs(float deltaTime)
@@ -148,3 +149,21 @@ void GamePage::UpdateExplosions(float deltaTime)
 }
 
 
+void GamePage::CheckEndGame()
+{
+    if (player.IsDead())
+    {
+        Page page = Page::End;
+        DataManager::instance->SetWinValue(false);
+        DataManager::instance->SetCurrentPage(page);
+        return;
+    }
+
+    if (bot1.IsDead() && bot2.IsDead() && bot3.IsDead())
+    {
+        Page page = Page::End;
+        DataManager::instance->SetWinValue(true);
+        DataManager::instance->SetCurrentPage(page);
+        return;
+    }
+}

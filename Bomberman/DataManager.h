@@ -5,6 +5,7 @@ class DataManager
 private:
 	Page currentPage;
 	bool isFirstLoad;
+	bool hasWin;
 public:
 	DataManager();
 	~DataManager();
@@ -13,5 +14,7 @@ public:
 	int GetCurrentPage();
 	bool IsFirstLoad();
 	void NoFirstLoad();
+	void SetWinValue(bool);
+	bool AskWin();
 };
 

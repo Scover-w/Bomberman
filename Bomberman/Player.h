@@ -44,7 +44,6 @@ protected:
 	void SetDirectionAnimationVector2i();
 	int GetStateAnimationDeath();
 	int GetStateAnimation();
-	bool isDead();
 	int GetDeltaXPlayer(int);
 	int GetDeltaYPlayer(int);
 	void GetFuturPosPlayer(Vector2f);
@@ -60,6 +59,7 @@ public:
 	~Player();
 
 	void Reset();
+	bool IsDead();
 
 	void SetMap(MapEntity*);
 	void SetOnBombId(int);
