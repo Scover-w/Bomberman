@@ -12,7 +12,7 @@ MapDrawer::MapDrawer()
     string nameDestruc[] = { "BlackPeridot",  "BluePeridot",  "BlueRuby",
                              "GreenPeridot",  "GreenRuby",  "OrangePeridot",
                              "OrangeRuby", "PinkPeridot", "YellowRuby",
-                             "PinkRuby", "RedPeridot", "RedRuby",
+                             "RedPeridot", "RedRuby",
                              "WhitePeridot", "YellowPeridot"};
                                 
 
@@ -21,13 +21,11 @@ MapDrawer::MapDrawer()
 
 
     string nameGround[] = { "autumn",  "brightWood",  "darkWood",
-                          "gold",  "grass",  "hell",
-                          "lapis", "magma", "obsidian",
-                          "sand", "snow", "spongeCakeChocolate",
-                          "spongeCakePink", "stone", "swamp", 
-                          "yellowGrass"};
+                          "grass", "magma", "obsidian",
+                          "sand", "spongeCakeChocolate",
+                          "stone", "swamp"};
 
-    for (int i = 0; i < 14; i++)
+    for (int i = 0; i < 13; i++)
     {
         destructables[i].SetTexture("Images/Destructible/" + nameDestruc[i] + ".png");
         destructables[i].SetOrigin(80, 37);
@@ -39,7 +37,7 @@ MapDrawer::MapDrawer()
         walls[i].SetOrigin(80, 37);
     }
 
-    for (int i = 0; i < 16; i++)
+    for (int i = 0; i < 10; i++)
     {
         grounds[i].SetTexture("Images/Grounds/" + nameGround[i] + ".png");
         grounds[i].SetOrigin(80, 0);
@@ -87,8 +85,8 @@ void MapDrawer::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[1
     mapExplosion = mapE;
     mapBomb = mapB;
     selectedWall = CustomRandom::GetRandom(0, 4);
-    selectedDestructable = CustomRandom::GetRandom(0, 14);
-    selectedGround = CustomRandom::GetRandom(0, 16);
+    selectedDestructable = CustomRandom::GetRandom(0, 13);
+    selectedGround = CustomRandom::GetRandom(0, 10);
 }
 
 void MapDrawer::SetMap(MapEntity(&map2)[169])
