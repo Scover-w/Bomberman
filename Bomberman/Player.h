@@ -40,6 +40,8 @@ protected:
 	int positionIndex;
 	int futurPosPlayerId[4];
 
+	bool hasMoved = false;
+
 	void DeltaAnimation();
 	void SetDirectionAnimationVector2i();
 	int GetStateAnimationDeath();

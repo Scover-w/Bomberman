@@ -284,11 +284,29 @@ void Player::Move()
     if (!isOwnBomb)
         onBombId = -1;
 
-    if (!isWall && !isBomb)
+    if (id == 0)
     {
-        cartPosition.x += direction.x;
-        cartPosition.y += direction.y;
+        if (!isWall && !isBomb)
+        {
+            cartPosition.x += direction.x;
+            cartPosition.y += direction.y;
+        }
     }
+    else
+    {
+        if (!isWall)
+        {
+            hasMoved = true;
+            cartPosition.x += direction.x;
+            cartPosition.y += direction.y;
+        }
+        else
+        {
+            hasMoved = false;
+        }
+    }
+
+    
 
     positionIndex = CustomMath::GM_CartCoordFToPosition(cartPosition);
     CheckCollectable();

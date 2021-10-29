@@ -37,6 +37,7 @@ private:
 
 	void UpdateBombs(float);
 	void UpdateExplosions(float);
+	void PoseBomb(int, int);
 
 public: 
 	GamePage();

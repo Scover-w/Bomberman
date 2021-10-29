@@ -15,6 +15,8 @@ private:
 
 	stack<Vector2i> path;
 
+	Vector2f modelDirection;
+
 	int GetDistance(const Vector2i&, const Vector2i&);
 	bool IsValid(const Vector2i&);
 	bool IsUnblocked(const Vector2i&);
@@ -24,6 +26,8 @@ private:
 	bool IsInTargetCell();
 	void SetDirection();
 	void ResetPath();
+	void SetRandomDirection();
+	void RemoveBomb();
 
 public:
 	BotPlayer();
@@ -34,5 +38,5 @@ public:
 	//static void SetMap(MapEntity*);
 	static void UpdateTwodMap();
 	void SearchPath(const Vector2i&, const Vector2i&);
-	void Update();
+	int Update();
 };

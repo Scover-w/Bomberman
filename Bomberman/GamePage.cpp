@@ -41,6 +41,14 @@ void GamePage::LoadPage()
     }
 }
 
+void GamePage::PoseBomb(int posId, int playerId)
+{
+    mapBomb[posId] = 0.0f;
+    map[posId] = MapEntity::Bomb;
+    bombOwner[posId] = playerId;
+    player.SetOnBombId(posId);
+}
+
 void GamePage::ManageEvent()
 {
     // Rising front
@@ -64,10 +72,7 @@ void GamePage::ManageEvent()
         }
         else
         {
-            mapBomb[posPlayerIndex] = 0.0f;
-            map[posPlayerIndex] = MapEntity::Bomb;
-            bombOwner[posPlayerIndex] = player.GetId();
-            player.SetOnBombId(posPlayerIndex);
+            PoseBomb(posPlayerIndex, player.GetId());
         }
     }
 }
@@ -83,9 +88,26 @@ void GamePage::Update()
     UpdateBombs(deltaT);
     UpdateExplosions(deltaT);
     player.Update();
-    bot1.Update();
-    bot2.Update();
-    bot3.Update();
+
+    int posId;
+    
+    posId = bot1.Update();
+    if (posId != -1)
+    {
+        PoseBomb(posId, bot1.GetId());
+    }
+
+    posId = bot2.Update();
+    if (posId != -1)
+    {
+        PoseBomb(posId, bot2.GetId());
+    }
+
+    posId = bot3.Update();
+    if (posId != -1)
+    {
+        PoseBomb(posId, bot3.GetId());
+    }
 
 
     MapDrawer::instance->DrawEnv(true);
@@ -115,17 +137,39 @@ void GamePage::UpdateBombs(float deltaTime)
         {
             SoundManager::instance->Play(SoundType::Explosion);
             value = -1.0f;
-
+            int ownerId = bombOwner[i];
             ExplosionData tempExplositionE = explosionCalcul.GetData(i, player.GetRange());
             player.CheckDamageBomb(tempExplositionE);
 
-            int frontValue = bombOwner[i];
+            if (ownerId == player.GetId())
+            {
+                bot1.CheckDamageBomb(tempExplositionE);
+                bot2.CheckDamageBomb(tempExplositionE);
+                bot3.CheckDamageBomb(tempExplositionE);
+            }
+            
             bombOwner[i] = -1;
             map[i] = MapEntity::None;
-            if (frontValue == player.GetId())
+
+            if (ownerId == player.GetId())
             {
                 player.AddBomb();
                 player.ResetOnBombId(i);
+            }
+            else if (ownerId == bot1.GetId())
+            {
+                bot1.AddBomb();
+                bot1.ResetOnBombId(i);
+            }
+            else if (ownerId == bot2.GetId())
+            {
+                bot2.AddBomb();
+                bot2.ResetOnBombId(i);
+            }
+            else if (ownerId == bot3.GetId())
+            {
+                bot3.AddBomb();
+                bot3.ResetOnBombId(i);
             }
             
         }

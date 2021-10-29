@@ -141,26 +141,70 @@ bool BotPlayer::IsInTargetCell()
     return false;
 }
 
-void BotPlayer::Update()
+void BotPlayer::SetRandomDirection()
 {
+    int rd = CustomRandom::GetRandom(0, 4);
+
+    switch (rd)
+    {
+    case 0:
+        modelDirection.x = 1;
+        modelDirection.y = 0;
+        break;
+    case 1:
+        modelDirection.x = 0;
+        modelDirection.y = 1;
+        break;
+    case 2:
+        modelDirection.x = -1;
+        modelDirection.y = 0;
+        break;
+    case 3:
+        modelDirection.x = 0;
+        modelDirection.y = -1;
+        break;
+    }
+}
+
+void BotPlayer::RemoveBomb()
+{
+    bombs--;
+}
+
+int BotPlayer::Update()
+{
+    int posId = -1;
+    /*
     if (IsInTargetCell())
     {
-        // In target
-    }
+    }*/
 
 
-    if (path.size() == 0)
+    /*if (path.size() == 0)
     {
         UpdateTwodMap();
         SearchPath(Vector2i(positionIndex % 13, positionIndex / 13), Vector2i(0,1));
 
+    }*/
+
+    if (!hasMoved)
+    {
+        SetRandomDirection();
     }
 
-    
-
+    direction.x = modelDirection.x * (speed * Timer::instance->GetDeltaTime());
+    direction.y = modelDirection.y * (speed * Timer::instance->GetDeltaTime());
 
     ManageInvicibility();
     Move();
+
+    if (bombs > 0 && *(map + positionIndex) != MapEntity::Bomb)
+    {
+        posId = positionIndex;
+        RemoveBomb();
+    }
+
+    return posId;
 }
 
 void BotPlayer::SearchPath(const Vector2i& src, const Vector2i& dest)
