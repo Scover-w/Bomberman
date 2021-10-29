@@ -94,7 +94,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\SFML-2.5.1\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-system-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -111,7 +111,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-system.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BotPlayer.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CursorManager.cpp" />
     <ClCompile Include="CustomMath.cpp" />
@@ -163,15 +164,20 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SelectedFont.cpp" />
     <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StartPage.cpp" />
     <ClCompile Include="StaticWindow.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="UIEndPage.cpp" />
     <ClCompile Include="UIGamePage.cpp" />
     <ClCompile Include="UILevelCreatorPage.cpp" />
+    <ClCompile Include="UIMenuPage.cpp" />
     <ClCompile Include="UIStartPage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BotPlayer.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Cell.h" />
     <ClInclude Include="CursorManager.h" />
     <ClInclude Include="CustomMath.h" />
     <ClInclude Include="CustomRandom.h" />
@@ -191,15 +197,21 @@
     <ClInclude Include="MouseTool.h" />
     <ClInclude Include="Page.h" />
     <ClInclude Include="PhysicalButton.h" />
+    <ClInclude Include="PhysicalButtonType.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="RotationType.h" />
     <ClInclude Include="SelectedFont.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SoundType.h" />
     <ClInclude Include="StartPage.h" />
     <ClInclude Include="StaticWindow.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UIEndPage.h" />
     <ClInclude Include="UIGamePage.h" />
     <ClInclude Include="UILevelCreatorPage.h" />
+    <ClInclude Include="UIMenuPage.h" />
     <ClInclude Include="UIStartPage.h" />
   </ItemGroup>
   <ItemGroup>

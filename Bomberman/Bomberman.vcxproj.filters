@@ -129,6 +129,18 @@
     <ClCompile Include="MouseTool.cpp">
       <Filter>Fichiers sources\Tools\UI</Filter>
     </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="BotPlayer.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="UIEndPage.cpp">
+      <Filter>Fichiers sources\Page\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIMenuPage.cpp">
+      <Filter>Fichiers sources\Page\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataManager.h">
@@ -220,6 +232,30 @@
     </ClInclude>
     <ClInclude Include="PhysicalButton.h">
       <Filter>Fichiers d%27en-tête\Tools\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundType.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="RotationType.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicalButtonType.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="BotPlayer.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="UIEndPage.h">
+      <Filter>Fichiers d%27en-tête\Page\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMenuPage.h">
+      <Filter>Fichiers d%27en-tête\Page\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

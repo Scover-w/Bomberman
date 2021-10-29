@@ -46,7 +46,23 @@ void GamePage::PoseBomb(int posId, int playerId)
     mapBomb[posId] = 0.0f;
     map[posId] = MapEntity::Bomb;
     bombOwner[posId] = playerId;
-    player.SetOnBombId(posId);
+
+    switch (playerId)
+    {
+    case 0:
+        player.SetOnBombId(posId);
+        break;
+    case 1:
+        bot1.SetOnBombId(posId);
+        break;
+    case 2:
+        bot2.SetOnBombId(posId);
+        break;
+    case 3:
+        bot3.SetOnBombId(posId);
+        break;
+    }
+    
 }
 
 void GamePage::ManageEvent()
