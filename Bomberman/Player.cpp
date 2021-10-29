@@ -281,12 +281,10 @@ void Player::Move()
             isOwnBomb = true;
     }
 
-    if (!isOwnBomb)
-        onBombId = -1;
 
     if (id == 0)
     {
-        if (!isWall && !isBomb)
+        if (!isWall)
         {
             cartPosition.x += direction.x;
             cartPosition.y += direction.y;

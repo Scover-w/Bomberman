@@ -13,7 +13,7 @@
 
 int main()
 {
-    RenderWindow window(sf::VideoMode(Settings::SIZE_SCREEN.x, Settings::SIZE_SCREEN.y), "Bomberman", sf::Style::Fullscreen); // 50px per images
+    RenderWindow window(sf::VideoMode(Settings::SIZE_SCREEN.x, Settings::SIZE_SCREEN.y), "Bomberman"/*, sf::Style::Fullscreen*/); // 50px per images
 
     StaticWindow staticWindow;
     staticWindow.window = &window;
