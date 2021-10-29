@@ -9,6 +9,7 @@
 #include "CustomMath.h"
 #include "MapDrawer.h"
 #include "CursorManager.h"
+#include "SoundManager.h"
 
 int main()
 {
@@ -28,6 +29,8 @@ int main()
     GamePage gamePage;
     LevelCreatorPage levelCreatorPage;
     EndPage endPage;
+
+    SoundManager soundManager;
 
     CursorManager cursorManager;
 

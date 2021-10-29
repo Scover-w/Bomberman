@@ -39,6 +39,8 @@ bool Button::DoesClick(bool isMouseOnIt)
 		sprite.setColor(gray);
 		isReleased = true;
 		isClicked = false;
+		SoundType type = SoundType::Click;
+		SoundManager::instance->Play(type);
 		return true;
 	}
 	else if (!isMouseOnIt && !Mouse::isButtonPressed(Mouse::Left) && !isReleased)

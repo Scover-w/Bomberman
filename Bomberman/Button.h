@@ -1,5 +1,7 @@
 #pragma once
 #include "IMageUI.h"
+#include "SoundManager.h"
+#include "SoundType.h"
 
 class Button : public IMageUI
 {
