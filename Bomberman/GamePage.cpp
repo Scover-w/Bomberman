@@ -85,7 +85,7 @@ void GamePage::Update()
 
 
     MapDrawer::instance->DrawEnv(true);
-    MapDrawer::instance->DrawArenaInWall();
+    MapDrawer::instance->Draw();
     MapDrawer::instance->DrawEnv(false);
 
     

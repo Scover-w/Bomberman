@@ -30,6 +30,7 @@ private:
 	float time;
 	Vector2f deltaItem;
 	Vector2f deltaShadowNumber;
+	Vector2f deltaText;
 
 	void LoadImages();
 	void LoadUIPositions();

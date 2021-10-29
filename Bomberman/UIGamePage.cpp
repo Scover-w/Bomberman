@@ -15,6 +15,8 @@ UIGamePage::UIGamePage(GamePage* p)
 
 	transparency = Color(255, 255, 255, 100);
 	deltaShadowNumber = Vector2f(10.0f, 0.0f);
+
+	deltaText = Vector2f(0.0f, 37.0f);
 }
 
 UIGamePage::~UIGamePage()
@@ -27,35 +29,35 @@ void UIGamePage::LoadImages()
 	Color semiTransparent(255, 255, 255, 100);
 
 	blueGround.SetTexture("Images/UI/GamePage/BlueUIGround.png");
-	blueGround.SetOrigin(0, -2);
+	blueGround.SetOrigin(0, -39);
 	blueGround.SetColor(semiTransparent);
 
 	redGround.SetTexture("Images/UI/GamePage/RedUIGround.png");
-	redGround.SetOrigin(0, -2);
+	redGround.SetOrigin(0, -39);
 	redGround.SetColor(semiTransparent);
 
 	greenGround.SetTexture("Images/UI/GamePage/GreenUIGround.png");
-	greenGround.SetOrigin(0, -2);
+	greenGround.SetOrigin(0, -39);
 	greenGround.SetColor(semiTransparent);
 
 	yellowGround.SetTexture("Images/UI/GamePage/YellowUIGround.png");
-	yellowGround.SetOrigin(0, -2);
+	yellowGround.SetOrigin(0, -39);
 	yellowGround.SetColor(semiTransparent);
 
 	heartUI.SetTexture("Images/UI/GamePage/HeartUI.png");
-	heartUI.SetOrigin(21, 0);
+	heartUI.SetOrigin(21, -37);
 
 	bombUI.SetTexture("Images/UI/GamePage/BombUI.png");
-	bombUI.SetOrigin(21, 0);
+	bombUI.SetOrigin(21, -37);
 
 	lightUI.SetTexture("Images/UI/GamePage/LightUI.png");
-	lightUI.SetOrigin(21, 0);
+	lightUI.SetOrigin(21, -37);
 
 	powerUI.SetTexture("Images/UI/GamePage/PowerUI.png");
-	powerUI.SetOrigin(21, 0);
+	powerUI.SetOrigin(21, -37);
 
 	shadow.SetTexture("Images/UI/GamePage/ShadowUI.png");
-	shadow.SetOrigin(21, 0);
+	shadow.SetOrigin(21, -37);
 }
 
 void UIGamePage::LoadUIPositions()
@@ -168,25 +170,25 @@ void UIGamePage::Draw()
 		x = CustomRandom::GetPseudoRandom(i);
 		DrawShadowNumber(x, i);
 		SetDeltaItem(x);
-		testText.setPosition(itemPosition[i] + deltaItem);
+		testText.setPosition(itemPosition[i] + deltaItem + deltaText);
 		StaticWindow::window->draw(testText);
     
 		x = CustomRandom::GetPseudoRandom(i + 1);
 		DrawShadowNumber(x, i + 1);
 		SetDeltaItem(x);
-		testText.setPosition(itemPosition[i + 1] + deltaItem);
+		testText.setPosition(itemPosition[i + 1] + deltaItem + deltaText);
 		StaticWindow::window->draw(testText);
 
 		x = CustomRandom::GetPseudoRandom(i + 2);
 		DrawShadowNumber(x, i + 2);
 		SetDeltaItem(x);
-		testText.setPosition(itemPosition[i + 2] + deltaItem);
+		testText.setPosition(itemPosition[i + 2] + deltaItem + deltaText);
 		StaticWindow::window->draw(testText);
 
 		x = CustomRandom::GetPseudoRandom(i + 3);
 		DrawShadowNumber(x, i + 3);
 		SetDeltaItem(x);
-		testText.setPosition(itemPosition[i + 3] + deltaItem);
+		testText.setPosition(itemPosition[i + 3] + deltaItem + deltaText);
 		StaticWindow::window->draw(testText);
 	}
 }
