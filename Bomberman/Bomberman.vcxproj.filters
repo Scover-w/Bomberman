@@ -188,9 +188,6 @@
     <ClInclude Include="Player.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="MapEntity.h">
-      <Filter>Fichiers d%27en-tête\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="UILevelCreatorPage.h">
       <Filter>Fichiers d%27en-tête\Page\UI</Filter>
     </ClInclude>
@@ -242,12 +239,6 @@
     <ClInclude Include="RotationType.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicalButtonType.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Cell.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="BotPlayer.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -256,6 +247,15 @@
     </ClInclude>
     <ClInclude Include="UIMenuPage.h">
       <Filter>Fichiers d%27en-tête\Page\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicalButtonType.h">
+      <Filter>Fichiers d%27en-tête\Tools\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEntity.h">
+      <Filter>Fichiers d%27en-tête\Tools\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
