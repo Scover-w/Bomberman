@@ -42,6 +42,8 @@ protected:
 
 	bool hasMoved = false;
 
+	bool isDead = false;
+
 	void DeltaAnimation();
 	void SetDirectionAnimationVector2i();
 	int GetStateAnimationDeath();

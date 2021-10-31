@@ -8,10 +8,9 @@ UIGamePage::UIGamePage(GamePage* p)
 	LoadImages();
 	LoadUIPositions();
 
-	testText.setFont(SelectedFont::instance->GetFont());
-	testText.setString("1");
-	testText.setCharacterSize(50);
-	testText.setFillColor(sf::Color::White);
+	valueItems.setFont(SelectedFont::instance->GetFont());
+	valueItems.setCharacterSize(50);
+	valueItems.setFillColor(sf::Color::White);
 
 	transparency = Color(255, 255, 255, 100);
 	deltaShadowNumber = Vector2f(10.0f, 0.0f);
@@ -29,7 +28,7 @@ void UIGamePage::SetPlayers(Player* p, BotPlayer* b1, BotPlayer* b2, BotPlayer* 
 	player = p;
 	bot1 = b1;
 	bot2 = b2;
-	bot3 = b2;
+	bot3 = b3;
 }
 
 void UIGamePage::LoadImages()
@@ -124,85 +123,77 @@ void UIGamePage::Update()
 
 }
 
-int UIGamePage::SetLifePlayerText(int id)
+void UIGamePage::SetLifePlayerText(int id)
 {
 	switch (id)
 	{
 		case 0:
-			testText.setString(to_string(player->GetLife()));
+			valueItems.setString(to_string(player->GetLife()));
 			break;
 		case 1:
-			testText.setString(to_string(bot1->GetLife()));
+			valueItems.setString(to_string(bot1->GetLife()));
 			break;
 		case 2:
-			testText.setString(to_string(bot2->GetLife()));
+			valueItems.setString(to_string(bot2->GetLife()));
 			break;
 		case 3:
-			testText.setString(to_string(bot3->GetLife()));
+			valueItems.setString(to_string(bot3->GetLife()));
 			break;
 	}
-
-	return 0;
 }
-int UIGamePage::SetBombPlayerText(int id)
+void UIGamePage::SetBombPlayerText(int id)
 {
 	switch (id)
 	{
 	case 0:
-		testText.setString(to_string(player->GetNbBomb()));
+		valueItems.setString(to_string(player->GetNbBomb()));
 		break;
 	case 1:
-		testText.setString(to_string(bot1->GetNbBomb()));
+		valueItems.setString(to_string(bot1->GetNbBomb()));
 		break;
 	case 2:
-		testText.setString(to_string(bot2->GetNbBomb()));
+		valueItems.setString(to_string(bot2->GetNbBomb()));
 		break;
 	case 3:
-		testText.setString(to_string(bot3->GetNbBomb()));
+		valueItems.setString(to_string(bot3->GetNbBomb()));
 		break;
 	}
-
-	return 0;
 }
-int UIGamePage::SetRangePlayerText(int id)
+void UIGamePage::SetRangePlayerText(int id)
 {
 	switch (id)
 	{
 	case 0:
-		testText.setString(to_string(player->GetRange()));
+		valueItems.setString(to_string(player->GetRange()));
 		break;
 	case 1:
-		testText.setString(to_string(bot1->GetRange()));
+		valueItems.setString(to_string(bot1->GetRange()));
 		break;
 	case 2:
-		testText.setString(to_string(bot2->GetRange()));
+		valueItems.setString(to_string(bot2->GetRange()));
 		break;
 	case 3:
-		testText.setString(to_string(bot3->GetRange()));
+		valueItems.setString(to_string(bot3->GetRange()));
 		break;
 	}
-
-	return 0;
 }
-int UIGamePage::SetSpeedPlayerText(int id)
+void UIGamePage::SetSpeedPlayerText(int id)
 {
 	switch (id)
 	{
 	case 0:
-		testText.setString(to_string(player->GetLife()));
+		valueItems.setString(to_string(player->GetSpeed()));
 		break;
 	case 1:
-		testText.setString(to_string(bot1->GetLife()));
+		valueItems.setString(to_string(bot1->GetSpeed()));
 		break;
 	case 2:
-		testText.setString(to_string(bot2->GetLife()));
+		valueItems.setString(to_string(bot2->GetSpeed()));
 		break;
 	case 3:
-		testText.setString(to_string(bot3->GetLife()));
+		valueItems.setString(to_string(bot3->GetSpeed()));
 		break;
 	}
-
-	return 0;
 }
 
 void UIGamePage::Draw()
@@ -256,33 +247,37 @@ void UIGamePage::Draw()
 
 	for (int i = 16; i < 32; i += 4)
 	{
+		if ((i - 16) / 4 == 2)
+			cout << "cc" << endl;
+
 		x = CustomRandom::GetPseudoRandom(i);
 		DrawShadowNumber(x, i);
 		SetDeltaItem(x);
 		SetLifePlayerText((i - 16) / 4);
-		testText.setPosition(itemPosition[i] + deltaItem + deltaText);
-		StaticWindow::window->draw(testText);
+		
+		valueItems.setPosition(itemPosition[i] + deltaItem + deltaText);
+		StaticWindow::window->draw(valueItems);
     
 		x = CustomRandom::GetPseudoRandom(i + 1);
 		DrawShadowNumber(x, i + 1);
 		SetDeltaItem(x);
 		SetBombPlayerText((i - 16) / 4);
-		testText.setPosition(itemPosition[i + 1] + deltaItem + deltaText);
-		StaticWindow::window->draw(testText);
+		valueItems.setPosition(itemPosition[i + 1] + deltaItem + deltaText);
+		StaticWindow::window->draw(valueItems);
 
 		x = CustomRandom::GetPseudoRandom(i + 2);
 		DrawShadowNumber(x, i + 2);
 		SetDeltaItem(x);
 		SetSpeedPlayerText((i - 16) / 4);
-		testText.setPosition(itemPosition[i + 2] + deltaItem + deltaText);
-		StaticWindow::window->draw(testText);
+		valueItems.setPosition(itemPosition[i + 2] + deltaItem + deltaText);
+		StaticWindow::window->draw(valueItems);
 
 		x = CustomRandom::GetPseudoRandom(i + 3);
 		DrawShadowNumber(x, i + 3);
 		SetDeltaItem(x);
 		SetRangePlayerText((i - 16) / 4);
-		testText.setPosition(itemPosition[i + 3] + deltaItem + deltaText);
-		StaticWindow::window->draw(testText);
+		valueItems.setPosition(itemPosition[i + 3] + deltaItem + deltaText);
+		StaticWindow::window->draw(valueItems);
 	}
 }
 

@@ -97,16 +97,4 @@ int main()
     }
 
     return 0;
-
 }
- 
-/* 
-TO DO :
-- delta to compensate : setorigin wall black
-- ui partout
-- son
-- gestion jeu : 1, 2,3 etc
-- ia
-- seamless between Menu and Game with transition shader : passing time to get seamless shader
-   -> fade out  //texture.update(window);
-*/

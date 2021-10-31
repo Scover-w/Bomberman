@@ -190,9 +190,7 @@ void GamePage::UpdateBombs(float deltaTime)
             
         }
 
-        mapBomb[i] = value;
-
-        
+        mapBomb[i] = value;        
     }
 }
 

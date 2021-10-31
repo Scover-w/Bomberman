@@ -30,7 +30,7 @@ private:
 
 	Vector2f itemPosition[32]; //first 16 is item p, rest is number p
 
-	Text testText;
+	Text valueItems;
 
 	Color transparency;
 	float time;
@@ -46,10 +46,10 @@ private:
 	void DrawShadowItem(float, int);
 	void DrawShadowNumber(float, int);
 
-	int SetLifePlayerText(int);
-	int SetBombPlayerText(int);
-	int SetRangePlayerText(int);
-	int SetSpeedPlayerText(int);
+	void SetLifePlayerText(int);
+	void SetBombPlayerText(int);
+	void SetRangePlayerText(int);
+	void SetSpeedPlayerText(int);
 
 public:
 	UIGamePage(GamePage*);

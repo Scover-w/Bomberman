@@ -36,10 +36,10 @@ Player::Player()
             image.SetTexture("Images/Player/RedPlayer.png");
             break;
         case 2:
-            image.SetTexture("Images/Player/YellowPlayer.png");
+            image.SetTexture("Images/Player/GreenPlayer.png");
             break;
         case 3:
-            image.SetTexture("Images/Player/GreenPlayer.png");
+            image.SetTexture("Images/Player/YellowPlayer.png");
             break;
     }
 }
@@ -47,6 +47,11 @@ Player::Player()
 Player::~Player()
 {
 
+}
+
+bool Player::IsDead()
+{
+    return isDead;
 }
 
 void Player::SetDirectionAnimationVector2i()
@@ -82,7 +87,7 @@ void Player::DeltaAnimation()
 {
     animation += Timer::instance->GetDeltaTime();
 
-    if (IsDead())
+    if (isDead)
         return;
 
     if (animation > 0.8f)
@@ -192,11 +197,6 @@ void Player::GetDirection()
     direction.y = direction.y * (speed * Timer::instance->GetDeltaTime());
 }
 
-bool Player::IsDead()
-{
-    return lives <= 0;
-}
-
 void Player::TakeDamage()
 {
     if (isInvicible)
@@ -204,7 +204,9 @@ void Player::TakeDamage()
 
     lives--;
 
-    if (!IsDead())
+    isDead = (lives <= 0);
+
+    if (!isDead)
     {
         isInvicible = true;
         invincibilityTime = 0.0f;
@@ -214,6 +216,9 @@ void Player::TakeDamage()
 
 void Player::CheckDamageBomb(const ExplosionData& eData)
 {
+    if (isDead)
+        return;
+
     Vector2f positionf = image.GetPosition();
     positionf = CustomMath::GM_IsometricToCartesian(positionf);
     Vector2i position(positionf.x / Settings::CARTESIAN_ATOMIC_HEIGHT, positionf.y / Settings::CARTESIAN_ATOMIC_HEIGHT);
@@ -249,7 +254,7 @@ void Player::CheckDamageBomb(const ExplosionData& eData)
 
 void Player::Move()
 {
-    if (IsDead())
+    if (isDead)
         return;
 
 
@@ -334,6 +339,10 @@ void Player::ManageInvicibility()
 void Player::CheckCollectable()
 {
     MapEntity mE = *(map + positionIndex);
+
+    if (mE < MapEntity::LifeIt)
+        return;
+
     bool isIn = false;
     switch (mE)
     {
@@ -413,6 +422,8 @@ void Player::Reset()
     speed = 120.0f;
     animation = 0.0f;
     isInvicible = false;
+    isDead = false;
+    image.SetColor(normal);
 
     if (id == 0) // Player
     {
@@ -424,7 +435,7 @@ void Player::Reset()
 
 int Player::GetSpeed()
 {
-    return (speed - 120.0f) / 20.0f;
+    return (speed - 120.0f) / 20.0f + 1;
 }
 
 int Player::GetRange()
@@ -451,7 +462,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-    if (IsDead())
+    if (isDead)
     {
         int stateAnim = GetStateAnimationDeath();
         maskSprite.top = 684 + directionAnimationV2i.y * directionAnimationV2i.x * 171; // (171 * 4 = 684)
