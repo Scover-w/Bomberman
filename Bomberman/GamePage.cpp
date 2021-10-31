@@ -49,18 +49,18 @@ void GamePage::PoseBomb(int posId, int playerId)
 
     switch (playerId)
     {
-    case 0:
-        player.SetOnBombId(posId);
-        break;
-    case 1:
-        bot1.SetOnBombId(posId);
-        break;
-    case 2:
-        bot2.SetOnBombId(posId);
-        break;
-    case 3:
-        bot3.SetOnBombId(posId);
-        break;
+        case 0:
+            player.SetOnBombId(posId);
+            break;
+        case 1:
+            bot1.SetOnBombId(posId);
+            break;
+        case 2:
+            bot2.SetOnBombId(posId);
+            break;
+        case 3:
+            bot3.SetOnBombId(posId);
+            break;
     }
     
 }
@@ -103,6 +103,7 @@ void GamePage::Update()
 
     UpdateBombs(deltaT);
     UpdateExplosions(deltaT);
+
     player.Update();
 
     int posId;
