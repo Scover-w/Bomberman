@@ -257,6 +257,9 @@
     <ClInclude Include="MapEntity.h">
       <Filter>Fichiers d%27en-tête\Tools\Map</Filter>
     </ClInclude>
+    <ClInclude Include="DirectionBot.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Bomberman.rc">

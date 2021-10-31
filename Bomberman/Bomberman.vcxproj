@@ -181,6 +181,7 @@
     <ClInclude Include="CursorManager.h" />
     <ClInclude Include="CustomMath.h" />
     <ClInclude Include="CustomRandom.h" />
+    <ClInclude Include="DirectionBot.h" />
     <ClInclude Include="EndPage.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="ExplosionCalculator.h" />

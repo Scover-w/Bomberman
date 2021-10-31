@@ -247,9 +247,6 @@ void UIGamePage::Draw()
 
 	for (int i = 16; i < 32; i += 4)
 	{
-		if ((i - 16) / 4 == 2)
-			cout << "cc" << endl;
-
 		x = CustomRandom::GetPseudoRandom(i);
 		DrawShadowNumber(x, i);
 		SetDeltaItem(x);
