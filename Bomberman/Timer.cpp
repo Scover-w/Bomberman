@@ -7,7 +7,6 @@ Timer::Timer()
     instance = this;
     clock.restart();
 }
-
 Timer::~Timer()
 {
 

@@ -7,20 +7,25 @@ class UIEndPage;
 class EndPage
 {
 private:
-	bool hasWin;
 
 	UIEndPage* ui;
 
+	bool hasWin;
+
+	void ManageEvent();
+
 public:
+
 	EndPage();
 	~EndPage();
+
+	void MenuClick();
+	void RestartClick();
 
 	void LoadPage();
 	void Update();
 
-	void ManageEvent();
 
-	void MenuClick();
-	void RestartClick();
+	
 };
 

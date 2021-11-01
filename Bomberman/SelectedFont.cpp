@@ -10,7 +10,6 @@ SelectedFont::SelectedFont()
         // error...
     }
 }
-
 SelectedFont::~SelectedFont()
 {
 

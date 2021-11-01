@@ -6,36 +6,13 @@ ExplosionCalculator::ExplosionCalculator()
 {
 
 }
-
 ExplosionCalculator::~ExplosionCalculator()
 {
 
 }
 
-void ExplosionCalculator::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169])
-{
-	map = map2;
-	mapExplosion = mapE;
-	mapBomb = mapB;
-}
 
-ExplosionData ExplosionCalculator::GetData(int positionId, int range)
-{
-	Vector2i pos(positionId % Settings::SIZE_GAME_MAP, positionId / Settings::SIZE_GAME_MAP);
-
-	ExplosionData entity;
-
-	entity.centerId = pos;
-	entity.xRight = range - AskXRight(pos, range);
-	entity.xLeft = range - AskXLeft(pos, range);
-	entity.yUp = range - AskYUp(pos, range);
-	entity.yDown = range - AskYDown(pos, range);
-
-	*(mapExplosion + (pos.y * Settings::SIZE_GAME_MAP + pos.x)) = 0.0f;
-
-	return entity;
-}
-
+#pragma region Private
 int ExplosionCalculator::AskYUp(Vector2i position, int delta)
 {
 	if (position.y - 1 < 0)
@@ -71,7 +48,6 @@ int ExplosionCalculator::AskYUp(Vector2i position, int delta)
 	position.y--;
 	return AskYUp(position, delta);
 }
-
 int ExplosionCalculator::AskYDown(Vector2i position, int delta)
 {
 	if (position.y + 1 > 12)
@@ -84,7 +60,7 @@ int ExplosionCalculator::AskYDown(Vector2i position, int delta)
 		return delta;
 	}
 
-	int i = ((position.y + 1 )* Settings::SIZE_GAME_MAP + position.x);
+	int i = ((position.y + 1) * Settings::SIZE_GAME_MAP + position.x);
 	UpdatePosition(i);
 
 	if (entity == MapEntity::DBlock)
@@ -105,7 +81,6 @@ int ExplosionCalculator::AskYDown(Vector2i position, int delta)
 	position.y++;
 	return AskYDown(position, delta);
 }
-
 int ExplosionCalculator::AskXLeft(Vector2i position, int delta)
 {
 	if (position.x - 1 < 0)
@@ -139,7 +114,6 @@ int ExplosionCalculator::AskXLeft(Vector2i position, int delta)
 	position.x--;
 	return AskXLeft(position, delta);
 }
-
 int ExplosionCalculator::AskXRight(Vector2i position, int delta)
 {
 	if (position.x + 1 > 12)
@@ -185,21 +159,20 @@ void ExplosionCalculator::PutCollectable(int i)
 
 	switch (CustomRandom::GetRandom(0, 4))
 	{
-		case 0:
-			*(map + i) = MapEntity::LifeIt;
-			break;
-		case 1:
-			*(map + i) = MapEntity::BombIt;
-			break;
-		case 2:
-			*(map + i) = MapEntity::SpeedIt;
-			break;
-		default:
-			*(map + i) = MapEntity::PowerIt;
-			break;
+	case 0:
+		*(map + i) = MapEntity::LifeIt;
+		break;
+	case 1:
+		*(map + i) = MapEntity::BombIt;
+		break;
+	case 2:
+		*(map + i) = MapEntity::SpeedIt;
+		break;
+	default:
+		*(map + i) = MapEntity::PowerIt;
+		break;
 	}
 }
-
 void ExplosionCalculator::RemoveCollectable(int i)
 {
 	*(map + i) = MapEntity::None;
@@ -209,6 +182,39 @@ void ExplosionCalculator::UpdatePosition(int i)
 {
 	*(mapExplosion + i) = 0.0f;
 
-	if(*(mapBomb + i) >= 0.0f)
+	if (*(mapBomb + i) >= 0.0f)
 		*(mapBomb + i) = 3.001f;
 }
+#pragma endregion
+
+
+#pragma region Public
+void ExplosionCalculator::SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169])
+{
+	map = map2;
+	mapExplosion = mapE;
+	mapBomb = mapB;
+}
+
+ExplosionData ExplosionCalculator::GetData(int positionId, int range)
+{
+	Vector2i pos(positionId % Settings::SIZE_GAME_MAP, positionId / Settings::SIZE_GAME_MAP);
+
+	ExplosionData entity;
+
+	entity.centerId = pos;
+	entity.xRight = range - AskXRight(pos, range);
+	entity.xLeft = range - AskXLeft(pos, range);
+	entity.yUp = range - AskYUp(pos, range);
+	entity.yDown = range - AskYDown(pos, range);
+
+	*(mapExplosion + (pos.y * Settings::SIZE_GAME_MAP + pos.x)) = 0.0f;
+
+	return entity;
+}
+#pragma endregion
+
+
+
+
+

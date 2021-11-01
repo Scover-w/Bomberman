@@ -4,7 +4,6 @@ CustomRandom::CustomRandom()
 {
 	srand(time(NULL));
 }
-
 CustomRandom::~CustomRandom()
 {
 

@@ -21,16 +21,17 @@ protected:
 	bool lastClick = true;
 
 	void ResetState();
-
 	bool DoesClick(bool);
 
 public:
 
 	Button();
 	~Button();
+
 	void Enable();
 	void Disable();
 	void SetActive(bool);
+
 	bool DoesClick(Vector2f);
 	
 };

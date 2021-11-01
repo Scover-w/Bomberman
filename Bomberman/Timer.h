@@ -8,12 +8,13 @@ private:
 
 	float timeSpent = 0.0f;
 	float deltaTime = 0.f;
-	float speed = 120.0f;
 
 public:
 	static Timer* instance;
+
 	Timer();
 	~Timer();
+
 	void SetDeltaTime();
 	float GetDeltaTime();
 	float GetTimeSpent();

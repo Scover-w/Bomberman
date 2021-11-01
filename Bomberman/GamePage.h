@@ -12,19 +12,21 @@ class UIGamePage;
 class GamePage
 {
 private:
+	UIGamePage* ui;
+
 	Player player;
 
 	BotPlayer bot1;
 	BotPlayer bot2;
 	BotPlayer bot3;
 
-	UIGamePage* ui;
-
 	ExplosionCalculator explosionCalcul;
 
 	MapEntity map[169];
+
 	float mapExplosion[169];
 	float mapBomb[169];
+
 	int bombOwner[169];
 
 	bool inGame = false;
@@ -43,10 +45,12 @@ public:
 	GamePage();
 	~GamePage();
 
-	void LoadPage();
-	void Update();
 	void ManageEvent();
 	void CheckEndGame();
+
+	void LoadPage();
+	void Update();
+	
 	
 };
 

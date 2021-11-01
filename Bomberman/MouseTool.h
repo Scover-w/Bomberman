@@ -3,9 +3,10 @@
 
 class MouseTool
 {
-	static MouseTool* instance;
-	Vector2f globalPosition;
+private:
 
+	static MouseTool* instance;
+	Vector2f globalPositionV2f;
 
 public:
 	MouseTool();

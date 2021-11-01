@@ -10,12 +10,12 @@ Button::Button() : IMageUI()
 {
 
 }
-
 Button::~Button()
 {
 
 }
 
+#pragma region Private
 void Button::ResetState()
 {
 	isClicked = false;
@@ -25,7 +25,6 @@ void Button::ResetState()
 	lastClick = true;
 	isActive = true;
 }
-
 bool Button::DoesClick(bool isMouseOnIt)
 {
 	if (isMouseOnIt && Mouse::isButtonPressed(Mouse::Left) && !isClicked && !lastClick)
@@ -69,35 +68,28 @@ bool Button::DoesClick(bool isMouseOnIt)
 
 	return false;
 }
+#pragma endregion
 
-bool Button::DoesClick(Vector2f mousePosition)
-{
-	if (!isEnable || !isActive)
-		return false;
 
-	return DoesClick(sprite.getGlobalBounds().contains(mousePosition));
-}
-
+#pragma region Public
 void Button::Enable()
 {
 	ResetState();
 
-	if(isActive)
+	if (isActive)
 		sprite.setColor(white);
 	else
 		sprite.setColor(semiTransparent);
 
-	
+
 	isEnable = true;
 }
-
 void Button::Disable()
 {
 	isEnable = false;
 	sprite.setColor(invisible);
 
 }
-
 void Button::SetActive(bool state)
 {
 	isActive = state;
@@ -107,3 +99,15 @@ void Button::SetActive(bool state)
 	else if (isEnable && isActive)
 		sprite.setColor(white);
 }
+
+bool Button::DoesClick(Vector2f mousePosition)
+{
+	if (!isEnable || !isActive)
+		return false;
+
+	return DoesClick(sprite.getGlobalBounds().contains(mousePosition));
+}
+#pragma endregion
+
+
+

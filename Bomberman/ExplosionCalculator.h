@@ -9,14 +9,11 @@ using namespace sf;
 class ExplosionCalculator
 {
 private:
+
 	MapEntity* map;
 	float* mapExplosion;
 	float* mapBomb;
-public:
-	ExplosionCalculator();
-	~ExplosionCalculator();
-	void SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169]);
-	ExplosionData GetData(int, int);
+
 	int AskYUp(Vector2i, int);
 	int AskYDown(Vector2i, int);
 	int AskXLeft(Vector2i, int);
@@ -24,6 +21,17 @@ public:
 
 	void PutCollectable(int);
 	void RemoveCollectable(int);
+
 	void UpdatePosition(int);
+
+public:
+	ExplosionCalculator();
+	~ExplosionCalculator();
+
+	void SetMaps(MapEntity(&map2)[169], float(&mapE)[169], float(&mapB)[169]);
+	ExplosionData GetData(int, int);
+	
+
+	
 };
 

@@ -8,17 +8,17 @@ class UIMenuPage
 private:
 	MenuPage* page;
 
-	PhysicalButton playBtn;
-	PhysicalButton editorBtn;
+	PhysicalButton playPBtn;
+	PhysicalButton editorPBtn;
 
 public:
 	UIMenuPage(MenuPage*);
 	~UIMenuPage();
 
-	void Update();
-	void Draw();
-
 	void DisplayButtons();
 	void HideButtons();
+	
+	void Update();
+	void Draw();
 };
 

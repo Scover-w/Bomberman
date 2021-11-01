@@ -5,13 +5,13 @@ UIEndPage::UIEndPage(EndPage* p)
 {
 	page = p;
 
-	menuBtn.SetBasicProperties(433, PhysicalButtonType::Rectangle4, RotationType::Vertical);
-	menuBtn.SetImgText("Images/UI/End/Menu.png");
-	menuBtn.SetOriginText(20, -57);
+	menuPBtn.SetBasicProperties(433, PhysicalButtonType::Rectangle4, RotationType::Vertical);
+	menuPBtn.SetImgText("Images/UI/End/Menu.png");
+	menuPBtn.SetOriginText(20, -57);
 
-	restartBtn.SetBasicProperties(349, PhysicalButtonType::Rectangle4, RotationType::Vertical);
-	restartBtn.SetImgText("Images/UI/End/Replay.png");
-	restartBtn.SetOriginText(60, -35);
+	restartPBtn.SetBasicProperties(349, PhysicalButtonType::Rectangle4, RotationType::Vertical);
+	restartPBtn.SetImgText("Images/UI/End/Replay.png");
+	restartPBtn.SetOriginText(60, -35);
 
 	groundImg.SetTexture("Images/UI/End/UIGround.png");
 	groundImg.SetOrigin(0, -39);
@@ -19,6 +19,7 @@ UIEndPage::UIEndPage(EndPage* p)
 
 	winImg.SetTexture("Images/UI/End/Won.png");
 	winImg.SetPosition(CustomMath::UM_PositionToIsoCoordF(293) + Vector2f(56, 20));
+
 	loseImg.SetTexture("Images/UI/End/Lost.png");
 	loseImg.SetPosition(CustomMath::UM_PositionToIsoCoordF(293) + Vector2f(47, 17));
 }
@@ -44,6 +45,7 @@ void UIEndPage::DrawBackText()
 	float valueColor3 = (sin(Timer::instance->GetTimeSpent() * 0.7f) + 1) / 2;
 	multiColor = Color(valueColor1 * 255, valueColor2 * 255, valueColor3 * 255, 255);
 	groundImg.SetColor(multiColor);
+
 	for (int i = 264; i < 268; i++)
 	{
 		for (int j = 0; j < 2; j++)
@@ -58,10 +60,10 @@ void UIEndPage::Update()
 {
 	int mouseUIPositionId = MouseTool::UM_GetIndexPositionMouse();
 
-	if (menuBtn.DoesClick(mouseUIPositionId))
+	if (menuPBtn.DoesClick(mouseUIPositionId))
 		page->MenuClick();
 
-	if (restartBtn.DoesClick(mouseUIPositionId))
+	if (restartPBtn.DoesClick(mouseUIPositionId))
 		page->RestartClick();
 }
 
@@ -70,6 +72,6 @@ void UIEndPage::Draw()
 	DrawBackText();
 	winImg.Draw();
 	loseImg.Draw();
-	menuBtn.Draw();
-	restartBtn.Draw();
+	menuPBtn.Draw();
+	restartPBtn.Draw();
 }

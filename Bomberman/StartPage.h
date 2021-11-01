@@ -6,6 +6,7 @@ class UIStartPage;
 class StartPage
 {
 private:
+	UIStartPage* ui;
 
 	Texture shaderT;
 	Sprite shaderS;
@@ -14,7 +15,8 @@ private:
 
 	float animation = 0.0f;
 
-	UIStartPage* ui;
+	void ManageEvent();
+
 
 public:
 	StartPage();
@@ -22,6 +24,5 @@ public:
 
 	void LoadPage();
 	void Update();
-	void DrawText();
 };
 

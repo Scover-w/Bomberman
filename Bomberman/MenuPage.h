@@ -8,29 +8,23 @@ class MenuPage
 {
 	UIMenuPage* ui;
 
-	Texture shaderT;
-	Sprite shaderS;
-
-	Shader shader;
-	Clock clk;
-
 	Page wishPage;
 
 	bool inAnimation = false;
 	bool directionAnimation;
 	float timerAnimation = 0.0f;
 
+	void ManageEvent();
+	void ManageMap();
+
 public:
 	MenuPage();
 	~MenuPage();
 
-	void LoadPage();
-	void Update();
-
-	void ManageEvent();
-	void ManageMap();
-
 	void PlayClick();
 	void EditorClick();
+
+	void LoadPage();
+	void Update();
 };
 

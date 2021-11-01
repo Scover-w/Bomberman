@@ -9,7 +9,7 @@ StartPage::StartPage()
         shaderT.create(Settings::MULTIPLIED_SIZE_SCREEN.x, Settings::MULTIPLIED_SIZE_SCREEN.y);
         shaderS.setTexture(shaderT);
         shaderS.setPosition(-96, -54);
-        // https://www.glslsandbox.com
+
         if (!shader.loadFromFile("Shader/StarWars.frag", sf::Shader::Fragment))
         {
             // erreur...
@@ -23,21 +23,15 @@ StartPage::StartPage()
     UIStartPage* tempUI = new UIStartPage(this);
     ui = tempUI;
 }
-
 StartPage::~StartPage()
 {
     free(ui);
 }
 
-void StartPage::LoadPage()
-{
-    DataManager::instance->NoFirstLoad();
-}
 
-void StartPage::Update()
+void StartPage::ManageEvent()
 {
     Event event;
-
     while (StaticWindow::window->pollEvent(event))
     {
         if (event.type == event.KeyPressed || event.type == event.MouseButtonPressed)
@@ -49,6 +43,15 @@ void StartPage::Update()
         else if (event.type == Event::Closed || (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
             StaticWindow::window->close();
     }
+}
+
+void StartPage::LoadPage()
+{
+    DataManager::instance->NoFirstLoad();
+}
+void StartPage::Update()
+{
+    ManageEvent();
 
     animation += Timer::instance->GetDeltaTime();
 
@@ -65,5 +68,6 @@ void StartPage::Update()
         StaticWindow::window->draw(shaderS, &shader);
     }
 
-    ui->Update(shader);
+    ui->Update();
+    ui->Draw(shader);
 }

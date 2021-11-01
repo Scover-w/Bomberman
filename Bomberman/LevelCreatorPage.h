@@ -9,17 +9,21 @@ class UILevelCreatorPage;
 
 class LevelCreatorPage
 {
+	UILevelCreatorPage* ui;
+
 	IMageUI selectionImg;
 	IMageUI unSelectionImg;
 	IMageUI groundImg;
 	IMageUI wallImg;
-	IMageUI brickWall;
+	IMageUI brickWallImg;
 
-	IMageUI redTest;
-
-	Vector2i tempVector;
+	Vector2i tempVectorV2i;
 
 	MapEntity map[169]{ MapEntity::None };
+
+	Color opaque;
+	Color transparent;
+	Color midtransparent;
 
 	bool isEditing;
 
@@ -27,25 +31,17 @@ class LevelCreatorPage
 	int maxMapId;
 	int selectedIndexs[4];
 
-	Color opaque;
-	Color transparent;
-	Color midtransparent;
-
-	UILevelCreatorPage* ui;
-
 	int unPlacableIndex[12] = { 0, 1, 13, 11, 12, 25, 143, 156, 157, 155, 167, 168 };
 	
 	void LoadTextures();
 
-	void SwitchEditing();
-	bool CanEdit();
-
 	void ManageEvent();
-
 	void MousePressed(Event&);
-
 	void ClickMap(Event&);
 	void ClickUI(Event&);
+
+	void SwitchEditing();
+	bool CanEdit();
 
 	void DrawSelection();
 	void ComputeMirrorSelection();
@@ -62,14 +58,14 @@ public:
 	LevelCreatorPage();
 	~LevelCreatorPage();
 
-	void LoadPage();
-	void Update();
-
 	void UISaveClick();
 	void UINextLevelClick();
 	void UIPreviousLevelClick();
 	void UISwitchModeClick();
 	void UIBackMenu();
 	void UICreateLevel();
+
+	void LoadPage();
+	void Update();
 };
 

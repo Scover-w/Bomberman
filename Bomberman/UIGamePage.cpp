@@ -1,6 +1,5 @@
 #include "UIGamePage.h"
 
-
 UIGamePage::UIGamePage(GamePage* p)
 {
 	page = p;
@@ -8,14 +7,14 @@ UIGamePage::UIGamePage(GamePage* p)
 	LoadImages();
 	LoadUIPositions();
 
-	valueItems.setFont(SelectedFont::instance->GetFont());
-	valueItems.setCharacterSize(50);
-	valueItems.setFillColor(sf::Color::White);
+	valueItemsTxt.setFont(SelectedFont::instance->GetFont());
+	valueItemsTxt.setCharacterSize(50);
+	valueItemsTxt.setFillColor(sf::Color::White);
 
 	transparency = Color(255, 255, 255, 100);
-	deltaShadowNumber = Vector2f(10.0f, 0.0f);
+	deltaShadowNumberV2f = Vector2f(10.0f, 0.0f);
 
-	deltaText = Vector2f(0.0f, 37.0f);
+	deltaTextV2f = Vector2f(0.0f, 37.0f);
 }
 
 UIGamePage::~UIGamePage()
@@ -23,50 +22,43 @@ UIGamePage::~UIGamePage()
 
 }
 
-void UIGamePage::SetPlayers(Player* p, BotPlayer* b1, BotPlayer* b2, BotPlayer* b3)
-{
-	player = p;
-	bot1 = b1;
-	bot2 = b2;
-	bot3 = b3;
-}
 
+#pragma region Private
 void UIGamePage::LoadImages()
 {
 	Color semiTransparent(255, 255, 255, 100);
 
-	blueGround.SetTexture("Images/UI/GamePage/BlueUIGround.png");
-	blueGround.SetOrigin(0, -39);
-	blueGround.SetColor(semiTransparent);
+	blueGroundImg.SetTexture("Images/UI/GamePage/BlueUIGround.png");
+	blueGroundImg.SetOrigin(0, -39);
+	blueGroundImg.SetColor(semiTransparent);
 
-	redGround.SetTexture("Images/UI/GamePage/RedUIGround.png");
-	redGround.SetOrigin(0, -39);
-	redGround.SetColor(semiTransparent);
+	redGroundImg.SetTexture("Images/UI/GamePage/RedUIGround.png");
+	redGroundImg.SetOrigin(0, -39);
+	redGroundImg.SetColor(semiTransparent);
 
-	greenGround.SetTexture("Images/UI/GamePage/GreenUIGround.png");
-	greenGround.SetOrigin(0, -39);
-	greenGround.SetColor(semiTransparent);
+	greenGroundImg.SetTexture("Images/UI/GamePage/GreenUIGround.png");
+	greenGroundImg.SetOrigin(0, -39);
+	greenGroundImg.SetColor(semiTransparent);
 
-	yellowGround.SetTexture("Images/UI/GamePage/YellowUIGround.png");
-	yellowGround.SetOrigin(0, -39);
-	yellowGround.SetColor(semiTransparent);
+	yellowGroundImg.SetTexture("Images/UI/GamePage/YellowUIGround.png");
+	yellowGroundImg.SetOrigin(0, -39);
+	yellowGroundImg.SetColor(semiTransparent);
 
-	heartUI.SetTexture("Images/UI/GamePage/HeartUI.png");
-	heartUI.SetOrigin(21, -37);
+	heartUIImg.SetTexture("Images/UI/GamePage/HeartUI.png");
+	heartUIImg.SetOrigin(21, -37);
 
-	bombUI.SetTexture("Images/UI/GamePage/BombUI.png");
-	bombUI.SetOrigin(21, -37);
+	bombUIImg.SetTexture("Images/UI/GamePage/BombUI.png");
+	bombUIImg.SetOrigin(21, -37);
 
-	lightUI.SetTexture("Images/UI/GamePage/LightUI.png");
-	lightUI.SetOrigin(21, -37);
+	lightUIImg.SetTexture("Images/UI/GamePage/LightUI.png");
+	lightUIImg.SetOrigin(21, -37);
 
-	powerUI.SetTexture("Images/UI/GamePage/PowerUI.png");
-	powerUI.SetOrigin(21, -37);
+	powerUIImg.SetTexture("Images/UI/GamePage/PowerUI.png");
+	powerUIImg.SetOrigin(21, -37);
 
-	shadow.SetTexture("Images/UI/GamePage/ShadowUI.png");
-	shadow.SetOrigin(21, -37);
+	shadowImg.SetTexture("Images/UI/GamePage/ShadowUI.png");
+	shadowImg.SetOrigin(21, -37);
 }
-
 void UIGamePage::LoadUIPositions()
 {
 	int bluePos[] = { 424, 396, 368, 340, 425, 397, 369, 341 };
@@ -76,10 +68,10 @@ void UIGamePage::LoadUIPositions()
 
 	for (int i = 0; i < 8; i++)
 	{
-		groundUIBluePosition[i] = CustomMath::UM_PositionToIsoCoordF(bluePos[i]);
-		groundUIRedPosition[i] = CustomMath::UM_PositionToIsoCoordF(redPos[i]);
-		groundUIGreenPosition[i] = CustomMath::UM_PositionToIsoCoordF(greenPos[i]);
-		groundUIYellowPosition[i] = CustomMath::UM_PositionToIsoCoordF(yellowPos[i]);
+		groundUIBluePositionV2f[i] = CustomMath::UM_PositionToIsoCoordF(bluePos[i]);
+		groundUIRedPositionV2f[i] = CustomMath::UM_PositionToIsoCoordF(redPos[i]);
+		groundUIGreenPositionV2f[i] = CustomMath::UM_PositionToIsoCoordF(greenPos[i]);
+		groundUIYellowPositionV2f[i] = CustomMath::UM_PositionToIsoCoordF(yellowPos[i]);
 	}
 
 	for (int i = 0; i < 8; i++)
@@ -87,18 +79,18 @@ void UIGamePage::LoadUIPositions()
 		int* pos;
 		switch (i % 4)
 		{
-			case 0:
-				pos = bluePos;
-				break;
-			case 1:
-				pos = redPos;
-				break;
-			case 2:
-				pos = greenPos;
-				break;
-			default: // 3
-				pos = yellowPos;
-				break;
+		case 0:
+			pos = bluePos;
+			break;
+		case 1:
+			pos = redPos;
+			break;
+		case 2:
+			pos = greenPos;
+			break;
+		default: // 3
+			pos = yellowPos;
+			break;
 		}
 
 		int deltaPos = (i < 4) ? 0 : 4;
@@ -108,7 +100,7 @@ void UIGamePage::LoadUIPositions()
 		itemPosition[i * 4 + 2] = CustomMath::UM_PositionToIsoCoordF(*(pos + deltaPos + 2));
 		itemPosition[i * 4 + 3] = CustomMath::UM_PositionToIsoCoordF(*(pos + deltaPos + 3));
 
-		Vector2f deltaV = (i < 4)? Vector2f(80.0f,0.0f) : Vector2f(70.0f,0.0f);
+		Vector2f deltaV = (i < 4) ? Vector2f(80.0f, 0.0f) : Vector2f(70.0f, 0.0f);
 
 		itemPosition[i * 4] += deltaV;
 		itemPosition[i * 4 + 1] += deltaV;
@@ -117,27 +109,21 @@ void UIGamePage::LoadUIPositions()
 	}
 }
 
-void UIGamePage::Update()
-{
-
-
-}
-
 void UIGamePage::SetLifePlayerText(int id)
 {
 	switch (id)
 	{
 		case 0:
-			valueItems.setString(to_string(player->GetLife()));
+			valueItemsTxt.setString(to_string(player->GetLife()));
 			break;
 		case 1:
-			valueItems.setString(to_string(bot1->GetLife()));
+			valueItemsTxt.setString(to_string(bot1->GetLife()));
 			break;
 		case 2:
-			valueItems.setString(to_string(bot2->GetLife()));
+			valueItemsTxt.setString(to_string(bot2->GetLife()));
 			break;
 		case 3:
-			valueItems.setString(to_string(bot3->GetLife()));
+			valueItemsTxt.setString(to_string(bot3->GetLife()));
 			break;
 	}
 }
@@ -145,104 +131,143 @@ void UIGamePage::SetBombPlayerText(int id)
 {
 	switch (id)
 	{
-	case 0:
-		valueItems.setString(to_string(player->GetNbBomb()));
-		break;
-	case 1:
-		valueItems.setString(to_string(bot1->GetNbBomb()));
-		break;
-	case 2:
-		valueItems.setString(to_string(bot2->GetNbBomb()));
-		break;
-	case 3:
-		valueItems.setString(to_string(bot3->GetNbBomb()));
-		break;
+		case 0:
+			valueItemsTxt.setString(to_string(player->GetNbBomb()));
+			break;
+		case 1:
+			valueItemsTxt.setString(to_string(bot1->GetNbBomb()));
+			break;
+		case 2:
+			valueItemsTxt.setString(to_string(bot2->GetNbBomb()));
+			break;
+		case 3:
+			valueItemsTxt.setString(to_string(bot3->GetNbBomb()));
+			break;
 	}
 }
 void UIGamePage::SetRangePlayerText(int id)
 {
 	switch (id)
 	{
-	case 0:
-		valueItems.setString(to_string(player->GetRange()));
-		break;
-	case 1:
-		valueItems.setString(to_string(bot1->GetRange()));
-		break;
-	case 2:
-		valueItems.setString(to_string(bot2->GetRange()));
-		break;
-	case 3:
-		valueItems.setString(to_string(bot3->GetRange()));
-		break;
+		case 0:
+			valueItemsTxt.setString(to_string(player->GetRange()));
+			break;
+		case 1:
+			valueItemsTxt.setString(to_string(bot1->GetRange()));
+			break;
+		case 2:
+			valueItemsTxt.setString(to_string(bot2->GetRange()));
+			break;
+		case 3:
+			valueItemsTxt.setString(to_string(bot3->GetRange()));
+			break;
 	}
 }
 void UIGamePage::SetSpeedPlayerText(int id)
 {
 	switch (id)
 	{
-	case 0:
-		valueItems.setString(to_string(player->GetSpeed()));
-		break;
-	case 1:
-		valueItems.setString(to_string(bot1->GetSpeed()));
-		break;
-	case 2:
-		valueItems.setString(to_string(bot2->GetSpeed()));
-		break;
-	case 3:
-		valueItems.setString(to_string(bot3->GetSpeed()));
-		break;
+		case 0:
+			valueItemsTxt.setString(to_string(player->GetSpeed()));
+			break;
+		case 1:
+			valueItemsTxt.setString(to_string(bot1->GetSpeed()));
+			break;
+		case 2:
+			valueItemsTxt.setString(to_string(bot2->GetSpeed()));
+			break;
+		case 3:
+			valueItemsTxt.setString(to_string(bot3->GetSpeed()));
+			break;
 	}
 }
 
+void UIGamePage::SetTransparency(float x)
+{
+	transparency.a = ((sin(x + time) + 1) * 0.5f * 0.4f + 0.3f) * 255.0f;
+}
+void UIGamePage::SetDeltaItem(float x)
+{
+	deltaItemV2f.y = (sin(x + time) + 1) * 5.0f - 20.0f;
+}
+
+void UIGamePage::DrawShadowItem(float x, int i)
+{
+	SetTransparency(x);
+	shadowImg.SetColor(transparency);
+	shadowImg.SetPosition(itemPosition[i]);
+	shadowImg.Draw();
+}
+void UIGamePage::DrawShadowNumber(float x, int i)
+{
+	SetTransparency(x);
+	shadowImg.SetColor(transparency);
+	shadowImg.SetPosition(itemPosition[i] + deltaShadowNumberV2f);
+	shadowImg.Draw();
+}
+#pragma endregion
+
+
+#pragma region Public
+void UIGamePage::SetPlayers(Player* p, BotPlayer* b1, BotPlayer* b2, BotPlayer* b3)
+{
+	player = p;
+	bot1 = b1;
+	bot2 = b2;
+	bot3 = b3;
+}
+
+void UIGamePage::Update()
+{
+
+}
 void UIGamePage::Draw()
 {
 	float x;
-	
+
 	for (int i = 0; i < 8; i++)
 	{
-		blueGround.SetPosition(groundUIBluePosition[i]);
-		blueGround.Draw();
+		blueGroundImg.SetPosition(groundUIBluePositionV2f[i]);
+		blueGroundImg.Draw();
 
-		redGround.SetPosition(groundUIRedPosition[i]);
-		redGround.Draw();
+		redGroundImg.SetPosition(groundUIRedPositionV2f[i]);
+		redGroundImg.Draw();
 
-		greenGround.SetPosition(groundUIGreenPosition[i]);
-		greenGround.Draw();
+		greenGroundImg.SetPosition(groundUIGreenPositionV2f[i]);
+		greenGroundImg.Draw();
 
-		yellowGround.SetPosition(groundUIYellowPosition[i]);
-		yellowGround.Draw();
+		yellowGroundImg.SetPosition(groundUIYellowPositionV2f[i]);
+		yellowGroundImg.Draw();
 	}
 
 	time = Timer::instance->GetTimeSpent();
-	
+
 	for (int i = 0; i < 16; i += 4)
 	{
 		x = CustomRandom::GetPseudoRandom(i);
 		DrawShadowItem(x, i);
 		SetDeltaItem(x);
-		heartUI.SetPosition(itemPosition[i] + deltaItem);
-		heartUI.Draw();
+		heartUIImg.SetPosition(itemPosition[i] + deltaItemV2f);
+		heartUIImg.Draw();
 
 		x = CustomRandom::GetPseudoRandom(i + 1);
 		DrawShadowItem(x, i + 1);
 		SetDeltaItem(x);
-		bombUI.SetPosition(itemPosition[i + 1] + deltaItem);
-		bombUI.Draw();
+		bombUIImg.SetPosition(itemPosition[i + 1] + deltaItemV2f);
+		bombUIImg.Draw();
 
 		x = CustomRandom::GetPseudoRandom(i + 2);
 		DrawShadowItem(x, i + 2);
 		SetDeltaItem(x);
-		lightUI.SetPosition(itemPosition[i + 2] + deltaItem);
-		lightUI.Draw();
+		lightUIImg.SetPosition(itemPosition[i + 2] + deltaItemV2f);
+		lightUIImg.Draw();
 
 
 		x = CustomRandom::GetPseudoRandom(i + 3);
 		DrawShadowItem(x, i + 3);
 		SetDeltaItem(x);
-		powerUI.SetPosition(itemPosition[i + 3] + deltaItem);
-		powerUI.Draw();	
+		powerUIImg.SetPosition(itemPosition[i + 3] + deltaItemV2f);
+		powerUIImg.Draw();
 	}
 
 	for (int i = 16; i < 32; i += 4)
@@ -251,56 +276,32 @@ void UIGamePage::Draw()
 		DrawShadowNumber(x, i);
 		SetDeltaItem(x);
 		SetLifePlayerText((i - 16) / 4);
-		
-		valueItems.setPosition(itemPosition[i] + deltaItem + deltaText);
-		StaticWindow::window->draw(valueItems);
-    
+
+		valueItemsTxt.setPosition(itemPosition[i] + deltaItemV2f + deltaTextV2f);
+		StaticWindow::window->draw(valueItemsTxt);
+
 		x = CustomRandom::GetPseudoRandom(i + 1);
 		DrawShadowNumber(x, i + 1);
 		SetDeltaItem(x);
 		SetBombPlayerText((i - 16) / 4);
-		valueItems.setPosition(itemPosition[i + 1] + deltaItem + deltaText);
-		StaticWindow::window->draw(valueItems);
+		valueItemsTxt.setPosition(itemPosition[i + 1] + deltaItemV2f + deltaTextV2f);
+		StaticWindow::window->draw(valueItemsTxt);
 
 		x = CustomRandom::GetPseudoRandom(i + 2);
 		DrawShadowNumber(x, i + 2);
 		SetDeltaItem(x);
 		SetSpeedPlayerText((i - 16) / 4);
-		valueItems.setPosition(itemPosition[i + 2] + deltaItem + deltaText);
-		StaticWindow::window->draw(valueItems);
+		valueItemsTxt.setPosition(itemPosition[i + 2] + deltaItemV2f + deltaTextV2f);
+		StaticWindow::window->draw(valueItemsTxt);
 
 		x = CustomRandom::GetPseudoRandom(i + 3);
 		DrawShadowNumber(x, i + 3);
 		SetDeltaItem(x);
 		SetRangePlayerText((i - 16) / 4);
-		valueItems.setPosition(itemPosition[i + 3] + deltaItem + deltaText);
-		StaticWindow::window->draw(valueItems);
+		valueItemsTxt.setPosition(itemPosition[i + 3] + deltaItemV2f + deltaTextV2f);
+		StaticWindow::window->draw(valueItemsTxt);
 	}
 }
-
-void UIGamePage::SetTransparency(float x)
-{
-	transparency.a = ((sin(x + time) + 1) * 0.5f * 0.4f + 0.3f) * 255.0f;
-}
-
-void UIGamePage::SetDeltaItem(float x)
-{
-	deltaItem.y = (sin(x + time) + 1) * 5.0f - 20.0f;
-}
-
-void UIGamePage::DrawShadowItem(float x, int i)
-{
-	SetTransparency(x);
-	shadow.SetColor(transparency);
-	shadow.SetPosition(itemPosition[i]);
-	shadow.Draw();
-}
+#pragma endregion
 
 
-void UIGamePage::DrawShadowNumber(float x, int i)
-{
-	SetTransparency(x);
-	shadow.SetColor(transparency);
-	shadow.SetPosition(itemPosition[i] + deltaShadowNumber);
-	shadow.Draw();
-}

@@ -11,53 +11,57 @@ private:
 	BotPlayer* bot2;
 	BotPlayer* bot3;
 
-	IMageUI blueGround;
-	IMageUI redGround;
-	IMageUI greenGround;
-	IMageUI yellowGround;
+	IMageUI blueGroundImg;
+	IMageUI redGroundImg;
+	IMageUI greenGroundImg;
+	IMageUI yellowGroundImg;
 
-	IMageUI heartUI;
-	IMageUI bombUI;
-	IMageUI lightUI;
-	IMageUI powerUI;
+	IMageUI heartUIImg;
+	IMageUI bombUIImg;
+	IMageUI lightUIImg;
+	IMageUI powerUIImg;
 
-	IMageUI shadow;
+	IMageUI shadowImg;
 
-	Vector2f groundUIBluePosition[8];
-	Vector2f groundUIRedPosition[8];
-	Vector2f groundUIGreenPosition[8];
-	Vector2f groundUIYellowPosition[8];
+	Vector2f groundUIBluePositionV2f[8];
+	Vector2f groundUIRedPositionV2f[8];
+	Vector2f groundUIGreenPositionV2f[8];
+	Vector2f groundUIYellowPositionV2f[8];
 
 	Vector2f itemPosition[32]; //first 16 is item p, rest is number p
 
-	Text valueItems;
+	Vector2f deltaItemV2f;
+	Vector2f deltaShadowNumberV2f;
+	Vector2f deltaTextV2f;
+
+	Text valueItemsTxt;
 
 	Color transparency;
 	float time;
-	Vector2f deltaItem;
-	Vector2f deltaShadowNumber;
-	Vector2f deltaText;
+	
 
 	void LoadImages();
 	void LoadUIPositions();
 
 	void SetTransparency(float);
 	void SetDeltaItem(float);
-	void DrawShadowItem(float, int);
-	void DrawShadowNumber(float, int);
-
+	
 	void SetLifePlayerText(int);
 	void SetBombPlayerText(int);
 	void SetRangePlayerText(int);
 	void SetSpeedPlayerText(int);
 
+	void DrawShadowItem(float, int);
+	void DrawShadowNumber(float, int);
+
 public:
+
 	UIGamePage(GamePage*);
 	~UIGamePage();
 
+	void SetPlayers(Player*, BotPlayer*, BotPlayer*, BotPlayer*);
+	
 	void Update();
 	void Draw();
-
-	void SetPlayers(Player*, BotPlayer*, BotPlayer*, BotPlayer*);
 };
 

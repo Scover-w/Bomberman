@@ -6,7 +6,6 @@ MouseTool::MouseTool()
 {
 	instance = this;
 }
-
 MouseTool::~MouseTool()
 {
 
@@ -16,7 +15,7 @@ Vector2f MouseTool::GetGlobalPosition()
 {
 	Vector2i relativePosition = Mouse::getPosition(*StaticWindow::window);
 	Vector2f globalPosition = StaticWindow::window->mapPixelToCoords(relativePosition);
-	MouseTool::instance->globalPosition = globalPosition;
+	MouseTool::instance->globalPositionV2f = globalPosition;
 
 	return globalPosition;
 }
@@ -26,8 +25,6 @@ Vector2f MouseTool::GM_GetCartPositionMouse()
 {
 	return CustomMath::GM_IsometricToCartesian(GetGlobalPosition());
 }
-
-
 int MouseTool::GM_GetIndexPositionMouse()
 {
 	Vector2f mousePosition = GM_GetCartPositionMouse();
@@ -47,8 +44,6 @@ Vector2f MouseTool::UM_GetCartPositionMouse()
 {
 	return CustomMath::UM_IsometricToCartesian(GetGlobalPosition());
 }
-
-
 int MouseTool::UM_GetIndexPositionMouse()
 {
 	Vector2f mousePosition = UM_GetCartPositionMouse();

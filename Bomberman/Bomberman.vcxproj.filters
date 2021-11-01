@@ -248,9 +248,6 @@
     <ClInclude Include="UIMenuPage.h">
       <Filter>Fichiers d%27en-tête\Page\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Cell.h">
-      <Filter>Fichiers d%27en-tête\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="PhysicalButtonType.h">
       <Filter>Fichiers d%27en-tête\Tools\UI</Filter>
     </ClInclude>

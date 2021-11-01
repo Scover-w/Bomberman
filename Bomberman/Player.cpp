@@ -4,8 +4,8 @@
 
 Player* Player::player = nullptr;
 
-Vector2i Player::upRightCorner(10, -10);
-Vector2i Player::downLeftCorner(-10, 10);
+Vector2i Player::upRightCornerV2i(10, -10);
+Vector2i Player::downLeftCornerV2i(-10, 10);
 
 Color Player::invicible(255, 255, 255, 150);
 Color Player::normal(255, 255, 255, 255);
@@ -17,10 +17,10 @@ Player::Player()
 {
     image.SetOrigin(77, 128);
 
-    shadow.SetTexture("Images/Player/Shadow.png");
-    shadow.SetOrigin(20.0f, 42.0f);
+    shadowImg.SetTexture("Images/Player/Shadow.png");
+    shadowImg.SetOrigin(20.0f, 42.0f);
     Color transparent(255, 255, 255, 120);
-    shadow.SetColor(transparent);
+    shadowImg.SetColor(transparent);
 
     maskSprite.height = 171;
     maskSprite.width = 156;
@@ -45,35 +45,40 @@ Player::Player()
             break;
     }
 }
-
 Player::~Player()
 {
 
 }
 
-bool Player::IsDead()
+#pragma region Private
+void Player::DeltaAnimation()
 {
-    return isDead;
-}
+    animation += Timer::instance->GetDeltaTime();
 
+    if (isDead)
+        return;
+
+    if (animation > 0.8f)
+        animation -= .8f;
+}
 void Player::SetDirectionAnimationVector2i()
 {
-    if (direction.x < -0.0001f) // Right
+    if (directionV2f.x < -0.0001f) // Right
     {
         directionAnimationV2i.x = 1;
         directionAnimationV2i.y = 0;
     }
-    else if (direction.x > 0.0001f) // Left
+    else if (directionV2f.x > 0.0001f) // Left
     {
         directionAnimationV2i.x = 0;
         directionAnimationV2i.y = 1;
     }
-    else if (direction.y > 0.0001f) // Up
+    else if (directionV2f.y > 0.0001f) // Up
     {
         directionAnimationV2i.x = 1;
         directionAnimationV2i.y = 1;
     }
-    else if (direction.y < -0.0001f) // Down
+    else if (directionV2f.y < -0.0001f) // Down
     {
         directionAnimationV2i.x = 0;
         directionAnimationV2i.y = 0;
@@ -85,22 +90,11 @@ void Player::SetDirectionAnimationVector2i()
     }
 }
 
-void Player::DeltaAnimation()
-{
-    animation += Timer::instance->GetDeltaTime();
-
-    if (isDead)
-        return;
-
-    if (animation > 0.8f)
-        animation -= .8f;
-}
-
 int Player::GetStateAnimation()
 {
     DeltaAnimation();
 
-    if (direction.x > -0.0001f && direction.x < 0.0001f && direction.y > -0.0001f && direction.y < 0.0001f)
+    if (directionV2f.x > -0.0001f && directionV2f.x < 0.0001f && directionV2f.y > -0.0001f && directionV2f.y < 0.0001f)
         return 0;
     if (animation < 0.1f)
         return 0;
@@ -119,21 +113,33 @@ int Player::GetStateAnimation()
     else if (animation < 0.8f)
         return 7;
 }
+int Player::GetStateAnimationDeath()
+{
+    DeltaAnimation();
+
+    if (animation < 0.125f)
+        return 0;
+    else if (animation < 0.25f)
+        return 1;
+    else if (animation < 0.375f)
+        return 2;
+    else
+        return 3;
+}
 
 int Player::GetDeltaXPlayer(int i)
 {
     if (i % 2)
-        return upRightCorner.x;
+        return upRightCornerV2i.x;
     else
-        return downLeftCorner.x;
+        return downLeftCornerV2i.x;
 }
-
 int Player::GetDeltaYPlayer(int i)
 {
     if (i % 2)
-        return upRightCorner.y;
+        return upRightCornerV2i.y;
     else
-        return downLeftCorner.y;
+        return downLeftCornerV2i.y;
 }
 
 void Player::GetFuturPosPlayer(Vector2f pos)
@@ -152,53 +158,69 @@ void Player::GetFuturPosPlayer(Vector2f pos)
         }
     }
 }
-
-int Player::GetStateAnimationDeath()
-{
-    DeltaAnimation();
-
-    if (animation < 0.125f)
-        return 0;
-    else if (animation < 0.25f)
-        return 1;
-    else if (animation < 0.375f)
-        return 2;
-    else
-        return 3;
-}
-
-void Player::SetMap(MapEntity* mp)
-{
-    map = mp;
-}
-
-void Player::SetOnBombId(int bombPos)
-{
-    onBombId = bombPos;
-}
-
-int Player::GetPositionIndex()
-{
-    return positionIndex;
-}
-
 void Player::GetDirection()
 {
-    direction.x = 0.0f;
-    direction.y = 0.0f;
+    directionV2f.x = 0.0f;
+    directionV2f.y = 0.0f;
 
     if (Keyboard::isKeyPressed(Keyboard::Left) ^ Keyboard::isKeyPressed(Keyboard::Right))
-        direction.x = Keyboard::isKeyPressed(Keyboard::Right) ? 1.0f : -1.0f;
+        directionV2f.x = Keyboard::isKeyPressed(Keyboard::Right) ? 1.0f : -1.0f;
     else
     {
         if (Keyboard::isKeyPressed(Keyboard::Up) ^ Keyboard::isKeyPressed(Keyboard::Down))
-            direction.y = Keyboard::isKeyPressed(Keyboard::Down) ? 1.0f : -1.0f;
+            directionV2f.y = Keyboard::isKeyPressed(Keyboard::Down) ? 1.0f : -1.0f;
     }
     
-    direction.x = direction.x * (speed * Timer::instance->GetDeltaTime());
-    direction.y = direction.y * (speed * Timer::instance->GetDeltaTime());
+    directionV2f.x = directionV2f.x * (speed * Timer::instance->GetDeltaTime());
+    directionV2f.y = directionV2f.y * (speed * Timer::instance->GetDeltaTime());
 }
 
+void Player::ManageInvicibility()
+{
+    if (isInvicible)
+    {
+        invincibilityTime += Timer::instance->GetDeltaTime();
+
+        if (invincibilityTime >= 3.0f)
+        {
+            isInvicible = false;
+            image.SetColor(normal);
+        }
+    }
+}
+void Player::CheckCollectable()
+{
+    MapEntity mE = *(map + positionIndex);
+
+    if (mE < MapEntity::LifeIt)
+        return;
+
+    bool isIn = false;
+    switch (mE)
+    {
+        case LifeIt:
+            AddLife();
+            isIn = true;
+            break;
+        case BombIt:
+            AddBomb();
+            isIn = true;
+            break;
+        case SpeedIt:
+            AddSpeed();
+            isIn = true;
+            break;
+        case PowerIt:
+            AddRange();
+            isIn = true;
+            break;
+    }
+
+    if (isIn)
+    {
+        *(map + positionIndex) = MapEntity::None;
+    }
+}
 void Player::TakeDamage()
 {
     if (isInvicible)
@@ -214,6 +236,149 @@ void Player::TakeDamage()
         invincibilityTime = 0.0f;
         image.SetColor(invicible);
     }
+}
+void Player::Move()
+{
+    if (isDead)
+        return;
+
+
+    Vector2f futurePosition(cartPositionV2f.x + directionV2f.x, cartPositionV2f.y + directionV2f.y);
+
+    GetFuturPosPlayer(futurePosition);
+
+
+    bool isWall = false;
+    bool isBomb = false;
+    bool isOwnBomb = false;
+
+    if (futurePosition.x > 1469 || futurePosition.x < 0 || futurePosition.y > 1469 || futurePosition.y < 0)
+        isWall = true;
+
+  
+
+    for (int j = 0; j < 4; j++)
+    {
+        MapEntity entity = *(map + futurPosPlayerId[j]);
+
+        if (entity == MapEntity::Wall || entity == MapEntity::DBlock)
+            isWall = true;
+
+        if (entity == MapEntity::Bomb && futurPosPlayerId[j] != onBombId)
+            isBomb = true;
+
+        if (entity == MapEntity::Bomb && futurPosPlayerId[j] == onBombId)
+            isOwnBomb = true;
+    }
+
+    if (!isOwnBomb)
+        onBombId = -1;
+
+
+    if (!isWall && !isBomb)
+    {
+        hasMoved = true;
+        cartPositionV2f.x += directionV2f.x;
+        cartPositionV2f.y += directionV2f.y;
+    }
+    else
+    {
+        hasMoved = false;
+    }
+
+    
+
+    positionIndex = CustomMath::GM_CartCoordFToPosition(cartPositionV2f);
+    CheckCollectable();
+
+    Vector2f p = CustomMath::GM_CartesianToIsometric(cartPositionV2f);
+
+    image.SetPosition(p);
+    shadowImg.SetPosition(p);
+}
+#pragma endregion
+
+
+
+#pragma region Public
+void Player::SetMap(MapEntity* mp)
+{
+    map = mp;
+}
+void Player::SetOnBombId(int bombPos)
+{
+    onBombId = bombPos;
+}
+
+bool Player::IsDead()
+{
+    return isDead;
+}
+
+void Player::ResetOnBombId(int id)
+{
+    if (id == onBombId)
+        onBombId = -1;
+}
+
+#pragma region Add
+void Player::AddSpeed()
+{
+    speed += 20.0f;
+    SoundManager::instance->Play(SoundType::PowerUp3);
+}
+void Player::AddBomb()
+{
+    bombs++;
+    SoundManager::instance->Play(SoundType::PowerUp2);
+}
+void Player::AddRange()
+{
+    range++;
+    SoundManager::instance->Play(SoundType::PowerUp4);
+}
+void Player::AddLife()
+{
+    lives++;
+    SoundManager::instance->Play(SoundType::PowerUp1);
+}
+#pragma endregion
+
+#pragma region Get
+int Player::GetPositionIndex()
+{
+    return positionIndex;
+}
+int Player::GetId()
+{
+    return id;
+}
+
+int Player::GetSpeed()
+{
+    return (speed - 120.0f) / 20.0f + 1;
+}
+int Player::GetRange()
+{
+    return range;
+}
+int Player::GetNbBomb()
+{
+    return bombs;
+}
+int Player::GetLife()
+{
+    return lives;
+}
+#pragma endregion
+
+bool Player::AskRemoveBomb()
+{
+    if (bombs == 0)
+        return false;
+    
+    bombs--;
+    return true;
 }
 
 void Player::CheckDamageBomb(const ExplosionData& eData)
@@ -254,158 +419,6 @@ void Player::CheckDamageBomb(const ExplosionData& eData)
     }
 }
 
-void Player::Move()
-{
-    if (isDead)
-        return;
-
-
-    Vector2f futurePosition(cartPosition.x + direction.x, cartPosition.y + direction.y);
-
-    GetFuturPosPlayer(futurePosition);
-
-
-    bool isWall = false;
-    bool isBomb = false;
-    bool isOwnBomb = false;
-
-    if (futurePosition.x > 1469 || futurePosition.x < 0 || futurePosition.y > 1469 || futurePosition.y < 0)
-        isWall = true;
-
-  
-
-    for (int j = 0; j < 4; j++)
-    {
-        MapEntity entity = *(map + futurPosPlayerId[j]);
-
-        if (entity == MapEntity::Wall || entity == MapEntity::DBlock)
-            isWall = true;
-
-        if (entity == MapEntity::Bomb && futurPosPlayerId[j] != onBombId)
-            isBomb = true;
-
-        if (entity == MapEntity::Bomb && futurPosPlayerId[j] == onBombId)
-            isOwnBomb = true;
-    }
-
-    if (!isOwnBomb)
-        onBombId = -1;
-
-
-    if (!isWall && !isBomb)
-    {
-        hasMoved = true;
-        cartPosition.x += direction.x;
-        cartPosition.y += direction.y;
-    }
-    else
-    {
-        hasMoved = false;
-    }
-
-    
-
-    positionIndex = CustomMath::GM_CartCoordFToPosition(cartPosition);
-    CheckCollectable();
-
-    Vector2f p = CustomMath::GM_CartesianToIsometric(cartPosition);
-
-    image.SetPosition(p);
-    shadow.SetPosition(p);
-}
-
-void Player::ManageInvicibility()
-{
-    if (isInvicible)
-    {
-        invincibilityTime += Timer::instance->GetDeltaTime();
-
-        if (invincibilityTime >= 3.0f)
-        {
-            isInvicible = false;
-            image.SetColor(normal);
-        }
-    }
-}
-
-void Player::CheckCollectable()
-{
-    MapEntity mE = *(map + positionIndex);
-
-    if (mE < MapEntity::LifeIt)
-        return;
-
-    bool isIn = false;
-    switch (mE)
-    {
-        case LifeIt:
-            AddLife();
-            isIn = true;
-            break;
-        case BombIt:
-            AddBomb();
-            isIn = true;
-            break;
-        case SpeedIt:
-            AddSpeed();
-            isIn = true;
-            break;
-        case PowerIt:
-            AddRange();
-            isIn = true;
-            break;
-    }
-
-    if (isIn)
-    {
-        *(map + positionIndex) = MapEntity::None;
-    }
-}
-
-int Player::GetId()
-{
-    return id;
-}
-
-void Player::ResetOnBombId(int id)
-{
-    if (id == onBombId)
-        onBombId = -1;
-}
-
-void Player::AddSpeed()
-{
-    speed += 20.0f;
-    SoundManager::instance->Play(SoundType::PowerUp3);
-}
-
-void Player::AddBomb()
-{
-    bombs++;
-    SoundManager::instance->Play(SoundType::PowerUp2);
-}
-
-void Player::AddRange()
-{
-    range++;
-    SoundManager::instance->Play(SoundType::PowerUp4);
-}
-
-void Player::AddLife()
-{
-    lives++;
-    SoundManager::instance->Play(SoundType::PowerUp1);
-}
-
-bool Player::AskRemoveBomb()
-{
-    if (bombs == 0)
-        return false;
-    
-    bombs--;
-    return true;
-}
-
 void Player::Reset()
 {
     lives = 1;
@@ -420,38 +433,16 @@ void Player::Reset()
     if (id == 0) // Player
     {
         Vector2f temp(Settings::CARTESIAN_ATOMIC_HEIGHT / 2, Settings::CARTESIAN_ATOMIC_HEIGHT / 2);
-        cartPosition = temp;
-        positionIndex = CustomMath::GM_CartCoordFToPosition(cartPosition);
+        cartPositionV2f = temp;
+        positionIndex = CustomMath::GM_CartCoordFToPosition(cartPositionV2f);
     }
 }
-
-int Player::GetSpeed()
-{
-    return (speed - 120.0f) / 20.0f + 1;
-}
-
-int Player::GetRange()
-{
-    return range;
-}
-
-int Player::GetNbBomb()
-{
-    return bombs;
-}
-
-int Player::GetLife()
-{
-    return lives;
-}
-
 void Player::Update()
 {
     ManageInvicibility();
     GetDirection();
     Move();
 }
-
 void Player::Draw()
 {
     if (isDead)
@@ -469,8 +460,11 @@ void Player::Draw()
 
         maskSprite.left = 156 * stateAnim;
         image.SetTextureRect(maskSprite);
-        shadow.Draw();
+        shadowImg.Draw();
     }
 
     image.Draw();
 }
+#pragma endregion
+
+

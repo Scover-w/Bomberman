@@ -7,19 +7,12 @@ EndPage::EndPage()
 	UIEndPage* temp = new UIEndPage(this);
 	ui = temp;
 }
-
 EndPage::~EndPage()
 {
 	free(ui);
 }
 
-void EndPage::LoadPage()
-{
-	DataManager::instance->NoFirstLoad();
 
-	hasWin = DataManager::instance->AskWin();
-	ui->SetWin(hasWin);
-}
 
 void EndPage::ManageEvent()
 {
@@ -31,6 +24,27 @@ void EndPage::ManageEvent()
     }
 }
 
+#pragma region Event_UI
+void EndPage::MenuClick()
+{
+	Page page = Page::Menu;
+	DataManager::instance->SetCurrentPage(page);
+}
+void EndPage::RestartClick()
+{
+	Page page = Page::Game;
+	DataManager::instance->SetCurrentPage(page);
+}
+#pragma endregion
+
+
+void EndPage::LoadPage()
+{
+	DataManager::instance->NoFirstLoad();
+
+	hasWin = DataManager::instance->AskWin();
+	ui->SetWin(hasWin);
+}
 void EndPage::Update()
 {
 	ui->Update();
@@ -44,14 +58,3 @@ void EndPage::Update()
 	ui->Draw();
 }
 
-void EndPage::MenuClick()
-{
-	Page page = Page::Menu;
-	DataManager::instance->SetCurrentPage(page);
-}
-
-void EndPage::RestartClick()
-{
-	Page page = Page::Game;
-	DataManager::instance->SetCurrentPage(page);
-}

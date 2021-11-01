@@ -90,10 +90,7 @@ int main()
                 break;
         }
 
-        window.display();    
-
-        
-
+        window.display();
     }
 
     return 0;

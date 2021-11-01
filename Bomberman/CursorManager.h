@@ -3,9 +3,9 @@
 class CursorManager
 {
 private:
-
 	Cursor normalCursor;
 	Cursor handCursor;
+
 public:
 	static CursorManager* instance;
 
@@ -14,6 +14,5 @@ public:
 
 	void SetNormalCursor();
 	void SetHandCursor();
-
 };
 

@@ -2,21 +2,15 @@
 
 int MapEditor::unPlacableIndex[12] = { 0, 1, 13, 11, 12, 25, 143, 156, 157, 155, 167, 168 };
 
-bool MapEditor::LoadMap(int mapId, MapEntity(&map2)[169])
+int MapEditor::GetMaxId()
 {
-	fstream file("Maps/Map" + to_string(mapId) + ".bin", ios::binary | ios::in | ios::out);
+	int i = 2;
 
-	cout << "Want to load Map" << to_string(mapId) << ".bin" << endl;
-
-	if (!file.read(reinterpret_cast<char*>(&map2), sizeof(map2)))
+	while (DoesMapExist(i))
 	{
-		cout << "Map " << to_string(mapId) << "failed to load." << std::endl;
-		return false;
+		i++;
 	}
-
-	file.close();
-
-	return true;
+	return i - 1;
 }
 
 void MapEditor::WriteMap(int mapId, MapEntity(&map2)[169])
@@ -29,7 +23,6 @@ void MapEditor::WriteMap(int mapId, MapEntity(&map2)[169])
 
 	file.close();
 }
-
 bool MapEditor::DoesMapExist(int mapId)
 {
 	FILE* file;
@@ -49,17 +42,22 @@ bool MapEditor::DoesMapExist(int mapId)
 	return false;
 }
 
-int MapEditor::GetMaxId()
+bool MapEditor::LoadMap(int mapId, MapEntity(&map2)[169])
 {
-	int i = 2;
+	fstream file("Maps/Map" + to_string(mapId) + ".bin", ios::binary | ios::in | ios::out);
 
-	while (DoesMapExist(i))
+	cout << "Want to load Map" << to_string(mapId) << ".bin" << endl;
+
+	if (!file.read(reinterpret_cast<char*>(&map2), sizeof(map2)))
 	{
-		i++;
+		cout << "Map " << to_string(mapId) << "failed to load." << std::endl;
+		return false;
 	}
-	return i - 1;
-}
 
+	file.close();
+
+	return true;
+}
 void MapEditor::LoadRandomMap(MapEntity(&map2)[169])
 {
 	int maxId = GetMaxId();

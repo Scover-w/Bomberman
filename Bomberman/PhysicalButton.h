@@ -7,38 +7,43 @@
 class PhysicalButton : public Button
 {
 private:
-	static Vector2f deltaClick;
+	static Vector2f deltaClickV2f;
+
 	IMageUI hoverImg;
 	IMageUI clickImg;
 
 	IMageUI textImg;
 	
-	Vector2f position;
+	Vector2f positionV2f;
 
-	Vector2f positions[14];
+	Vector2f positionsV2f[14];
 
-	PhysicalButtonType type;
-	RotationType rotation;
+	PhysicalButtonType typePBtn;
+	RotationType rotationT;
 
 	int width, height;
 	int idOrigin;
 
 	int idsMap[14];
+
+	void SetId(int, int);
 	void SetIds(int);
 	void ResetIds();
-	void SetId(int, int);
 	void SetOrigin(float, float);
 	void SetTextures(string, string, string);
 
 public:
 	PhysicalButton();
 	~PhysicalButton();
-	bool DoesClick(int);
-	void SetOriginText(float, float);
+
 	void SetImgText(string);
+	void SetOriginText(float, float);
 	void SetBasicProperties(int, PhysicalButtonType, RotationType);
+	
 	void Enable();
 	void Disable();
 	void SetActive(bool);
+
+	bool DoesClick(int);
 	void Draw();
 };

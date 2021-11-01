@@ -8,36 +8,38 @@ class UILevelCreatorPage
 {
 private:
 	LevelCreatorPage* page;
+
+	IMageUI titleImg;
+	IMageUI borderLevelImg;
+
+	PhysicalButton nextPBtn;
+	PhysicalButton previousPBtn;
+	PhysicalButton backMenuPBtn;
+	PhysicalButton savePBtn;
+	PhysicalButton switchModePBtn1;
+	PhysicalButton switchModePBtn2;
+	PhysicalButton newLevelPBtn;
+
+	Text levelTxt;	
+
+	int mouseUIPositionId;
+
+
 	bool isEditing = false;
 	bool isClickable = true;
 
 	int selectedMapId;
 	int maxMapId;
 
-	Vector2f mousePosition;
-	int mouseUIPositionId;
-
-	IMageUI title;
-
-	PhysicalButton nextPButton;
-	PhysicalButton previousPButton;
-	PhysicalButton backMenuPButton;
-	PhysicalButton savePButton;
-	PhysicalButton switchModePButton1;
-	PhysicalButton switchModePButton2;
-	PhysicalButton newLevelPButton;
-
-	IMageUI borderLevel;
-
-	Text levelText;	
-
 public:
 	UILevelCreatorPage(LevelCreatorPage*);
 	~UILevelCreatorPage();
+
 	void SetEditionMode();
 	void SetNormalMode();
 	void SetMaxMapId(int);
 	void SetActualMapId(int);
+
 	void Update();
 	void Draw();
 };

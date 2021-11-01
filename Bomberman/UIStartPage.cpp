@@ -4,38 +4,41 @@ UIStartPage::UIStartPage(StartPage* p)
 {
 	page = p;
 
-	continueButton.SetTexture("Images/UI/StartPage/ClickToContinue.png");
-	continueButton.SetPosition(1630, 1060);
-    continueButton.SetScale(0.5f, 0.5f);
+    continueBtn.SetTexture("Images/UI/StartPage/ClickToContinue.png");
+    continueBtn.SetPosition(1630, 1060);
+    continueBtn.SetScale(0.5f, 0.5f);
 
-    storyText.setFont(SelectedFont::instance->GetFont());
-    positionText.x = Settings::SIZE_SCREEN.x / 2.0f - 370.0f;
-    positionText.y = Settings::SIZE_SCREEN.y;
-    storyText.setPosition(positionText);
-    storyText.setString(history);
-    storyText.setCharacterSize(18);
-    storyText.setFillColor(sf::Color::White);
+    storyTxt.setFont(SelectedFont::instance->GetFont());
+    positionTextV2f.x = Settings::SIZE_SCREEN.x / 2.0f - 370.0f;
+    positionTextV2f.y = Settings::SIZE_SCREEN.y;
+    storyTxt.setPosition(positionTextV2f);
+    storyTxt.setString(history);
+    storyTxt.setCharacterSize(18);
+    storyTxt.setFillColor(sf::Color::White);
 }
-
 UIStartPage::~UIStartPage()
 {
 
 }
 
-void UIStartPage::Update(Shader& shader)
+
+void UIStartPage::Update()
 {
     animation += Timer::instance->GetDeltaTime();
 
-    positionText.y -= 20.0f * Timer::instance->GetDeltaTime();
-    storyText.setPosition(positionText);
-    StaticWindow::window->draw(storyText);
-
+    positionTextV2f.y -= 20.0f * Timer::instance->GetDeltaTime();
+    storyTxt.setPosition(positionTextV2f);
+    
     int visibility = (sin(animation) + 1) * 60;
 
     Color visi(255, 255, 255, visibility);
 
-    mousePosition = MouseTool::GetGlobalPosition();
-    continueButton.DoesClick(mousePosition);
-    continueButton.SetColor(visi);
-    continueButton.Draw();
+    mousePositionV2f = MouseTool::GetGlobalPosition();
+    continueBtn.DoesClick(mousePositionV2f);
+    continueBtn.SetColor(visi);
+}
+void UIStartPage::Draw(Shader& shader)
+{
+    StaticWindow::window->draw(storyTxt);
+    continueBtn.Draw();
 }

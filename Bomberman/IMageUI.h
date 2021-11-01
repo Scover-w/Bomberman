@@ -9,14 +9,19 @@ using namespace std;
 class IMageUI
 {
 protected:
+
 	Sprite sprite;
 	Texture texture;
 
 public:
+
 	IMageUI();
 	~IMageUI();
+
+	Vector2f GetPosition();
+
 	void SetTexture(string);
-	void Draw();
+	
 	void SetOrigin(float, float);
 	void SetPosition(float, float);
 	void SetScale(float, float);
@@ -27,6 +32,6 @@ public:
 	void SetColor(Color&);
 	void SetTextureRect(IntRect&);
 
-	Vector2f GetPosition();
+	void Draw();
 };
 

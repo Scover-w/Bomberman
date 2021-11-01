@@ -6,9 +6,12 @@ using namespace sf;
 class SelectedFont
 {
 private:
+
 	Font font;
+
 public:
 	static SelectedFont* instance;
+
 	SelectedFont();
 	~SelectedFont();
 

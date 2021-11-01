@@ -7,21 +7,13 @@ MenuPage::MenuPage()
     UIMenuPage* temp = new UIMenuPage(this);
     ui = temp;
 }
-
 MenuPage::~MenuPage()
 {
     free(ui);
 }
 
-void MenuPage::LoadPage()
-{
-    DataManager::instance->NoFirstLoad();
-    timerAnimation = 1.5f;
-    inAnimation = true;
-    directionAnimation = false;
-    ui->HideButtons();
-}
 
+#pragma region Private
 void MenuPage::ManageEvent()
 {
     Event event;
@@ -47,7 +39,6 @@ void MenuPage::ManageEvent()
             StaticWindow::window->close();
     }
 }
-
 void MenuPage::ManageMap()
 {
     MapDrawer::instance->DrawEnv(true);
@@ -75,11 +66,39 @@ void MenuPage::ManageMap()
             ui->DisplayButtons();
         }
     }
-    
+
 
     MapDrawer::instance->DrawEnv(false);
 }
+#pragma endregion
 
+#pragma region Public
+void MenuPage::PlayClick()
+{
+    inAnimation = true;
+    timerAnimation = 0.0f;
+    directionAnimation = true;
+    wishPage = Page::Game;
+    ui->HideButtons();
+}
+void MenuPage::EditorClick()
+{
+    inAnimation = true;
+    timerAnimation = 0.0f;
+    directionAnimation = true;
+    wishPage = Page::LevelCreator;
+    ui->HideButtons();
+}
+
+
+void MenuPage::LoadPage()
+{
+    DataManager::instance->NoFirstLoad();
+    timerAnimation = 1.5f;
+    inAnimation = true;
+    directionAnimation = false;
+    ui->HideButtons();
+}
 void MenuPage::Update()
 {
     ui->Update();
@@ -89,21 +108,4 @@ void MenuPage::Update()
 
     ui->Draw();
 }
-
-void MenuPage::PlayClick()
-{
-    inAnimation = true;
-    timerAnimation = 0.0f;
-    directionAnimation = true;
-    wishPage = Page::Game;
-    ui->HideButtons();
-}
-
-void MenuPage::EditorClick()
-{
-    inAnimation = true;
-    timerAnimation = 0.0f;
-    directionAnimation = true;
-    wishPage = Page::LevelCreator;
-    ui->HideButtons();
-}
+#pragma endregion

@@ -4,23 +4,23 @@
 class UIEndPage
 {
 private:
-	IMageUI groundImg;
+	EndPage* page;
 
+	IMageUI groundImg;
 	IMageUI winImg;
 	IMageUI loseImg;
-	PhysicalButton menuBtn;
-	PhysicalButton restartBtn;
 
-	EndPage* page;
+	PhysicalButton menuPBtn;
+	PhysicalButton restartPBtn;
 
 	Color multiColor;
 
 public:
+
 	UIEndPage(EndPage*);
 	~UIEndPage();
 
 	void SetWin(bool);
-
 	void DrawBackText();
 
 	void Update();

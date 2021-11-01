@@ -23,12 +23,13 @@ LevelCreatorPage::LevelCreatorPage()
     UILevelCreatorPage* tempUI = new UILevelCreatorPage(this);
     ui = tempUI;
 }
-
 LevelCreatorPage::~LevelCreatorPage()
 {
     free(ui);
 }
 
+
+#pragma region Private
 void LevelCreatorPage::LoadTextures()
 {
     opaque = sf::Color(255, 255, 255, 255);
@@ -47,69 +48,11 @@ void LevelCreatorPage::LoadTextures()
     wallImg.SetTexture("Images/Walls/BlackBrick.png");
     wallImg.SetOrigin(80, 37);
 
-    brickWall.SetTexture("Images/Walls/BrickAlt1.png");
-    brickWall.SetOrigin(80, 37);
-    brickWall.SetColor(transparent);
-
-    redTest.SetTexture("Images/Editor/RedPoint.png");
-    redTest.SetOrigin(5.0f, 5.0f);
+    brickWallImg.SetTexture("Images/Walls/BrickAlt1.png");
+    brickWallImg.SetOrigin(80, 37);
+    brickWallImg.SetColor(transparent);
 }
 
-
-
-void LevelCreatorPage::SwitchEditing()
-{
-    isEditing = !isEditing;
-
-    if (!isEditing)
-    {
-        LoadPage();
-        MapEditor::LoadMap(selectedMapId, map);
-    }
-
-    brickWall.SetColor(isEditing ? midtransparent : transparent);
-}
-
-bool LevelCreatorPage::CanEdit()
-{
-    return isEditing;
-}
-
-void LevelCreatorPage::LoadPage()
-{
-    DataManager::instance->NoFirstLoad();
-
-    isEditing = false;
-    selectedMapId = 1;
-    maxMapId = MapEditor::GetMaxId();
-    MapDrawer::instance->SetMap(map);
-    ui->SetMaxMapId(maxMapId);
-    ui->SetActualMapId(1);
-    ui->SetNormalMode();
-}
-
-void LevelCreatorPage::Update()
-{
-    ui->Update();
-    MapDrawer::instance->DrawEnv(true);
-
-    MapDrawer::instance->DrawEditor();
-
-    DrawSelection();
-
-    MapDrawer::instance->DrawEnv(false);
-
-    ManageEvent();
-
-    ui->Draw();
-
-    //int temp = MouseTool::UM_GetIndexPositionMouse();
-    //cout << temp << endl;
-    /*Vector2f positionSelection = CustomMath::UM_PositionToIsoCoordF(temp);
-    redTest.SetPosition(positionSelection);
-    redTest.Draw();*/
-   
-}
 
 void LevelCreatorPage::ManageEvent()
 {
@@ -124,7 +67,6 @@ void LevelCreatorPage::ManageEvent()
             StaticWindow::window->close();
     }
 }
-
 void LevelCreatorPage::MousePressed(Event& e)
 {
     if (isEditing)
@@ -132,17 +74,16 @@ void LevelCreatorPage::MousePressed(Event& e)
         if (MouseTool::GM_GetIndexPositionMouse() < 0)
             ClickUI(e);
         else
-            ClickMap(e);  
+            ClickMap(e);
     }
 }
-
 void LevelCreatorPage::ClickMap(Event& e)
 {
     if (Mouse::isButtonPressed(Mouse::Left))
     {
         AddEntity();
     }
-    else if(Mouse::isButtonPressed(Mouse::Right))
+    else if (Mouse::isButtonPressed(Mouse::Right))
     {
         RemoveEntity();
     }
@@ -151,16 +92,32 @@ void LevelCreatorPage::ClickMap(Event& e)
         cout << "Middle mouse" << endl;
     }
 }
-
 void LevelCreatorPage::ClickUI(Event& e)
 {
 
 }
 
+void LevelCreatorPage::SwitchEditing()
+{
+    isEditing = !isEditing;
+
+    if (!isEditing)
+    {
+        LoadPage();
+        MapEditor::LoadMap(selectedMapId, map);
+    }
+
+    brickWallImg.SetColor(isEditing ? midtransparent : transparent);
+}
+bool LevelCreatorPage::CanEdit()
+{
+    return isEditing;
+}
+
 void LevelCreatorPage::DrawSelection()
 {
     int temp = MouseTool::GM_GetIndexPositionMouse();
-    
+
     if (temp != selectedIndexs[0])
     {
         for (int i = 0; i < 4; i++)
@@ -178,11 +135,10 @@ void LevelCreatorPage::DrawSelection()
             break;
 
         Vector2f positionSelection = CustomMath::GM_PositionToIsoCoordF(selectedIndexs[i]);
-        brickWall.SetPosition(positionSelection);
-        brickWall.Draw();
+        brickWallImg.SetPosition(positionSelection);
+        brickWallImg.Draw();
     }
 }
-
 void LevelCreatorPage::ComputeMirrorSelection()
 {
     if (selectedIndexs[0] == 84) // Center of matrice in both axes : N*N / 2
@@ -194,7 +150,7 @@ void LevelCreatorPage::ComputeMirrorSelection()
         return;
     }
 
-    if (selectedIndexs[0] >=  78 && selectedIndexs[0] <= 90) // Center of matrice on y axis : 13 * 6 = 78 and 13*7 - 1 = 90
+    if (selectedIndexs[0] >= 78 && selectedIndexs[0] <= 90) // Center of matrice on y axis : 13 * 6 = 78 and 13*7 - 1 = 90
     {
         selectedIndexs[1] = MirrorY(selectedIndexs[0]);
         return;
@@ -212,7 +168,6 @@ int LevelCreatorPage::MirrorX(int index)
     int middleLineIndex = (index % Settings::SIZE_GAME_MAP) + Settings::SIZE_GAME_MAP * 6;
     return middleLineIndex + middleLineIndex - index;
 }
-
 int LevelCreatorPage::MirrorY(int index)
 {
     return index - (index % Settings::SIZE_GAME_MAP - 6) * 2;
@@ -231,7 +186,6 @@ void LevelCreatorPage::AddEntity()
         map[selectedIndexs[i]] = MapEntity::Wall;
     }
 }
-
 void LevelCreatorPage::RemoveEntity()
 {
     if (!IsPlacable())
@@ -260,8 +214,10 @@ bool LevelCreatorPage::IsPlacable()
         }
     }
 }
+#pragma endregion
 
-
+#pragma region Public
+    #pragma region Event_UI
 void LevelCreatorPage::UISaveClick()
 {
     MapEditor::WriteMap(selectedMapId, map);
@@ -316,3 +272,34 @@ void LevelCreatorPage::UICreateLevel()
     SwitchEditing();
     ui->SetEditionMode();
 }
+    #pragma endregion
+
+void LevelCreatorPage::LoadPage()
+{
+    DataManager::instance->NoFirstLoad();
+
+    isEditing = false;
+    selectedMapId = 1;
+    maxMapId = MapEditor::GetMaxId();
+    MapDrawer::instance->SetMap(map);
+    ui->SetMaxMapId(maxMapId);
+    ui->SetActualMapId(1);
+    ui->SetNormalMode();
+}
+void LevelCreatorPage::Update()
+{
+    ui->Update();
+    MapDrawer::instance->DrawEnv(true);
+
+    MapDrawer::instance->DrawEditor();
+
+    DrawSelection();
+
+    MapDrawer::instance->DrawEnv(false);
+
+    ManageEvent();
+
+    ui->Draw();
+}
+#pragma endregion
+
