@@ -5,7 +5,7 @@ class Player
 {
 protected:
 	static int nbPlayer;
-
+	static Player* player;
 	int id;
 
 	static Vector2i upRightCorner;
@@ -82,7 +82,6 @@ public:
 	int GetNbBomb();
 	int GetRange();
 	int GetLife();
-
 
 	bool AskRemoveBomb();
 	

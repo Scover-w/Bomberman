@@ -19,14 +19,15 @@ private:
 	void SetRandomDirection();
 	void RemoveBomb();
 	bool IsInMiddleCell();
+	bool AskPutBomb();
 	DirectionBot CanMoveToCell(int);
 	DirectionBot GetInverseDirection(DirectionBot);
+	bool IsDestroyableOrPlayerAround(int);
 
 
 public:
 	BotPlayer();
 	~BotPlayer();
-
 
 	void Reset();
 	int Update();

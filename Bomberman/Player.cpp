@@ -2,6 +2,7 @@
 #include "CustomMath.h"
 #include "SoundManager.h"
 
+Player* Player::player = nullptr;
 
 Vector2i Player::upRightCorner(10, -10);
 Vector2i Player::downLeftCorner(-10, 10);
@@ -31,6 +32,7 @@ Player::Player()
     {
         case 0:
             image.SetTexture("Images/Player/BluePlayer.png");
+            player = this;
             break;
         case 1:
             image.SetTexture("Images/Player/RedPlayer.png");

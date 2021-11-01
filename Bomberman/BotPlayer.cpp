@@ -174,10 +174,72 @@ void BotPlayer::SetInverseDirection()
     modelDirectionV *= -1;
 }
 
+bool BotPlayer::IsDestroyableOrPlayerAround(int i)
+{
+    int tempPosIndex;
+    switch (i)
+    {
+        case DirectionBot::Up:
+
+            if (positionIndex % Settings::SIZE_GAME_MAP == 0)
+                return false;
+
+            tempPosIndex = positionIndex - 1;
+            break;
+
+        case DirectionBot::Down:
+
+            if (positionIndex % Settings::SIZE_GAME_MAP == Settings::SIZE_GAME_MAP - 1)
+                return false;
+
+            tempPosIndex = positionIndex + 1;
+            break;
+
+        case DirectionBot::Left:
+
+            if (positionIndex > 155)
+                return false;
+
+            tempPosIndex = positionIndex + Settings::SIZE_GAME_MAP;
+            break;
+
+        default: //DirectionBot::Right
+
+            if (positionIndex < 13)
+                return false;
+
+            tempPosIndex = positionIndex - Settings::SIZE_GAME_MAP;
+            break;
+    }
+
+    if (*(map + (tempPosIndex)) == MapEntity::DBlock)
+        return true;
+
+    if (player->GetPositionIndex() == tempPosIndex)
+        return true;
+
+    return false;
+}
+
+bool BotPlayer::AskPutBomb()
+{
+    if (bombs <= 0)
+        return false;
+    
+    int j = 0;
+    for (int i = 0; i < 4; i++)
+    {
+        if (IsDestroyableOrPlayerAround(i))
+            return true;
+    }
+    return false;
+}
+
 int BotPlayer::Update()
 {
     if (isDead)
         return -1;
+
     int posId = -1;
 
     if (!hasMoved)
@@ -190,10 +252,10 @@ int BotPlayer::Update()
     {
         risingMiddleCell = true;
         SetRandomDirection();
-        if (bombs > 0 && *(map + positionIndex) != MapEntity::Bomb)
+        if (AskPutBomb())
         {
-            posId = positionIndex;
             RemoveBomb();
+            posId = positionIndex;
         }
     }
     else if (!middleCell)
