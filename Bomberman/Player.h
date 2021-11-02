@@ -77,6 +77,8 @@ public:
 	void AddRange();
 	void AddLife();
 
+	void PutPackBomb();
+
 	int GetPositionIndex();
 	int GetId();
 

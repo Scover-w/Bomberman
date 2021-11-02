@@ -344,6 +344,11 @@ void Player::AddLife()
 }
 #pragma endregion
 
+void Player::PutPackBomb()
+{
+    bombs++;
+}
+
 #pragma region Get
 int Player::GetPositionIndex()
 {
