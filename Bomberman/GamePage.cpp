@@ -101,22 +101,29 @@ void GamePage::PoseBomb(int posId, int playerId)
     map[posId] = MapEntity::Bomb;
     bombOwner[posId] = playerId;
 
-    switch (playerId)
-    {
-    case 0:
-        player.SetOnBombId(posId);
-        break;
-    case 1:
-        bot1.SetOnBombId(posId);
-        break;
-    case 2:
-        bot2.SetOnBombId(posId);
-        break;
-    case 3:
-        bot3.SetOnBombId(posId);
-        break;
-    }
 
+    for (int i = 0; i < 4; i++)
+    {
+        switch (i)
+        {
+            case 0:
+                if(player.GetPositionIndex() == posId)
+                    player.SetOnBombId(posId);
+                break;
+            case 1:
+                if (bot1.GetPositionIndex() == posId)
+                    bot1.SetOnBombId(posId);
+                break;
+            case 2:
+                if (bot2.GetPositionIndex() == posId)
+                    bot2.SetOnBombId(posId);
+                break;
+            case 3:
+                if (bot3.GetPositionIndex() == posId)
+                    bot3.SetOnBombId(posId);
+                break;
+        }
+    }
 }
 #pragma endregion
 
