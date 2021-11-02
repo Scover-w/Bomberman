@@ -114,7 +114,7 @@ void MapEditor::LoadRandomMap(MapEntity(&map2)[169])
 		{
 			int rdV = CustomRandom::GetRandom(0, 10);
 
-			if (rdV < 8)
+			if (rdV < 7)
 				map2[i] = MapEntity::DBlock;
 		}
 	}

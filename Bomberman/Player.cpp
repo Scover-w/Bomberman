@@ -264,14 +264,17 @@ void Player::Move()
         if (entity == MapEntity::Wall || entity == MapEntity::DBlock)
             isWall = true;
 
-        if (entity == MapEntity::Bomb && futurPosPlayerId[j] != onBombId)
+        if (entity == MapEntity::Bomb && futurPosPlayerId[j] != onBombId && !isOwnBomb)
             isBomb = true;
 
         if (entity == MapEntity::Bomb && futurPosPlayerId[j] == onBombId)
+        {
             isOwnBomb = true;
+            isBomb = false;
+        }
     }
 
-    if (!isOwnBomb)
+    if (!isOwnBomb && !isBomb)
         onBombId = -1;
 
 
@@ -324,7 +327,7 @@ void Player::ResetOnBombId(int id)
 #pragma region Add
 void Player::AddSpeed()
 {
-    speed += 20.0f;
+    speed += 25.0f;
     SoundManager::instance->Play(SoundType::PowerUp3);
 }
 void Player::AddBomb()
@@ -361,7 +364,7 @@ int Player::GetId()
 
 int Player::GetSpeed()
 {
-    return (speed - 120.0f) / 20.0f + 1;
+    return (speed - 140.0f) / 25.0f + 1;
 }
 int Player::GetRange()
 {
@@ -429,7 +432,7 @@ void Player::Reset()
     lives = 1;
     range = 1;
     bombs = 1;
-    speed = 120.0f;
+    speed = 140.0f;
     animation = 0.0f;
     isInvicible = false;
     isDead = false;
