@@ -2,6 +2,27 @@
 
 int MapEditor::unPlacableIndex[12] = { 0, 1, 13, 11, 12, 25, 143, 156, 157, 155, 167, 168 };
 
+
+void MapEditor::WriteMapOne()
+{
+	MapEntity mapOne[] = { MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None,
+				   MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None,
+				   MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::None,
+				   MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None,
+				   MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::Wall,
+				   MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::None,
+				   MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None,
+				   MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::None,
+				   MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::Wall,
+				   MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None,
+				   MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::None,
+				   MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None, MapEntity::Wall, MapEntity::Wall, MapEntity::None,
+				   MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::Wall, MapEntity::None, MapEntity::None, MapEntity::None, MapEntity::None };
+
+	WriteMap(1, mapOne);
+}
+
+
 int MapEditor::GetMaxId()
 {
 	int i = 2;
@@ -35,6 +56,12 @@ bool MapEditor::DoesMapExist(int mapId)
 	{
 		cout << "Map " << mapId << " does exist." << endl;
 		fclose(file);
+		return true;
+	}
+
+	if (mapId == 1)
+	{
+		WriteMapOne();
 		return true;
 	}
 

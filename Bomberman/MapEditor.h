@@ -5,6 +5,9 @@
 class MapEditor
 {
 	static int unPlacableIndex[12];
+
+	static void WriteMapOne();
+
 public:
 	static int GetMaxId();
 	
