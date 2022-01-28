@@ -202,15 +202,22 @@ void LevelCreatorPage::RemoveEntity()
 
 bool LevelCreatorPage::IsPlacable()
 {
+    // Bug without the useless cout : put/remove doesn't work in editor mode
     for (int i = 0; i < 4; i++)
     {
         if (selectedIndexs[i] == -1)
+        {
+            cout << "";
             return true;
+        }
 
         for (int j = 0; j < 12; j++)
         {
             if (selectedIndexs[i] == unPlacableIndex[j])
+            {
+                cout << "";
                 return false;
+            }
         }
     }
 }

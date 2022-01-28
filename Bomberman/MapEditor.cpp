@@ -38,7 +38,7 @@ void MapEditor::WriteMap(int mapId, MapEntity(&map2)[169])
 {
 	fstream file("Maps/Map" + to_string(mapId) + ".bin", ios::trunc | ios::binary | ios::in | ios::out);
 
-	cout << "Map " << to_string(mapId) << " saved." << endl;
+	//cout << "Map " << to_string(mapId) << " saved." << endl;
 
 	file.write(reinterpret_cast<char*>(&map2), sizeof(map2));
 
@@ -54,7 +54,7 @@ bool MapEditor::DoesMapExist(int mapId)
 	err = fopen_s(&file, name.c_str(), "r");
 	if (err == 0)
 	{
-		cout << "Map " << mapId << " does exist." << endl;
+		//cout << "Map " << mapId << " does exist." << endl;
 		fclose(file);
 		return true;
 	}
@@ -65,7 +65,7 @@ bool MapEditor::DoesMapExist(int mapId)
 		return true;
 	}
 
-	cout << "Map " << mapId << " doesn't exist." << endl;
+	//cout << "Map " << mapId << " doesn't exist." << endl;
 	return false;
 }
 
@@ -73,7 +73,7 @@ bool MapEditor::LoadMap(int mapId, MapEntity(&map2)[169])
 {
 	fstream file("Maps/Map" + to_string(mapId) + ".bin", ios::binary | ios::in | ios::out);
 
-	cout << "Want to load Map" << to_string(mapId) << ".bin" << endl;
+	//cout << "Want to load Map" << to_string(mapId) << ".bin" << endl;
 
 	if (!file.read(reinterpret_cast<char*>(&map2), sizeof(map2)))
 	{
